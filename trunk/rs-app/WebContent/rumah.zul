@@ -1,0 +1,41 @@
+<?page title="Rumah" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winHome" title="Rumah Window" border="normal" apply="com.rs.controller.RumahController">
+		<menubar>
+			<menuitem id="mntmLoad" label="Load" />
+			<menuitem id="mntmAdd" label="Add" />
+			<menuitem id="mntmEdit" label="Edit Item" />
+			<menuitem id="mntmSave" label="Save" />
+		</menubar>
+		<listbox id="lbxRumah" mold="paging" pageSize="10" visible="false">
+			<listhead>
+				<listheader label="Owner" width="170px" />
+				<listheader label="Address" />
+			</listhead>
+		</listbox>
+		<grid id="grdAddEdit" visible="false" >
+			<columns>
+				<column value="" width="100px" />
+				<column value="" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Owner Name: " />
+					<textbox id="tbxOwner" constraint="no empty" />
+				</row>
+				<row>
+					<label value="Address: " />
+					<textbox id="tbxAdress" rows="3" />
+				</row>
+				<row>
+					<label value="" />
+					<hbox>
+						<button id="btnSubmit" label="Save" width="60px" />
+						<button id="btnCancel" label="Cancel" width="60px"  />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		
+	</window>
+</zk>

@@ -1,0 +1,7 @@
+<?page title="Index"?>
+<window id="win" title="Index" border="normal" width="200px" apply="com.rs.controller.IndexController">
+
+<label value="You are using: ${desktop.webApp.version}"/>
+
+
+</window>
