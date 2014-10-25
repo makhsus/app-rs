@@ -1,5 +1,7 @@
 package com.rs.controller;
 
+import java.net.MalformedURLException;
+
 import org.hibernate.SessionFactory;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -16,6 +18,11 @@ public class IndexController extends BaseController {
 		zkoosSession.setAttribute("sessionFactory", sessionFactory);
 		zkoosSession.setAttribute("rsapp", "next-value-change-to-login-object");
 		
-		Executions.sendRedirect("/rumah.zul");
+		try {
+			Executions.encodeToURL("index.zul");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
