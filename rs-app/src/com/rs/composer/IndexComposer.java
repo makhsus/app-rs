@@ -10,10 +10,11 @@ public class IndexComposer extends BaseComposer {
 
 	
 	@Listen("onCreate = #win ")
-	public void connectToDatabase(){
+	public void setSession(){
 		SessionFactory sessionFactory = DaoRegistry.getSessionFactory();
 		System.out.println("sessionFactory-Index: "+sessionFactory);
-		zkSession.setAttribute("sessionFactory", sessionFactory);
+		
+		sessionZk.setAttribute("sessionFactory", sessionFactory);
 		setSessionFactory();
 	}
 }
