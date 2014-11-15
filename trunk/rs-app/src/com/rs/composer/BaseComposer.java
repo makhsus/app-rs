@@ -7,22 +7,23 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
+import com.rs.util.CommonUtil;
+
 public class BaseComposer extends SelectorComposer<Component> {
 	private static final long serialVersionUID = -2082690416380117130L;
 
 	protected SessionFactory sessionFactory;
-	protected Session zkSession = Sessions.getCurrent();
+	protected Session sessionZk = Sessions.getCurrent();
 	
 	public void setSessionFactory(){
-		System.out.println("zkSession: "+zkSession);
-		System.out.println("attr-rsapp: "+zkSession.getAttribute("rsapp"));
+		//System.out.println("zkSession: "+zkSession);
+		System.out.println("attr-rsapp: "+sessionZk.getAttribute("rsapp"));
 		
-		if(zkSession.getAttribute("rsapp") == null){
-			Executions.sendRedirect("/login.zul");//next, redirect to login page
+		if(sessionZk.getAttribute(CommonUtil.LOGIN_USER) == null){
+			Executions.sendRedirect("/login");//next, redirect to login page
 		}else{
-			sessionFactory= (SessionFactory) zkSession.getAttribute("sessionFactory");
+			sessionFactory= (SessionFactory) sessionZk.getAttribute("sessionFactory");
 		}	
 	}
-	
 	
 }
