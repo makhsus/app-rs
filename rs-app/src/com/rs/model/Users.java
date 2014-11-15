@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "users")
@@ -77,6 +76,14 @@ public class Users implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Date getCreateDate() {

@@ -74,4 +74,108 @@ public class Employee implements Serializable {
 	@Column(name="update_date")
 	private Date updateDate;
 
+	public Long getIdEmployee() {
+		return idEmployee;
+	}
+
+	public void setIdEmployee(Long idEmployee) {
+		this.idEmployee = idEmployee;
+	}
+
+	public String getNik() {
+		return nik;
+	}
+
+	public void setNik(String nik) {
+		this.nik = nik;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public City getCityid() {
+		return cityid;
+	}
+
+	public void setCityid(City cityid) {
+		this.cityid = cityid;
+	}
+
+	public Province getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(Province provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+	
 }
