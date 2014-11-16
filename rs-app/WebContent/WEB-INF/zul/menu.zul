@@ -1,0 +1,15 @@
+<panel id="pnlMenu" apply="com.rs.composer.MenuComposer">
+	<panelchildren>
+		<menubar>
+			<menuitem id="mntmHome" label="Home" href="/home" />
+			<menuitem id="mntmUserMngment" label="User Management" />
+			<menu id="mnUserLogin" label="Users">
+				<menupopup>
+					<menuitem id="mntmProfile" label="My Profile" />
+					<menuitem id="mntmLogout" label="Logout" />
+				</menupopup>
+			</menu>
+			<menuitem id="mntmSample" label="CRUD Sample" href="/sample" />
+		</menubar>
+	</panelchildren>
+</panel>
