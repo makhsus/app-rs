@@ -17,10 +17,10 @@ public class BaseComposer extends SelectorComposer<Component> {
 	
 	public void setSessionFactory(){
 		//System.out.println("zkSession: "+zkSession);
-		System.out.println("attr-rsapp: "+sessionZk.getAttribute("rsapp"));
+		System.out.println("attr-LOGIN_USER: "+sessionZk.getAttribute(CommonUtil.LOGIN_USER));
 		
 		if(sessionZk.getAttribute(CommonUtil.LOGIN_USER) == null){
-			Executions.sendRedirect("/login");//next, redirect to login page
+			Executions.sendRedirect("/login");
 		}else{
 			sessionFactory= (SessionFactory) sessionZk.getAttribute("sessionFactory");
 		}	
