@@ -1,0 +1,24 @@
+<?page title="Login" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winLogin" title="Login" border="normal" width="300px" apply="com.rs.composer.LogInOutComposer">
+		<grid>
+			<columns>
+				<column width="100px" />
+				<column />
+			</columns>
+			<rows>
+				<row>
+					Username:
+					<textbox id="tbxUsername" type="text" placeholder="Enter UserName" value="makhsus" />
+				</row>
+				<row>
+					PassWord:
+					<textbox id="tbxPassword" type="password" placeholder="Enter Password" value="aku" />
+				</row>
+				<row spans="2" style="text-align:center">
+					<button id="btnLogin" label="Login" />
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>
