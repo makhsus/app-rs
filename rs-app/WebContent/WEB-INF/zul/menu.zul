@@ -9,7 +9,7 @@
 					<menuitem id="mntmLogout" label="Logout" />
 				</menupopup>
 			</menu>
-			<menuitem id="mntmSample" label="CRUD Sample" href="/sample" />
+			<menuitem id="mntmSample" label="CRUD Sample" href="/mahasiswa" />
 		</menubar>
 	</panelchildren>
 </panel>
