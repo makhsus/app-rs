@@ -40,7 +40,7 @@ public class LogInOutComposer extends BaseComposer {
 		user.setUserName(username);
 		user.setPassword(password);
 		sessionZk.setAttribute(CommonUtil.LOGIN_USER, user);
+
 		Executions.sendRedirect("/home");
-		
 	}
 }

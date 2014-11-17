@@ -16,7 +16,7 @@ public class MenuComposer extends BaseComposer {
 	
 	@Listen("onCreate = #pnlMenu")
 	public void pnlMenu(){
-		setSessionFactory();
+		isLooged();
 		
 		Users user = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		if(user!=null)

@@ -12,7 +12,7 @@ public class Url1MappingController {
 		return "zul/user/login.zul";
 	}
 
-	@RequestMapping(value={"home"}, method=RequestMethod.GET)
+	@RequestMapping(value={"home", "home/"}, method=RequestMethod.GET)
 	public String home(){
 		return "zul/home.zul";
 	}
