@@ -7,7 +7,7 @@ public class HomeComposer extends BaseComposer {
 
 	@Listen ("onCreate = #winHome ")
 	public void winHome(){
-		setSessionFactory();
+		isLooged();
 	}
 	
 }

@@ -1,17 +1,23 @@
 <?page title="${title}" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winHome" title="Rumah Window" border="normal" >
-		<menubar>
-			<menuitem id="mntmLoad" label="Load" />
-			<menuitem id="mntmAdd" label="Add" />
-			<menuitem id="mntmEdit" label="Edit Item" />
-			<menuitem id="mntmSave" label="Save" />
-		</menubar>
-		<listbox id="lbxRumah" mold="paging" pageSize="10" visible="false">
+	<include src="../menu.zul" />
+	<window id="win" title="Rumah Window" border="normal" apply="com.rs.composer.MahasiswaComposer" >
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnEdit" label="Edit" />
+		</toolbar>
+		<listbox id="lbxRumah" mold="paging" pageSize="10">
 			<listhead>
-				<listheader label="Owner" width="170px" />
-				<listheader label="Address" />
+				<listheader label="NIM" width="20%" />
+				<listheader label="NAMA" />
 			</listhead>
+			<!-- <listitem>
+				<listcell label="19232323201" />
+				<listcell label="Makhsus" />
+			</listitem> -->
 		</listbox>
 		<grid id="grdAddEdit" visible="false" >
 			<columns>
@@ -20,18 +26,17 @@
 			</columns>
 			<rows>
 				<row>
-					<label value="Owner Name: " />
-					<textbox id="tbxOwner" constraint="no empty" />
+					<label value="NIM: " />
+					<textbox id="tbxNim" constraint="no empty" />
 				</row>
 				<row>
-					<label value="Address: " />
-					<textbox id="tbxAdress" rows="3" />
+					<label value="NAME: " />
+					<textbox id="tbxName" constraint="no empty" />
 				</row>
 				<row>
 					<label value="" />
 					<hbox>
 						<button id="btnSubmit" label="Save" width="60px" />
-						<button id="btnCancel" label="Cancel" width="60px"  />
 					</hbox>
 				</row>
 			</rows>
