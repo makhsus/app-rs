@@ -3,7 +3,7 @@ package com.rs.dao;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 
-import com.rs.model.Rumah;
+import com.rs.model.Mahasiswa;
 
 public class RumahDao {
 
@@ -14,7 +14,7 @@ public class RumahDao {
 		this.session = sessionFactory.getCurrentSession();
 	}
 	
-	public boolean saveOrUpdate(Rumah obj){
+	public boolean saveOrUpdate(Mahasiswa obj){
 		boolean result = false;
 		
 		try {
