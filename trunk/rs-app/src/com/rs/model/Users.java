@@ -32,7 +32,7 @@ public class Users implements Serializable {
 	@Column(name="user_name", length=50, nullable = false, unique = true)
 	private String userName;
 	
-	@Column(name="password", length=80, nullable = false)
+	@Column(name="user_password", length=80, nullable = false)
 	private String password;
 	
 	@Temporal(TemporalType.TIMESTAMP)
