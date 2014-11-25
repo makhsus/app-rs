@@ -14,7 +14,7 @@ public class BaseComposer extends SelectorComposer<Component> {
 	protected Session sessionZk = Sessions.getCurrent();
 	
 	public void isLooged(){
-		System.out.println("BaseComposer, attr-LOGIN_USER: "+sessionZk.getAttribute(CommonUtil.LOGIN_USER));
+		//System.out.println("BaseComposer, attr-LOGIN_USER: "+sessionZk.getAttribute(CommonUtil.LOGIN_USER));
 		if(sessionZk.getAttribute(CommonUtil.LOGIN_USER) == null){
 			Executions.sendRedirect("/login");
 		}
