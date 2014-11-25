@@ -43,6 +43,12 @@ public class MahasiswaComposer extends BaseComposer {
 		grdAddEdit.setVisible(true);
 	}
 	
+	@Listen ("onClick = #tbnList")
+	public void tbnListClick(){
+		lbxRumah.setVisible(true);
+		grdAddEdit.setVisible(false);
+	}
+	
 	@Listen ("onClick = #btnSubmit")
 	public void btnSubmitClick(){
 		String nim = tbxNim.getText().trim();
