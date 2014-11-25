@@ -55,7 +55,7 @@ public class MahasiswaComposer extends BaseComposer {
 			m = selectedMahasiswa;
 		}
 		m.setNim(nim);
-		m.setName(name);
+		m.setFullname(name);
 		
 		MahasiswaDao dao = new MahasiswaDao();
 		if(dao.saveOrUpdate(m)) {
@@ -80,7 +80,7 @@ public class MahasiswaComposer extends BaseComposer {
 			
 			Listcell lc = new Listcell(obj.getNim());
 			li.appendChild(lc);
-			lc = new Listcell(obj.getName());
+			lc = new Listcell(obj.getFullname());
 			li.appendChild(lc);
 		}
 	}

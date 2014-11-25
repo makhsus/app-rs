@@ -13,7 +13,7 @@ public class MahasiswaDao {
 
 	public boolean saveOrUpdate(Mahasiswa obj){
 		boolean result = false;
-		System.out.println("obj: "+obj.getName());
+		System.out.println("obj: "+obj.getFullname());
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
