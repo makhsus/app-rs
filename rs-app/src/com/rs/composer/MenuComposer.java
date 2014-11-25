@@ -20,7 +20,7 @@ public class MenuComposer extends BaseComposer {
 		
 		Users user = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		if(user!=null)
-			mnUserLogin.setLabel(user.getUserName().toUpperCase());
+			mnUserLogin.setLabel(user.getUserName().substring(0, 1).toUpperCase()+user.getUserName().substring(1));
 	}
 	
 	@Listen("onClick = #mntmLogout")
