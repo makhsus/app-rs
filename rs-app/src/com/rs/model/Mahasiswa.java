@@ -22,8 +22,8 @@ public class Mahasiswa implements Serializable {
 	@Column(name="nim", length=20, nullable=false)
 	private String nim;
 	
-	@Column(name="name", nullable=false)
-	private String name;
+	@Column(name="fullname", nullable=false)
+	private String fullname;
 	
 
 	public Long getId() {
@@ -42,12 +42,12 @@ public class Mahasiswa implements Serializable {
 		this.nim = nim;
 	}
 
-	public String getName() {
-		return name;
+	public String getFullname() {
+		return fullname;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 	
 }
