@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="apt_cities")
+@Table(name="cities")
 public class City implements Serializable {
 	private static final long serialVersionUID = 3448025803207298346L;
 	

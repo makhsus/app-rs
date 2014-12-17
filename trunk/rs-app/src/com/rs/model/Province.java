@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="apt_provinces")
+@Table(name="provinces")
 public class Province implements Serializable {
 	private static final long serialVersionUID = 3448025803207298346L;
 	
