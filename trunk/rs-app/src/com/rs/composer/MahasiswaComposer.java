@@ -64,6 +64,7 @@ public class MahasiswaComposer extends BaseComposer {
 		m.setFullname(name);
 		
 		MahasiswaDao dao = new MahasiswaDao();
+		dao.setSessionFactory(sessionFactory);
 		if(dao.saveOrUpdate(m)) {
 			Messagebox.show("Success "+msg);
 			lbxRumah.setVisible(true);
@@ -76,6 +77,7 @@ public class MahasiswaComposer extends BaseComposer {
 	
 	private void loadDataMahasiswa(){
 		MahasiswaDao dao = new MahasiswaDao();
+		dao.setSessionFactory(sessionFactory);
 		List<Mahasiswa> list = dao.listAll();
 		System.out.println("list: "+list);
 		

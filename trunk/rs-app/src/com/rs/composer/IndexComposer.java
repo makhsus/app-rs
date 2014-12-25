@@ -1,6 +1,6 @@
 package com.rs.composer;
 
-import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 
@@ -10,12 +10,14 @@ import com.rs.util.HibernateUtil;
 
 public class IndexComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
-	private final static Logger logger = Logger.getLogger(IndexComposer.class);
 	
 	@Listen("onCreate = #win ")
 	public void setSession(){
-		logger.info("set-session");
-		HibernateUtil.getSessionFactory().openSession();
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		//System.out.println("sf1: "+sessionFactory);
+		sessionZk.setAttribute(CommonUtil.SESSION_FACTORY, sessionFactory);
+		//System.out.println("sf2: "+sessionZk.getAttribute(CommonUtil.SESSION_FACTORY));
+		
 		isLooged();
 		Users user = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		if(user!=null){

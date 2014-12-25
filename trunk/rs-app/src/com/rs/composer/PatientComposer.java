@@ -114,6 +114,7 @@ public class PatientComposer extends BaseComposer {
 		}
 		
 		PatientDao dao = new PatientDao();
+		dao.setSessionFactory(sessionFactory);
 		if(dao.saveOrUpdate(patient)) {
 			Messagebox.show("Success "+msg);
 			tbnListClick();
@@ -125,6 +126,7 @@ public class PatientComposer extends BaseComposer {
 	
 	private void loadDataPatient(){
 		PatientDao dao = new PatientDao();
+		dao.setSessionFactory(sessionFactory);
 		List<Patient> list = dao.listAll();
 		System.out.println("list: "+list);
 		
