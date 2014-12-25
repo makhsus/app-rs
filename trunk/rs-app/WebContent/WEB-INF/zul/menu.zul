@@ -2,12 +2,13 @@
 	<panelchildren>
 		<menubar>
 			<menuitem id="mntmHome" label="Home" href="/home" />
+			<menuitem id="mntmUserMngment" label="User Management" />
+			<menuitem id="mntmPatient" label="Pasien" href="/patient/list"/>
 			<menu id="mnPatient" label="Patient">
 				<menupopup>
 					<menuitem id="mntmRegRj" label="Registrasi Rawat Jalan" href="/patient/regOutpatiens" />
 				</menupopup>
 			</menu>
-			<menuitem id="mntmUserMngment" label="User Management" />
 			<menu id="mnUserLogin" label="Users">
 				<menupopup>
 					<menuitem id="mntmProfile" label="My Profile" />

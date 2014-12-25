@@ -8,79 +8,81 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Type;
-
 @Entity
-@Table(name="patient")
+@Table(name = "patients")
 public class Patient implements Serializable {
+
 	private static final long serialVersionUID = 1829130580225664772L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="patient_id")
-	private Long patientId;
+	@Column(name="id_patient")
+	private Long id;
 	
-	@Column(name="fullname", nullable=false)
-	private String fullname;
+	@Column(name="name", length=100, nullable = false)
+	private String name;
 	
-	@Column(name="birth_date", nullable=false)
-	@Temporal(TemporalType.DATE)
-	private Date birthDate;
+	@Column(name="gender", length=1, nullable = false)
+	private String gender;
 	
-	@ManyToOne
-	@JoinColumn(name="birth_place")
-	private City birthPlace;
+	@Column(name="husband_name", length=100)
+	private String husbandName;
 	
-	@Column(name="gender", length=1, nullable=false)
-	private String gender; // 'M' for Male; 'F' for Female
+	@Column(name="wife_name", length=100)
+	private String wifeName;
+	
+	@Column(name="parent_name", length=100)
+	private String parentName;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="birthdate")
+	private Date birthdate;
+	
+	@Column(name="religion", length=30)
+	private String religion;
 	
 	@Column(name="address")
-	@Type(type="text")
 	private String address;
 	
-	@Column(name="phone_number", length=12)
-	private String phoneNumber;
+	@Column(name="last_study", length=15)
+	private String lastStudy;
 	
-	@Column(name="patient_work", length=50)
-	private String work;
+	@Column(name="occupation", length=30)
+	private String occupation;
+	
+	@Column(name="phone", length=15)
+	private String phone;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_date", nullable=false)
+	private Date createdDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="updated_date")
+	private Date updatedDate;
+	
+	@Column(name="card_no", length=30)
+	private String cardNumber;
 
 	
-	public Long getPatientId() {
-		return patientId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setPatientId(Long patientId) {
-		this.patientId = patientId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getFullname() {
-		return fullname;
-	}
-	
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public String getName() {
+		return name;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public City getBirthPlace() {
-		return birthPlace;
-	}
-
-	public void setBirthPlace(City birthPlace) {
-		this.birthPlace = birthPlace;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getGender() {
@@ -91,6 +93,46 @@ public class Patient implements Serializable {
 		this.gender = gender;
 	}
 
+	public String getHusbandName() {
+		return husbandName;
+	}
+
+	public void setHusbandName(String husbandName) {
+		this.husbandName = husbandName;
+	}
+
+	public String getWifeName() {
+		return wifeName;
+	}
+
+	public void setWifeName(String wifeName) {
+		this.wifeName = wifeName;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -99,20 +141,54 @@ public class Patient implements Serializable {
 		this.address = address;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getLastStudy() {
+		return lastStudy;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setLastStudy(String lastStudy) {
+		this.lastStudy = lastStudy;
 	}
 
-	public String getWork() {
-		return work;
+	public String getOccupation() {
+		return occupation;
 	}
 
-	public void setWork(String work) {
-		this.work = work;
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+	
+	
 	
 }
