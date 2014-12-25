@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
-
-	@RequestMapping(value={"", "regOutpatiens"}, method=RequestMethod.GET)
-	public String index(HttpServletRequest request, ModelMap model){
-		model.addAttribute("title", "Rumah - Home");
-		return "zul/patient/reg_outpatients.zul";
+	
+	@RequestMapping(value={"", "add"}, method=RequestMethod.GET)
+	public String add(HttpServletRequest request, ModelMap model){
+		model.addAttribute("title", "Pendaftaran Pasien");
+		return "zul/patient/add.zul";
+	}
+	
+	@RequestMapping(value={"", "list"}, method=RequestMethod.GET)
+	public String list(HttpServletRequest request, ModelMap model){
+		model.addAttribute("title", "List Pasien");
+		return "zul/patient/list.zul";
 	}
 }
