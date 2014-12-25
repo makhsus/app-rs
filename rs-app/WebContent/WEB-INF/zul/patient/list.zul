@@ -1,0 +1,159 @@
+<?page title="${title}" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="Pasien Rumah Sakit Siti Aminah"
+		border="normal" apply="com.rs.composer.PatientComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List Pasien" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Daftar Pasien" />
+		</toolbar>
+		<grid id="grdSearch">
+			<columns>
+				<column value="" width="120px" />
+				<column value="" width="20px" />
+				<column value="" />
+			</columns>
+			<rows>
+				<row spans="3">
+					<label value="Cari Pasien" />
+				</row>
+				<row>
+					<label value="Nomor Kartu" />
+					<label value=" : " />
+					<textbox id="tbxSearchCardNo" />
+				</row>
+				<row>
+					<label value="Nama " />
+					<label value=" : " />
+					<textbox id="tbxSearchName" />
+				</row>
+				<row>
+					<label value="" />
+					<label value="" />
+					<hbox>
+						<button id="btnSearch" label="Cari Pasien" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+
+		<listbox id="lbxList" mold="paging" pageSize="10">
+			<listhead>
+				<listheader label="No" width="60px" />
+				<listheader label="Nama" />
+				<listheader label="Nomor Kartu" />
+				<listheader label="Gender" />
+				<listheader label="Phone" />
+			</listhead>
+		</listbox>
+		<radiogroup id="rgGender" />
+		<radiogroup id="rgHusbandWife" />
+		<radiogroup id="rgLastStudy" />
+		<grid id="grdAddEdit" visible="false">
+			<columns>
+				<column value="" width="120px" />
+				<column value="" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Nomor Kartu" />
+					<textbox id="tbxCardNo" width="200px" />
+
+				</row>
+				<row>
+					<label value="Nama Pasien " />
+					<cell>
+
+						<hbox>
+							<textbox id="tbxName" constraint="no empty"
+								width="300px" />
+							<radio id="raMale" label="Laki-laki"
+								radiogroup="rgGender" />
+							<radio id="raFemale" label="Perempuan"
+								radiogroup="rgGender" />
+						</hbox>
+					</cell>
+
+				</row>
+
+				<row>
+					<label value="Nama Keluarga " />
+					<hbox>
+						<radio id="raHusband" label="Suami"
+							radiogroup="rgGender" />
+						<label value=" / " />
+						<radio id="raWife" label="Istri"
+							radiogroup="rgGender" />
+						<textbox id="tbxHusbandWifeName" width="200px" />
+					</hbox>
+
+				</row>
+				<row>
+					<label value="" />
+					<cell>
+						<label value="Orang Tua" />
+						<textbox id="tbxParentName" width="200px" />
+					</cell>
+
+				</row>
+				<row>
+					<label value="Tanggal Lahir " />
+					<cell>
+						<datebox id="dtbBirthdate" format="dd MMM yyyy"
+							width="300px" />
+						<label value="    Umur : " />
+						<label id="lblAge" />
+					</cell>
+				</row>
+				<row>
+					<label value="Agama" />
+					<textbox id="tbxReligion" width="200px" />
+
+				</row>
+				<row>
+					<label value="Alamat" />
+					<textbox id="tbxAddress" width="480px" />
+
+				</row>
+				<row>
+					<label value="Pendidikan" />
+					<hbox>
+						<radio id="raSD" label="SD"
+							radiogroup="rgLastStudy" />
+						<label value=" | " />
+						<radio id="raSLTP" label="SLTP"
+							radiogroup="rgLastStudy" />
+						<label value=" | " />
+						<radio id="raSLTA" label="SLTA"
+							radiogroup="rgLastStudy" />
+						<label value=" | " />
+						<radio id="raAcademy" label="Akademi"
+							radiogroup="rgLastStudy" />
+						<label value=" | " />
+						<radio id="raUniversity" label="Universitas"
+							radiogroup="rgLastStudy" />
+					</hbox>
+
+				</row>
+				<row>
+					<label value="Pekerjaan" />
+					<textbox id="tbxOccupation" width="200px" />
+
+				</row>
+				<row>
+					<label value="No. Telp. / HP" />
+					<textbox id="tbxPhone" width="200px" />
+
+				</row>
+				<row>
+					<label value="" />
+					<hbox>
+						<button id="btnSubmit" label="Daftarkan Pasien" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+
+	</window>
+</zk>

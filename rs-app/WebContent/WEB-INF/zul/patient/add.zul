@@ -1,0 +1,46 @@
+<?page title="${title}" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="Pendaftaran Pasien" border="normal" apply="com.rs.composer.PatientComposer" >
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnEdit" label="Edit" />
+		</toolbar>
+		<listbox id="lbxRumah" mold="paging" pageSize="10">
+			<listhead>
+				<listheader label="NIM" width="20%" />
+				<listheader label="NAMA" />
+			</listhead>
+			<!-- <listitem>
+				<listcell label="19232323201" />
+				<listcell label="Makhsus" />
+			</listitem> -->
+		</listbox>
+		<grid id="grdAddEdit" visible="false" >
+			<columns>
+				<column value="" width="100px" />
+				<column value="" />
+			</columns>
+			<rows>
+				<row>
+					<label value="NIM: " />
+					<textbox id="tbxNim" constraint="no empty" />
+				</row>
+				<row>
+					<label value="NAME: " />
+					<textbox id="tbxName" constraint="no empty" />
+				</row>
+				<row>
+					<label value="" />
+					<hbox>
+						<button id="btnSubmit" label="Save" width="60px" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		
+	</window>
+</zk>
