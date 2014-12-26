@@ -5,6 +5,7 @@
 			<menuitem id="mntmUserMngment" label="User Management" />
 			<menuitem id="mntmPatient" label="Pasien" href="/patient/list"/>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
+			<menuitem id="mntmAdmisi" label="Admisi" href="/admisi"/>
 			<!-- <menu id="mnPatient" label="Patient">
 				<menupopup>
 					<menuitem id="mntmRegRj" label="Registrasi Rawat Jalan" href="/patient/regOutpatiens" />
