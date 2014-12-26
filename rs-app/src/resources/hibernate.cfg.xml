@@ -28,6 +28,7 @@
 		<mapping class="com.rs.model.SubRoles" />
 		<mapping class="com.rs.model.Users" />
 		<mapping class="com.rs.model.Patient" />
+		<mapping class="com.rs.model.Polyclinic" />
 		
     </session-factory>
 </hibernate-configuration>
