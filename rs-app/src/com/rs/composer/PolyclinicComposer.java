@@ -46,12 +46,16 @@ public class PolyclinicComposer extends BaseComposer {
 	public void tbnListClick(){
 		lbxPoly.setVisible(true);
 		grdAddEdit.setVisible(false);
+		loadDataPoly();
 	}
 	
 	@Listen ("onClick = #tbnAdd")
 	public void tbnAddClick(){
 		lbxPoly.setVisible(false);
+		lbxPoly.getItems().clear();
 		grdAddEdit.setVisible(true);
+		tbxName.setText("");
+		selectedPoly = null;
 	}
 	
 	@Listen ("onClick = #tbnEdit")
@@ -73,7 +77,6 @@ public class PolyclinicComposer extends BaseComposer {
 			rgIsActive.setSelectedIndex(indexRg);
 		}
 		
-		selectedPoly = null;
 	}
 	
 	@Listen ("onSelect = #lbxPoly")
@@ -94,10 +97,12 @@ public class PolyclinicComposer extends BaseComposer {
 		}
 		
 		String msg = "Save";
-		Polyclinic obj = new Polyclinic();
+		Polyclinic obj = null;
 		if(selectedPoly!=null){
 			msg = "Update";
 			obj = selectedPoly;
+		}else{
+			obj = new Polyclinic();
 		}
 		obj.setPolyclinicName(name);
 		obj.setActive(isActive);
@@ -116,6 +121,8 @@ public class PolyclinicComposer extends BaseComposer {
 	}
 	
 	private void loadDataPoly(){
+		selectedPoly = null;
+		
 		PolyclinicDao dao = new PolyclinicDao();
 		dao.setSessionFactory(sessionFactory);
 		Criterion cr1 = Restrictions.eq("isActive", true);
