@@ -22,6 +22,9 @@ public class Polyclinic implements Serializable {
 	@Column(name="polyclinic_name", nullable=false)
 	private String polyclinicName;
 	
+	@Column(name="is_active", nullable = false)
+	private boolean isActive;
+	
 
 	public Long getPolyclinicId() {
 		return polyclinicId;
@@ -39,4 +42,11 @@ public class Polyclinic implements Serializable {
 		this.polyclinicName = polyclinicName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }
