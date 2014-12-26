@@ -2,6 +2,7 @@ package com.rs.composer;
 
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Grid;
@@ -78,7 +79,8 @@ public class MahasiswaComposer extends BaseComposer {
 	private void loadDataMahasiswa(){
 		MahasiswaDao dao = new MahasiswaDao();
 		dao.setSessionFactory(sessionFactory);
-		List<Mahasiswa> list = dao.listAll();
+		//List<Mahasiswa> list = dao.listAll();
+		List<Mahasiswa> list = dao.loadAll(Order.desc("id"));
 		System.out.println("list: "+list);
 		
 		lbxRumah.getItems().clear();

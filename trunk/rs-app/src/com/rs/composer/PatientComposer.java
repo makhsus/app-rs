@@ -3,6 +3,7 @@ package com.rs.composer;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
@@ -127,7 +128,7 @@ public class PatientComposer extends BaseComposer {
 	private void loadDataPatient(){
 		PatientDao dao = new PatientDao();
 		dao.setSessionFactory(sessionFactory);
-		List<Patient> list = dao.listAll();
+		List<Patient> list = dao.loadAll(Order.asc("id"));//dao.listAll();
 		System.out.println("list: "+list);
 		
 		lbxList.getItems().clear();
