@@ -77,8 +77,8 @@ public class CommonDao<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object> loadBy(Order order, Criterion... criterions) {
-		List<Object> list = new ArrayList<>();
+	public List<T> loadBy(Order order, Criterion... criterions) {
+		List<T> list = new ArrayList<>();
 		Session session = sessionFactory.openSession();
 		try {
 			Criteria cr = session.createCriteria(objectClass);
