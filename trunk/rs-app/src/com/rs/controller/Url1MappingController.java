@@ -16,4 +16,9 @@ public class Url1MappingController {
 	public String home(){
 		return "zul/home.zul";
 	}
+	
+	@RequestMapping(value={"admisi", "admisi/"}, method=RequestMethod.GET)
+	public String admisi(){
+		return "zul/admisi.zul";
+	}
 }
