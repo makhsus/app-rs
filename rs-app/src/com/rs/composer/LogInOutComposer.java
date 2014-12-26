@@ -54,7 +54,7 @@ public class LogInOutComposer extends BaseComposer {
 		Criterion crLogon1 = Restrictions.eq("userName", username);
 		Criterion crLogon2 = Restrictions.eq("password", password);
 		List<Users> listUsers = dao.loadBy(Order.asc("idUser"), crLogon1, crLogon2);
-		System.out.println("listUser: "+listUsers.size());
+		//System.out.println("listUser: "+listUsers.size());
 		
 		if(listUsers.size()<1){
 			Messagebox.show("Sorry, We can't find your account!");
