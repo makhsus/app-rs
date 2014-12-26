@@ -1,17 +1,16 @@
 package com.rs.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 
 import com.rs.model.Mahasiswa;
 
-public class MahasiswaDao {
+public class MahasiswaDao extends CommonDao<Mahasiswa> {
 
-	private SessionFactory sessionFactory;
+	public MahasiswaDao() {
+		super(Mahasiswa.class);
+		// TODO Auto-generated constructor stub
+	}
+
+	/*private SessionFactory sessionFactory;
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -52,6 +51,12 @@ public class MahasiswaDao {
 		
 		return list;
 	}
+	
+	public List<Mahasiswa> load(Criterion...criterions){
+		List<Mahasiswa> list = new ArrayList<>();
+		
+		return list;
+	}*/
 	
 	
 }
