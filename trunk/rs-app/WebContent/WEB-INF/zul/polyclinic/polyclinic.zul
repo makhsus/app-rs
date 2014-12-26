@@ -24,7 +24,7 @@
 			<rows>
 				<row>
 					<label value="NAME: " />
-					<textbox id="tbxName" constraint="no empty" />
+					<textbox id="tbxName"/>
 				</row>
 				<row>
 					<label value="IS ACTIVE: " />

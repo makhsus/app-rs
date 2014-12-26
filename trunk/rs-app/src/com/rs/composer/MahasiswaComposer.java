@@ -42,6 +42,9 @@ public class MahasiswaComposer extends BaseComposer {
 	public void tbnAddClick(){
 		lbxRumah.setVisible(false);
 		grdAddEdit.setVisible(true);
+		
+		lbxRumah.getItems().clear();
+		selectedMahasiswa = null;
 	}
 	
 	@Listen ("onClick = #tbnList")
