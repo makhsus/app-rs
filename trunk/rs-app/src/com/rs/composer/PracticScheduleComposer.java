@@ -10,13 +10,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.expression.spel.ast.Projection;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
-import org.zkoss.zul.Cell;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Columns;
@@ -28,6 +26,8 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Radio;
+import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
 import org.zkoss.zul.Timebox;
@@ -51,6 +51,7 @@ public class PracticScheduleComposer extends BaseComposer {
 	private Polyclinic selectedPoly;
 	private List<Employee> listDoctor;
 	private Employee selectedDoctor;
+	private PracticSchedule selectedSchedule;
 	
 	
 	@Wire
@@ -63,6 +64,8 @@ public class PracticScheduleComposer extends BaseComposer {
 	private Timebox tmxStart, tmxEnd;
 	@Wire
 	private Vlayout vlayt;
+	@Wire
+	private Radiogroup rgSchedule;
 	
 	
 	@Listen ("onCreate = #winSchedule")
@@ -171,6 +174,12 @@ public class PracticScheduleComposer extends BaseComposer {
 	public void btnCloseClick(){
 		winSaveUpdate.detach();
 	}
+	
+	@Listen ("onCheck = #rgSchedule")
+	public void rgScheduleClick(){
+		selectedSchedule = rgSchedule.getSelectedItem().getValue();
+	}
+	
 
 	
 	private void loadPoly(){
@@ -235,6 +244,11 @@ public class PracticScheduleComposer extends BaseComposer {
 		List<Polyclinic> scheduleList = cr.list();
 		session.close();
 		
+		/*String rgId = "rgSchedule";
+		Radiogroup rg = new Radiogroup();
+		rg.setId(rgId);
+		winSchedule.appendChild(rg);*/
+		
 		for(Polyclinic poly: scheduleList){
 			Grid grid = new Grid();
 			vlayt.appendChild(grid);
@@ -243,7 +257,7 @@ public class PracticScheduleComposer extends BaseComposer {
 			grid.appendChild(auxhead);
 			
 			Auxheader auxheader = new Auxheader();
-			auxheader.setColspan(3);
+			auxheader.setColspan(4);
 			auxheader.setLabel(poly.getPolyclinicName());
 			auxhead.appendChild(auxheader);
 			
@@ -251,6 +265,7 @@ public class PracticScheduleComposer extends BaseComposer {
 			columns.appendChild(new Column("Nama Dokter", null, ""));
 			columns.appendChild(new Column("Hari", null, "30%"));
 			columns.appendChild(new Column("Jam", null, "20%"));
+			columns.appendChild(new Column("#", null, "5%"));
 			grid.appendChild(columns);
 			
 			Rows rows = new Rows();
@@ -280,6 +295,10 @@ public class PracticScheduleComposer extends BaseComposer {
 					String jam = CommonUtil.dateFormat(ps.getStartTime(), patternJam)+"-"+
 								 CommonUtil.dateFormat(ps.getEndTime(), patternJam);
 					
+					Radio radio = new Radio();
+					radio.setId("radio"+ps.getId());
+					radio.setRadiogroup(rgSchedule);
+					radio.setValue(ps);
 					
 					if(psSize>1){
 						if(i==0){
@@ -292,12 +311,14 @@ public class PracticScheduleComposer extends BaseComposer {
 							row.appendChild(new Label(name));
 							row.appendChild(new Label(hari));
 							row.appendChild(new Label(jam));
+							row.appendChild(radio);
 							rows.appendChild(row);
 						}else{
 							Row row = new Row();
 							row.appendChild(new Label());
 							row.appendChild(new Label(hari));
 							row.appendChild(new Label(jam));
+							row.appendChild(radio);
 							rows.appendChild(row);
 						}
 					}else{
@@ -305,6 +326,7 @@ public class PracticScheduleComposer extends BaseComposer {
 						row.appendChild(new Label(name));
 						row.appendChild(new Label(hari));
 						row.appendChild(new Label(jam));
+						row.appendChild(radio);
 						rows.appendChild(row);
 					}
 				}
