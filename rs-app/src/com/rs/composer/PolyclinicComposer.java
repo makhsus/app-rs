@@ -23,17 +23,18 @@ import com.rs.model.Polyclinic;
 public class PolyclinicComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 
+	private List<Polyclinic> listPoly;
+	private Polyclinic selectedPoly;
+	
+	
 	@Wire
 	private Listbox lbxPoly;
 	@Wire
 	private Grid grdAddEdit;
 	@Wire
-	private Textbox tbxName;
+	private Textbox tbxCode, tbxName;
 	@Wire
 	private Radiogroup rgIsActive;
-	
-	private List<Polyclinic> listPoly;
-	private Polyclinic selectedPoly;
 	
 	
 	@Listen ("onCreate = #win")
@@ -54,6 +55,7 @@ public class PolyclinicComposer extends BaseComposer {
 		lbxPoly.setVisible(false);
 		lbxPoly.getItems().clear();
 		grdAddEdit.setVisible(true);
+		tbxCode.setText("");
 		tbxName.setText("");
 		selectedPoly = null;
 	}
@@ -73,6 +75,7 @@ public class PolyclinicComposer extends BaseComposer {
 				indexRg = 1;
 			}
 			
+			tbxCode.setText(obj.getPolyclinicCode());
 			tbxName.setText(obj.getPolyclinicName());
 			rgIsActive.setSelectedIndex(indexRg);
 		}
@@ -90,6 +93,7 @@ public class PolyclinicComposer extends BaseComposer {
 	
 	@Listen ("onClick = #btnSubmit")
 	public void btnSubmitClick(){
+		String code = tbxCode.getText().trim();
 		String name = tbxName.getText().trim();
 		boolean isActive = false;
 		if(rgIsActive.getSelectedIndex()==0){
@@ -104,6 +108,7 @@ public class PolyclinicComposer extends BaseComposer {
 		}else{
 			obj = new Polyclinic();
 		}
+		obj.setPolyclinicCode(code);
 		obj.setPolyclinicName(name);
 		obj.setActive(isActive);
 		

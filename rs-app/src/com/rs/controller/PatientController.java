@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/patient")
 public class PatientController {
 	
-	@RequestMapping(value={"", "add"}, method=RequestMethod.GET)
+	@RequestMapping(value={"add"}, method=RequestMethod.GET)
 	public String add(HttpServletRequest request, ModelMap model){
 		model.addAttribute("title", "Pendaftaran Pasien");
 		return "zul/patient/add.zul";

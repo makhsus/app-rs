@@ -74,6 +74,15 @@ public class Employee implements Serializable {
 	@Column(name="update_date")
 	private Date updateDate;
 
+	@ManyToOne
+	@JoinColumn(name="occupation")
+	private Occupation occupationId;
+	
+	@Column(name="specialist", length=100)
+	private String specialist;
+	
+	
+	
 	public Long getIdEmployee() {
 		return idEmployee;
 	}
@@ -177,5 +186,21 @@ public class Employee implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+
+	public Occupation getOccupationId() {
+		return occupationId;
+	}
+
+	public void setOccupationId(Occupation occupationId) {
+		this.occupationId = occupationId;
+	}
+
+	public String getSpecialist() {
+		return specialist;
+	}
+
+	public void setSpecialist(String specialist) {
+		this.specialist = specialist;
+	}
+
 }

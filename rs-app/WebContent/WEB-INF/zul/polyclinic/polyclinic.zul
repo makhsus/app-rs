@@ -23,6 +23,10 @@
 			</columns>
 			<rows>
 				<row>
+					<label value="CODE: " />
+					<textbox id="tbxCode"/>
+				</row>
+				<row>
 					<label value="NAME: " />
 					<textbox id="tbxName"/>
 				</row>
