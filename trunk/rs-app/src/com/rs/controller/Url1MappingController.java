@@ -17,8 +17,13 @@ public class Url1MappingController {
 		return "zul/home.zul";
 	}
 	
-	@RequestMapping(value={"admisi", "admisi/"}, method=RequestMethod.GET)
+	@RequestMapping(value={"admisi"}, method=RequestMethod.GET)
 	public String admisi(){
 		return "zul/admisi.zul";
+	}
+	
+	@RequestMapping(value={"occupation"}, method=RequestMethod.GET)
+	public String occupation(){
+		return "zul/xxxx.zul";
 	}
 }

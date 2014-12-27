@@ -19,6 +19,9 @@ public class Polyclinic implements Serializable {
 	@Column(name="polyclinic_id")
 	private Long polyclinicId;
 	
+	@Column(name="polyclinic_code", nullable=false, unique=true)
+	private String polyclinicCode;
+	
 	@Column(name="polyclinic_name", nullable=false)
 	private String polyclinicName;
 	
@@ -32,6 +35,14 @@ public class Polyclinic implements Serializable {
 
 	public void setPolyclinicId(Long polyclinicId) {
 		this.polyclinicId = polyclinicId;
+	}
+	
+	public String getPolyclinicCode() {
+		return polyclinicCode;
+	}
+	
+	public void setPolyclinicCode(String polyclinicCode) {
+		this.polyclinicCode = polyclinicCode;
 	}
 
 	public String getPolyclinicName() {
