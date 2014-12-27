@@ -1,0 +1,49 @@
+<?page title="Jadwal Praktek Dokter" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="winSchedule" title="Jadwal Prakter Dokter" border="normal" apply="com.rs.composer.PracticScheduleComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnEdit" label="Edit" />
+		</toolbar>
+		<!-- <grid>
+	        <auxhead>
+	            <auxheader colspan="4" label="Contributor of ZK International Message(Part)" />
+	        </auxhead>
+	        <columns>
+	            <column hflex="5">Language</column>
+	            <column hflex="6">Contributor</column>
+	            <column hflex="3">Charset</column>
+	            <column hflex="4">Comment</column>
+	        </columns>
+	        <rows sclass="narrow">
+	            <row>
+	            	<cell rowspan="2">
+	            		<label value="Arabic (ar)" />
+	            	</cell>
+	                
+	                <label value="Ayman Elgharabawy" />
+	                <label value="iso-8859-6" />
+	                <textbox />
+	            </row>
+	            <row>
+	                <label value="Andreas Klein" />
+	                <label value="iso-8859-2" />
+	                <textbox />
+	            </row>
+	            <row>
+	                <label value="Italian (it)" />
+	                <label value="Matteo Barbieri" />
+	                <label value="iso-8859-1" />
+	                <textbox />
+	            </row>
+	        </rows>
+        </grid> -->    
+		<vlayout id="vlayt"/>
+			
+		
+	</window>
+</zk>

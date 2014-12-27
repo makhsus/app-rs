@@ -1,0 +1,51 @@
+<window id="winSaveUpdate" title="Tambah Jadwal" border="normal"
+	width="550px" apply="com.rs.composer.PracticScheduleComposer"
+	position="center,center" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<grid>
+			<columns>
+				<column hflex="1" label="" width="30%" />
+				<column hflex="2" label="" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Poliklinik" />
+					<listbox id="lbxPoly" mold="select" hflex="2"/>
+				</row>
+				<row>
+					<label value="Dokter" />
+					<listbox id="lbxDocter" mold="select" hflex="2"/>
+				</row>
+				<row>
+					<label value="Hari" />
+					<hbox>
+						<checkbox id="cbxH1" label="Senin" />
+						<checkbox id="cbxH2" label="Selasa" />
+						<checkbox id="cbxH3" label="Rabu" />
+						<checkbox id="cbxH4" label="Kamis" />
+						<checkbox id="cbxH5" label="Jumat" />
+						<checkbox id="cbxH6" label="Sabtu" />
+						<checkbox id="cbxH7" label="Minggu" />
+					</hbox>
+				</row>
+				<row>
+					<label value="Jam" />
+					<hbox>
+						<timebox id="tmxStart" format="HH:mm" />
+						<label value="-"/>
+						<timebox id="tmxEnd" format="HH:mm" />
+					</hbox>
+				</row>
+				<row>
+					<label value=""/>
+					
+				</row>
+			</rows>
+		</grid>
+		<hlayout>
+			<button id="btnSubmit" label="Submit"  />
+			<button id="btnClose" label="Close" />
+		</hlayout>
+	</vlayout>
+</window>
