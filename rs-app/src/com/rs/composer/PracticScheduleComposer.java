@@ -258,7 +258,7 @@ public class PracticScheduleComposer extends BaseComposer {
 			
 			Auxheader auxheader = new Auxheader();
 			auxheader.setColspan(4);
-			auxheader.setLabel(poly.getPolyclinicName());
+			auxheader.setLabel("Poli "+poly.getPolyclinicName());
 			auxhead.appendChild(auxheader);
 			
 			Columns columns = new Columns();
