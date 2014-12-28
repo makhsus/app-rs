@@ -31,17 +31,20 @@ import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
-import com.rs.dao.AdmisiDao;
+import com.rs.dao.MedicalRecordsDao;
 import com.rs.dao.PatientDao;
 import com.rs.dao.PolyclinicDao;
 import com.rs.dao.PracticeScheduleDao;
-import com.rs.model.Admisi;
+import com.rs.dao.UniqueNumberDao;
 import com.rs.model.Employee;
+import com.rs.model.MedicalRecords;
 import com.rs.model.Patient;
 import com.rs.model.Polyclinic;
 import com.rs.model.PracticSchedule;
+import com.rs.model.UniqueNumber;
 import com.rs.model.Users;
 import com.rs.util.CommonUtil;
 
@@ -50,15 +53,21 @@ public class AdmisiComposer extends BaseComposer {
 
 	private List<Patient> patientList;
 	private List<Polyclinic> polyList;
+	private List<MedicalRecords> medicalRecordList;
 	private Users loggedUser;
 	private Patient patientSelected;
 	private Polyclinic polySelected;
 	private PracticSchedule scheduleSelectedFromHome;
 	private PracticSchedule scheduleSelectedFromSelection;
+	private MedicalRecords medicalRecordSelected;
+	private MedicalRecords medicalRecordAddEdit;
+	
+	private String patternJam = "HH:mm";
+	private String recordStatusNew = "NEW";
 	
 	
 	@Wire
-	private Window winSelectSchedule;
+	private Window winSelectSchedule, winMedicalRecord;
 	@Wire
 	private Grid grdAddEdit;
 	@Wire
@@ -72,11 +81,13 @@ public class AdmisiComposer extends BaseComposer {
 	@Wire
 	private Rows rwsSchedule;
 	@Wire
-	private Label lblDokter, lblJam;
+	private Label lblDokter, lblJam, lblRegNo, lblNamaPasien, lblAlergi, lblAnamnesi, lblDiagnosa, lblPlan, lblResepObat;
+	@Wire
+	private Textbox tbxAlergi, tbxAnamnesi, tbxDiagnosa, tbxPlan, tbxResepObat;
 	
 	
 	@Listen ("onCreate = #win")
-	public void win(){
+	public void winCreate(){
 		isLooged();
 		loggedUser = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		
@@ -121,7 +132,7 @@ public class AdmisiComposer extends BaseComposer {
 			return;
 		}
 		
-		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admisi/pilih_jadwal.zul", null, null);
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admisi/select_schedule.zul", null, null);
 		windowAdd.setAttribute("polySelected", polySelected);
 		windowAdd.doModal();
 	}
@@ -143,19 +154,45 @@ public class AdmisiComposer extends BaseComposer {
 		
 		Calendar calNow = Calendar.getInstance(CommonUtil.JAKARTA_TIMEZONE);
 		
-		Admisi obj = new Admisi();
+		UniqueNumber regNo = CommonUtil.generateUniqueNumber(sessionFactory, CommonUtil.CODE_FOR_REG_RAWAT_JALAN);
+		UniqueNumberDao unDao = new UniqueNumberDao();
+		unDao.setSessionFactory(sessionFactory);
+		unDao.saveOrUpdate(regNo);
+		
+		String jam = CommonUtil.dateFormat(scheduleSelectedFromHome.getStartTime(), patternJam)+" - "+
+				 CommonUtil.dateFormat(scheduleSelectedFromHome.getEndTime(), patternJam);
+		
+		int seqNo = 1;
+		
+		MedicalRecordsDao dao = new MedicalRecordsDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		Criterion crCekPatient1 = Restrictions.eq("admisiDate", calNow.getTime());
+		Criterion crCekPatient2 = Restrictions.eq("poly", polySelected);
+		Criterion crCekPatient3 = Restrictions.eq("doctor", scheduleSelectedFromHome.getDoctor());
+		Criterion crCekPatient4 = Restrictions.eq("practiceTime", jam);
+		List<MedicalRecords> mrList = dao.loadBy(Order.asc("medicalRecordsId"), crCekPatient1, crCekPatient2, crCekPatient3, crCekPatient4);
+		if(mrList.size()>0){
+			seqNo = mrList.size()+1;
+		}
+		
+		
+		MedicalRecords obj = new MedicalRecords();
+		obj.setRegistrationNo(regNo.getUniqueNumber());
+		obj.setSequenceNo(seqNo);
 		obj.setPatient(patientSelected);
 		obj.setPoly(polySelected);
 		obj.setDoctor(scheduleSelectedFromHome.getDoctor());
 		obj.setAdmisiDate(calNow.getTime());
-		obj.setAdmisiStartTime(scheduleSelectedFromHome.getStartTime());
-		obj.setAdmisiEndTime(scheduleSelectedFromHome.getEndTime());
+		obj.setPracticeTime(jam);
+		obj.setRecordStatus(recordStatusNew);
 		obj.setCreatedBy(loggedUser);
 		obj.setCreatedDate(calNow.getTime());
 		
-		AdmisiDao dao = new AdmisiDao();
+		dao = new MedicalRecordsDao();
 		dao.setSessionFactory(sessionFactory);
 		if(dao.saveOrUpdate(obj)){
+			clearTambahAdmisi();
 			loadAdmisiToListbox();
 		}else{
 			Messagebox.show("Save/Update Failed", "Error", Messagebox.OK, Messagebox.ERROR);
@@ -164,21 +201,48 @@ public class AdmisiComposer extends BaseComposer {
 	
 	@Listen ("onClick = #btnClear")
 	public void btnClearClick(){
-		patientSelected = null;
-		polySelected = null;
-		scheduleSelectedFromHome = null;
+		clearTambahAdmisi();
+	}
+	
+	@Listen ("onSelect = #lbxList")
+	public void lbxListSelect(){
+		if(medicalRecordList!=null){
+			int index = lbxList.getSelectedIndex();
+			medicalRecordSelected = medicalRecordList.get(index);
+		}
+	}
+	
+	@Listen ("onClick = #tbnMedicalRecord")
+	public void tbnMedicalRecordClick(){
+		if(medicalRecordSelected==null){
+			Messagebox.show("Silahkan pilih admisi", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
 		
-		bdxPasien.setValue("");
-		lbxPoly.setSelectedIndex(-1);
-		lblDokter.setValue("");
-		lblJam.setValue("");
+		String actionFor = "Add";
+		if(medicalRecordSelected.getRecordStatus().equalsIgnoreCase(recordStatusNew)){
+			actionFor = "Add";
+		}
+		
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admisi/medical_record.zul", null, null);
+		windowAdd.setAttribute("actionFor", actionFor);
+		windowAdd.setAttribute("medicalRecordSelected", medicalRecordSelected);
+		windowAdd.doModal();
+	}
+	
+	@Listen ("onClick = #tbnStatus")
+	public void tbnStatusClick(){
+		if(medicalRecordSelected==null){
+			Messagebox.show("Silahkan pilih admisi", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
 	}
 	
 	
 	
 	@SuppressWarnings("unchecked")
 	@Listen ("onCreate = #winSelectSchedule")
-	public void winSelectSchedule(){
+	public void winSelectScheduleCreate(){
 		isLooged();
 		
 		Polyclinic poly = (Polyclinic) winSelectSchedule.getAttribute("polySelected");
@@ -205,7 +269,6 @@ public class AdmisiComposer extends BaseComposer {
 				PracticSchedule ps = psList.get(i);
 				String name = ep.getFullName();
 				
-				String patternJam = "HH:mm";
 				String jam = CommonUtil.dateFormat(ps.getStartTime(), patternJam)+"-"+
 							 CommonUtil.dateFormat(ps.getEndTime(), patternJam);
 				
@@ -262,6 +325,74 @@ public class AdmisiComposer extends BaseComposer {
 	}
 	
 	
+	@Listen ("onCreate = #winMedicalRecord")
+	public void winMedicalRecordCreate(){
+		isLooged();
+		
+		String actionFor = (String) winMedicalRecord.getAttribute("actionFor");
+		medicalRecordAddEdit = (MedicalRecords) winMedicalRecord.getAttribute("medicalRecordSelected");
+		
+		String alergi = medicalRecordAddEdit.getAllergy();
+		String anamnesi = medicalRecordAddEdit.getAnamnesis();
+		String diagnosa = medicalRecordAddEdit.getDiagnosis();
+		String plan = medicalRecordAddEdit.getActionPlan();
+		String precription = medicalRecordAddEdit.getPrescription();
+		
+		if(actionFor.equalsIgnoreCase("Add")){
+			tbxAlergi.setVisible(true);
+			tbxAnamnesi.setVisible(true);
+			tbxDiagnosa.setVisible(true);
+			tbxPlan.setVisible(true);
+			tbxResepObat.setVisible(true);
+			lblAlergi.setVisible(false);
+			lblAnamnesi.setVisible(false);
+			lblDiagnosa.setVisible(false);
+			lblPlan.setVisible(false);
+			lblResepObat.setVisible(false);
+			tbxAlergi.setValue(alergi);
+			tbxAnamnesi.setValue(anamnesi);
+			tbxDiagnosa.setValue(diagnosa);
+			tbxPlan.setValue(plan);
+			tbxResepObat.setValue(precription);
+		}
+		
+		
+		lblRegNo.setValue(medicalRecordAddEdit.getRegistrationNo());
+		lblNamaPasien.setValue(medicalRecordAddEdit.getPatient().getName());
+		
+	}
+	
+	@Listen ("onClick = #btnCloseRecord")
+	public void btnCloseRecordClick(){
+		winMedicalRecord.detach();
+	}
+	
+	@Listen ("onClick = #btnSubmitRecord")
+	public void btnSubmitRecordClick(){
+		String alergi = tbxAlergi.getText();
+		String anamnesi = tbxAnamnesi.getText();
+		String diagnosa = tbxDiagnosa.getText();
+		String plan = tbxPlan.getText();
+		String resepObat = tbxResepObat.getText();
+		
+		MedicalRecords obj = medicalRecordAddEdit;
+		obj.setAllergy(alergi);
+		obj.setAnamnesis(anamnesi);
+		obj.setDiagnosis(diagnosa);
+		obj.setActionPlan(plan);
+		obj.setPrescription(resepObat);
+		
+		MedicalRecordsDao dao = new MedicalRecordsDao();
+		dao.setSessionFactory(sessionFactory);
+		dao.saveOrUpdate(obj);
+		
+		winMedicalRecord.detach();
+	}
+	
+	
+	
+	
+	
 	public void subscribeToEventQueues(final String eventQueueName){
 		EventQueues.lookup(eventQueueName, EventQueues.DESKTOP, true).subscribe(new EventListener<Event>() {
 			@SuppressWarnings("unchecked")
@@ -272,8 +403,7 @@ public class AdmisiComposer extends BaseComposer {
 						Map<String, Object> map = (Map<String, Object>) event.getData();
 						scheduleSelectedFromHome = (PracticSchedule) map.get("scheduleSelected");
 						
-						String patternJam = "HH:mm";
-						String jam = CommonUtil.dateFormat(scheduleSelectedFromHome.getStartTime(), patternJam)+"-"+
+						String jam = CommonUtil.dateFormat(scheduleSelectedFromHome.getStartTime(), patternJam)+" - "+
 								 CommonUtil.dateFormat(scheduleSelectedFromHome.getEndTime(), patternJam);
 						
 						lblDokter.setValue(scheduleSelectedFromHome.getDoctor().getFullName());
@@ -326,25 +456,36 @@ public class AdmisiComposer extends BaseComposer {
 	private void loadAdmisiToListbox(){
 		lbxList.getItems().clear();
 		
-		AdmisiDao dao = new AdmisiDao();
+		MedicalRecordsDao dao = new MedicalRecordsDao();
 		dao.setSessionFactory(sessionFactory);
-		List<Admisi> list = dao.loadAll(Order.desc("admisiId"));
+		List<MedicalRecords> list = dao.loadAll(Order.desc("medicalRecordsId"));
+		medicalRecordList = list;
 		
 		lbxList.setModel(new ListModelList<>(list));
-		ListitemRenderer<Admisi> renderer = new ListitemRenderer<Admisi>() {
+		ListitemRenderer<MedicalRecords> renderer = new ListitemRenderer<MedicalRecords>() {
 			@Override
-			public void render(Listitem listitem, Admisi obj, int index) throws Exception {
-				String patternJam = "HH:mm";
-				String jam = CommonUtil.dateFormat(obj.getAdmisiStartTime(), patternJam)+"-"+
-							 CommonUtil.dateFormat(obj.getAdmisiEndTime(), patternJam);
-				
+			public void render(Listitem listitem, MedicalRecords obj, int index) throws Exception {
+				listitem.appendChild(new Listcell(obj.getRegistrationNo()));
+				listitem.appendChild(new Listcell(Integer.toString(obj.getSequenceNo())));
 				listitem.appendChild(new Listcell(obj.getPatient().getName()));
 				listitem.appendChild(new Listcell(obj.getDoctor().getFullName()));
 				listitem.appendChild(new Listcell(obj.getPoly().getPolyclinicCode()));
 				listitem.appendChild(new Listcell(CommonUtil.dateFormat(obj.getAdmisiDate(), "dd MMM yyyy")));
-				listitem.appendChild(new Listcell(jam));
+				listitem.appendChild(new Listcell(obj.getPracticeTime()));
+				listitem.appendChild(new Listcell(obj.getRecordStatus()));
 			}
 		};
 		lbxList.setItemRenderer(renderer);
+	}
+	
+	private void clearTambahAdmisi(){
+		patientSelected = null;
+		polySelected = null;
+		scheduleSelectedFromHome = null;
+		
+		bdxPasien.setValue("");
+		lbxPoly.setSelectedIndex(-1);
+		lblDokter.setValue("");
+		lblJam.setValue("");
 	}
 }
