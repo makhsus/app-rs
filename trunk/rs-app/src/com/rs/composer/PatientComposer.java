@@ -129,7 +129,7 @@ public class PatientComposer extends BaseComposer {
 		PatientDao dao = new PatientDao();
 		dao.setSessionFactory(sessionFactory);
 		List<Patient> list = dao.loadAll(Order.asc("id"));//dao.listAll();
-		System.out.println("list: "+list);
+		//System.out.println("list: "+list);
 		
 		lbxList.getItems().clear();
 		for(Patient obj: list){
