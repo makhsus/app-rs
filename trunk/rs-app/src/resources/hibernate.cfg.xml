@@ -13,7 +13,7 @@
         <!-- Local Postges Configuration -->
         <!-- <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/dbrs</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">xxxxx</property> --> 
+        <property name="hibernate.connection.password">xxx</property>  -->
         
         <!-- Server Postges Configuration  -->
         <property name="hibernate.connection.url">jdbc:postgresql://128.199.167.199:5432/coba</property>
@@ -29,6 +29,11 @@
 		<mapping class="com.rs.model.Users" />
 		<mapping class="com.rs.model.Patient" />
 		<mapping class="com.rs.model.Polyclinic" />
+		<mapping class="com.rs.model.Occupation" />
+		<mapping class="com.rs.model.PracticSchedule" />
+		<mapping class="com.rs.model.UniqueNumber" />
+		<mapping class="com.rs.model.MedicalRecords" />
+		
 		
     </session-factory>
 </hibernate-configuration>
