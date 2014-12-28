@@ -1,0 +1,23 @@
+<window id="winSelectSchedule" title="Pilih Jadwal" border="normal"
+	width="700px" apply="com.rs.composer.AdmisiComposer"
+	position="center, center" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<radiogroup id="rgSchedule"/>
+		<grid>
+			<auxhead>
+				<auxheader id="axrSchedule" colspan="3" />
+			</auxhead>
+			<columns>
+				<column label="" width="5%" />
+				<column label="Nama Dokter" />
+				<column label="Jam" width="30%"  />
+			</columns>
+			<rows id="rwsSchedule" />
+		</grid>
+		<hlayout>
+			<button id="btnSubmitSelectSchedue" label="Submit"  />
+			<button id="btnClose" label="Close" />
+		</hlayout>
+	</vlayout>
+</window>

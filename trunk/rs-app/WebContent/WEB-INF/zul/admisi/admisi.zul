@@ -1,0 +1,79 @@
+<?page title="Admisi" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="Admisi" border="normal" apply="com.rs.composer.AdmisiComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnEdit" label="Edit" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnMedicalRecord" label="Rekam Medis" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnStatus" label="Change Status" />
+		</toolbar>
+		<grid id="grdAddEdit" visible="false">
+			<auxhead>
+				<auxheader colspan="2" label="Tambah Admisi" />
+			</auxhead>
+			<columns>
+				<column label="" width="20%" />
+				<column label=""/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Passien" />
+					<!-- <combobox id="cbxPasien" autodrop="true" buttonVisible="true" hflex="1" /> -->
+					<bandbox id="bdxPasien" mold="rounded" autodrop="true" hflex="1" >
+						<bandpopup>
+							<listbox id="lbxPasien" mold="paging" pageSize="20">
+								<listhead>
+									<listheader label="Nama Lengkap" width="70%"  />
+									<listheader label="Nomor Kartu"  />
+								</listhead>
+							</listbox>
+						</bandpopup>
+					</bandbox>
+				</row>
+				<row>
+					<label value="Poli" />
+					<listbox id="lbxPoly" mold="select" hflex="1" vflex="1"/>
+				</row>
+				<row>
+					<label value="" />
+					<button id="btnPilihJadwal" label="Pilih Jadwal" />
+				</row>
+				<row>
+					<label value="Dokter" />
+					<label id="lblDokter" value="---" />
+				</row>
+				<row>
+					<label value="Jam" />
+					<label id="lblJam" value="---" />
+				</row>
+				<row>
+					<label value="" />
+					<hbox>
+						<button id="btnSubmitAdmisi" label="Submit" />
+						<button id="btnClear" label="Clear" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		<vlayout>
+			<listbox id="lbxList">
+				<listhead>
+					<listheader label="No. Registrasi" />
+					<listheader label="No. Antri" width="5%" align="center" />
+					<listheader label="Nama Pasien" />
+					<listheader label="Dokter" />
+					<listheader label="Poly" />
+					<listheader label="Tanggal" width="15%" align="center" />
+					<listheader label="Waktu" width="10%" align="center" />
+					<listheader label="Status" width="10%"  />
+				</listhead>
+			</listbox>
+		</vlayout>
+	</window>
+</zk>
