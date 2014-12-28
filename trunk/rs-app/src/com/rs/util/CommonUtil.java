@@ -2,16 +2,25 @@ package com.rs.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import com.rs.bean.DayBean;
+import com.rs.dao.UniqueNumberDao;
+import com.rs.model.UniqueNumber;
 
 public class CommonUtil {
 
-	public static final String SESSION_FACTORY = "S_F";
-	public static final String LOGIN_USER = "login_user";
-	
+	public static final String SESSION_FACTORY 		= "S_F";
+	public static final String LOGIN_USER 			= "login_user";
+	public static final TimeZone JAKARTA_TIMEZONE	= TimeZone.getTimeZone("Asia/Jakarta");
 	
 	public static String neatString(String source){
 		StringBuffer buffer = new StringBuffer();
@@ -73,5 +82,97 @@ public class CommonUtil {
 		result = sdf.format(date);
 		
 		return result;
+	}
+	
+	public static int dayNumberConvertFromJavaCalendar(){
+		int result = 1;
+		Calendar cal = Calendar.getInstance(JAKARTA_TIMEZONE);
+		int dayJava = cal.get(Calendar.DAY_OF_WEEK);
+		
+		if(dayJava==1){result = 7;}
+		else if(dayJava==2){result = 1;}
+		else if(dayJava==3){result = 2;}
+		else if(dayJava==4){result = 3;}
+		else if(dayJava==5){result = 4;}
+		else if(dayJava==6){result = 5;}
+		else if(dayJava==7){result = 6;}
+		
+		return result;
+	}
+	
+	/**
+	 * Example: 19 to 000019
+	 */
+	public static String numberToString000000(int number){
+		String result = "";
+		
+		if(number>100000){
+			result = ""+number;
+		}else{
+			if(number>10000){
+				result = "0"+number;
+			}else{
+				if(number>1000){
+					result = "00"+number;
+				}else{
+					if(number>100){
+						result = "000"+number;
+					}else{
+						if(number>10){
+							result = "0000"+number;
+						}else{
+							result = "00000"+number;
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	private static String bulanHurufDuaDigit(int bulan){
+		String result = "";	
+		if(bulan>9){result = ""+bulan;}
+		else{result = "0"+bulan;}
+		return result;
+	}
+	
+	public static UniqueNumber generateUniqueNumber(SessionFactory sessionFactory, String code){
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH)+1;
+		int year = cal.get(Calendar.YEAR);
+		
+		SessionFactory _sessionFactory = sessionFactory;
+		if(sessionFactory==null){
+			_sessionFactory = HibernateUtil.getSessionFactory();
+		}
+		
+		UniqueNumberDao dao = new UniqueNumberDao();
+		dao.setSessionFactory(_sessionFactory);
+		
+		Criterion cr1 = Restrictions.eq("code", code);
+		Criterion cr2 = Restrictions.eq("month", month);
+		Criterion cr3 = Restrictions.eq("year", year);
+		List<UniqueNumber> list = dao.loadBy(Order.desc("uniqueNumber"), cr1, cr2, cr3);
+		
+		UniqueNumber un = null;
+		int number = 1;
+		if(list.size()>0){
+			un = list.get(0);
+			number = un.getNumber()+1;
+		}else{
+			un = new UniqueNumber();
+			un.setCode(code);
+			un.setMonth(month);
+			un.setYear(year);
+		}
+		
+		String uniqueNumber = code+year+bulanHurufDuaDigit(month)+numberToString000000(number);
+		
+		un.setNumber(number);
+		un.setUniqueNumber(uniqueNumber);
+		
+		return un;
 	}
 }
