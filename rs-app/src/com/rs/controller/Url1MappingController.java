@@ -19,7 +19,7 @@ public class Url1MappingController {
 	
 	@RequestMapping(value={"admisi"}, method=RequestMethod.GET)
 	public String admisi(){
-		return "zul/admisi.zul";
+		return "zul/admisi/admisi.zul";
 	}
 	
 	@RequestMapping(value={"occupation"}, method=RequestMethod.GET)
