@@ -18,6 +18,6 @@ public class DoctorController {
 	
 	@RequestMapping(value={"schedule"}, method=RequestMethod.GET)
 	public String jadwalPraktek(HttpServletRequest request, ModelMap model){
-		return "zul/doctor/jadwal_praktek.zul";
+		return "zul/doctor/practice_schedule.zul";
 	}
 }

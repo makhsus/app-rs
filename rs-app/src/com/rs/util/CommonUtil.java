@@ -18,9 +18,10 @@ import com.rs.model.UniqueNumber;
 
 public class CommonUtil {
 
-	public static final String SESSION_FACTORY 		= "S_F";
-	public static final String LOGIN_USER 			= "login_user";
-	public static final TimeZone JAKARTA_TIMEZONE	= TimeZone.getTimeZone("Asia/Jakarta");
+	public static final String SESSION_FACTORY 				= "S_F";
+	public static final String LOGIN_USER 					= "login_user";
+	public static final String CODE_FOR_REG_RAWAT_JALAN		= "RRJ";
+	public static final TimeZone JAKARTA_TIMEZONE			= TimeZone.getTimeZone("Asia/Jakarta");
 	
 	public static String neatString(String source){
 		StringBuffer buffer = new StringBuffer();
@@ -103,10 +104,21 @@ public class CommonUtil {
 	/**
 	 * Example: 19 to 000019
 	 */
-	public static String numberToString000000(int number){
+	public static String numberToString(int digitMax, int number){
 		String result = "";
 		
-		if(number>100000){
+		String numberStr = Integer.toString(number);
+		int numberLength = numberStr.length();
+		
+		StringBuffer buffer = new StringBuffer();
+		int addedZero = digitMax-numberLength;
+		for(int i=0;i<addedZero;i++){
+			buffer.append("0");
+		}
+		
+		result = buffer.toString()+number;
+		
+		/*if(number>100000){
 			result = ""+number;
 		}else{
 			if(number>10000){
@@ -126,7 +138,7 @@ public class CommonUtil {
 					}
 				}
 			}
-		}
+		}*/
 		
 		return result;
 	}
@@ -168,7 +180,7 @@ public class CommonUtil {
 			un.setYear(year);
 		}
 		
-		String uniqueNumber = code+year+bulanHurufDuaDigit(month)+numberToString000000(number);
+		String uniqueNumber = code+year+bulanHurufDuaDigit(month)+numberToString(6, number);
 		
 		un.setNumber(number);
 		un.setUniqueNumber(uniqueNumber);
