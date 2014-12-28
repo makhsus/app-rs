@@ -1,0 +1,63 @@
+<window id="winMedicalRecord" title="Medical Records" border="normal"
+	width="650px" apply="com.rs.composer.AdmisiComposer"
+	position="center, top" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<grid>
+		<columns>
+			<column label="" width="40%" />
+			<column label="" />
+		</columns>
+		<rows>
+			<row>
+				<label value="Nomor Registrasi" />
+				<label id="lblRegNo" />
+			</row>
+			<row>
+				<label value="Nama Pasien" />
+				<label id="lblNamaPasien" />
+			</row>
+			<row>
+				<label value="Alergi" />
+				<hbox>
+					<textbox id="tbxAlergi" rows="5" cols="60" visible="false" />
+					<label id="lblAlergi" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="Anamnesi, Pemeriksaan (Fisik, Penunjang)" />
+				<hbox>
+					<textbox id="tbxAnamnesi" rows="5" cols="60" visible="false" />
+					<label id="lblAnamnesi" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="Diagnosa Medik" />
+				<hbox>
+					<textbox id="tbxDiagnosa" rows="5" cols="60" visible="false" />
+					<label id="lblDiagnosa" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="Terapi dan Rencana Tindak Lanjut" />
+				<hbox>
+					<textbox id="tbxPlan" rows="5" cols="60" visible="false" />
+					<label id="lblPlan" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="Resep Obat" />
+				<hbox>
+					<textbox id="tbxResepObat" rows="5" cols="60" visible="false" />
+					<label id="lblResepObat" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="" />
+				<hbox>
+					<button id="btnSubmitRecord" label="Submit" />
+					<button id="btnCloseRecord" label="Close" />
+				</hbox>
+			</row>
+		</rows>
+	</grid>
+</window>	
