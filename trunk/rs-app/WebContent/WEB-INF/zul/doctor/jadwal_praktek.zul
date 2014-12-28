@@ -8,7 +8,10 @@
 			<toolbarbutton id="tbnAdd" label="Add" />
 			<toolbarbutton label="|" disabled="true" />
 			<toolbarbutton id="tbnEdit" label="Edit" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnDel" label="Delete" />
 		</toolbar>
+		<radiogroup id="rgSchedule"/>
 		<!-- <grid>
 	        <auxhead>
 	            <auxheader colspan="4" label="Contributor of ZK International Message(Part)" />
