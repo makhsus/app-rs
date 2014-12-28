@@ -3,9 +3,9 @@
 		<menubar>
 			<menuitem id="mntmHome" label="Home" href="/home" />
 			<menuitem id="mntmUserMngment" label="User Management" />
-			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
+			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
 			<menuitem id="mntmAdmisi" label="Admisi" href="/admisi"/>
 			<!-- <menu id="mnPatient" label="Patient">
 				<menupopup>
