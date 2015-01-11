@@ -1,8 +1,8 @@
 <panel id="pnlMenu" apply="com.rs.composer.MenuComposer">
 	<panelchildren>
 		<menubar>
-			<menuitem id="mntmHome" label="Home" href="/home" />
-			<menuitem id="mntmUserMngment" label="User Management" />
+			<menuitem id="mntmHome" label="Beranda" href="/home" />
+			<menuitem id="mntmUserMngment" label="Manajemen User" href="/employee"/>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
 			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
@@ -14,7 +14,7 @@
 			</menu> -->
 			<menu id="mnUserLogin" label="Users">
 				<menupopup>
-					<menuitem id="mntmProfile" label="My Profile" />
+					<menuitem id="mntmProfile" label="Akun Saya" />
 					<menuitem id="mntmLogout" label="Logout" />
 				</menupopup>
 			</menu>
