@@ -66,8 +66,15 @@ public class Employee implements Serializable {
 	@Column(name="phone_number", length=30)
 	private String phoneNumber;
 	
+	@Column(name="identity_number", length=50, nullable = false)
+	private String identityNumber;
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="register_date")
+	@Column(name="date_expired_identity_number", nullable = false)
+	private Date dateExpiredIdentityNumber;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="register_date", nullable = false)
 	private Date registerDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -76,12 +83,11 @@ public class Employee implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="occupation")
-	private Occupation occupationId;
+	private Occupation occupationId;	
 	
-	@Column(name="specialist", length=100)
-	private String specialist;
-	
-	
+	@ManyToOne
+	@JoinColumn(name="create_by")
+	private Users createBy;
 	
 	public Long getIdEmployee() {
 		return idEmployee;
@@ -195,12 +201,28 @@ public class Employee implements Serializable {
 		this.occupationId = occupationId;
 	}
 
-	public String getSpecialist() {
-		return specialist;
+	public Users getCreateBy() {
+		return createBy;
 	}
 
-	public void setSpecialist(String specialist) {
-		this.specialist = specialist;
+	public void setCreateBy(Users createBy) {
+		this.createBy = createBy;
+	}
+
+	public String getIdentityNumber() {
+		return identityNumber;
+	}
+
+	public void setIdentityNumber(String identityNumber) {
+		this.identityNumber = identityNumber;
+	}
+
+	public Date getDateExpiredIdentityNumber() {
+		return dateExpiredIdentityNumber;
+	}
+
+	public void setDateExpiredIdentityNumber(Date dateExpiredIdentityNumber) {
+		this.dateExpiredIdentityNumber = dateExpiredIdentityNumber;
 	}
 
 }
