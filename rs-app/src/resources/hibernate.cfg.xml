@@ -5,20 +5,27 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <!-- <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.show_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         
         <!-- Local Postges Configuration -->
         <!-- <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/dbrs</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">xxx</property>  -->
+        <property name="hibernate.connection.password">makhsus</property> --> 
         
         <!-- Server Postges Configuration  -->
-        <property name="hibernate.connection.url">jdbc:postgresql://128.199.167.199:5432/coba</property>
+        <!-- <property name="hibernate.connection.url">jdbc:postgresql://128.199.167.199:5432/mencoba</property>
         <property name="hibernate.connection.username">padidev</property>
-        <property name="hibernate.connection.password">padicon123</property>
+        <property name="hibernate.connection.password">padicon123</property> -->
+        
+        <!-- Server MySQL Configuration -->
+        <property name="hibernate.connection.url">jdbc:mysql://128.199.167.199:3306/tes</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">ticketingdb123</property>
         
 		<mapping class="com.rs.model.Mahasiswa" />
 		<mapping class="com.rs.model.City" />
