@@ -19,35 +19,35 @@
 			<row>
 				<label value="Alergi" />
 				<hbox>
-					<textbox id="tbxAlergi" rows="5" cols="60" visible="false" />
+					<textbox id="tbxAlergi" rows="4" cols="60" visible="false" />
 					<label id="lblAlergi" visible="false" />
 				</hbox>
 			</row>
 			<row>
 				<label value="Anamnesi, Pemeriksaan (Fisik, Penunjang)" />
 				<hbox>
-					<textbox id="tbxAnamnesi" rows="5" cols="60" visible="false" />
+					<textbox id="tbxAnamnesi" rows="4" cols="60" visible="false" />
 					<label id="lblAnamnesi" visible="false" />
 				</hbox>
 			</row>
 			<row>
 				<label value="Diagnosa Medik" />
 				<hbox>
-					<textbox id="tbxDiagnosa" rows="5" cols="60" visible="false" />
+					<textbox id="tbxDiagnosa" rows="4" cols="60" visible="false" />
 					<label id="lblDiagnosa" visible="false" />
 				</hbox>
 			</row>
 			<row>
 				<label value="Terapi dan Rencana Tindak Lanjut" />
 				<hbox>
-					<textbox id="tbxPlan" rows="5" cols="60" visible="false" />
+					<textbox id="tbxPlan" rows="4" cols="60" visible="false" />
 					<label id="lblPlan" visible="false" />
 				</hbox>
 			</row>
 			<row>
 				<label value="Resep Obat" />
 				<hbox>
-					<textbox id="tbxResepObat" rows="5" cols="60" visible="false" />
+					<textbox id="tbxResepObat" rows="4" cols="60" visible="false" />
 					<label id="lblResepObat" visible="false" />
 				</hbox>
 			</row>
