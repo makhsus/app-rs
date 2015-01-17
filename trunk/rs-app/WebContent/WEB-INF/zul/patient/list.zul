@@ -6,7 +6,7 @@
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List Pasien" />
 			<toolbarbutton label="|" disabled="true" />
-			<toolbarbutton id="tbnAdd" label="Daftar Pasien" />
+			<toolbarbutton id="tbnAdd" label="Tambah Pasien" />
 		</toolbar>
 		<grid id="grdSearch">
 			<columns>
@@ -45,6 +45,7 @@
 				<listheader label="Nomor Kartu" />
 				<listheader label="Gender" />
 				<listheader label="Phone" />
+				<listheader label=""/>
 			</listhead>
 		</listbox>
 		<radiogroup id="rgGender" />

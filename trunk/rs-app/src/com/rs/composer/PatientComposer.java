@@ -9,6 +9,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
@@ -152,6 +153,10 @@ public class PatientComposer extends BaseComposer {
 			li.appendChild(lc);
 			lc = new Listcell(obj.getPhone());
 			li.appendChild(lc);
+			Button btnA = new Button("Daftar Admisi");
+			lc = new Listcell("");
+			lc.appendChild(btnA);
+			li.appendChild(lc);
 		}
 	}
 	
@@ -163,8 +168,8 @@ public class PatientComposer extends BaseComposer {
 		
 		
 		
-		Criterion criterionCard = Restrictions.eq("cardNumber", cardNo);
-		Criterion criterionName = Restrictions.eq("name", name);
+		Criterion criterionCard = Restrictions.like("cardNumber", cardNo+"%");
+		Criterion criterionName = Restrictions.like("name", name+"%");
 		
 		
 		List<Patient> list = new ArrayList<>();
