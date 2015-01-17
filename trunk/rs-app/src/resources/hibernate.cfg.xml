@@ -40,6 +40,7 @@
 		<mapping class="com.rs.model.PracticSchedule" />
 		<mapping class="com.rs.model.UniqueNumber" />
 		<mapping class="com.rs.model.MedicalRecords" />
+		<mapping class="com.rs.model.SubOccupation" />
 		
 		
     </session-factory>
