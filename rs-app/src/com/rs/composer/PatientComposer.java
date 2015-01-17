@@ -1,9 +1,12 @@
 package com.rs.composer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
@@ -19,6 +22,7 @@ import org.zkoss.zul.Window;
 
 import com.rs.dao.PatientDao;
 import com.rs.model.Patient;
+import com.rs.model.Polyclinic;
 
 public class PatientComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +35,8 @@ public class PatientComposer extends BaseComposer {
 	private Grid grdAddEdit;
 	@Wire
 	private Grid grdSearch;
+	@Wire
+	private Textbox tbxSearchCardNo, tbxSearchName;
 	@Wire
 	private Textbox tbxCardNo, tbxName, tbxHusbandWifeName, tbxParentName, tbxReligion, tbxAddress, tbxOccupation, tbxPhone;
 	@Wire
@@ -128,7 +134,7 @@ public class PatientComposer extends BaseComposer {
 	private void loadDataPatient(){
 		PatientDao dao = new PatientDao();
 		dao.setSessionFactory(sessionFactory);
-		List<Patient> list = dao.loadAll(Order.asc("id"));//dao.listAll();
+		List<Patient> list = dao.loadAll(Order.asc("name"));//dao.listAll();
 		//System.out.println("list: "+list);
 		
 		lbxList.getItems().clear();
@@ -147,5 +153,69 @@ public class PatientComposer extends BaseComposer {
 			lc = new Listcell(obj.getPhone());
 			li.appendChild(lc);
 		}
+	}
+	
+	private void loadDataPatient(String cardNo, String name){
+		
+		
+		PatientDao dao = new PatientDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		
+		
+		Criterion criterionCard = Restrictions.eq("cardNumber", cardNo);
+		Criterion criterionName = Restrictions.eq("name", name);
+		
+		
+		List<Patient> list = new ArrayList<>();
+		if (cardNo.equalsIgnoreCase("") && name.equalsIgnoreCase("")){
+			list = dao.loadAll(Order.asc("name"));
+		}
+		else if (!cardNo.equalsIgnoreCase("") && name.equalsIgnoreCase("")){
+			list = dao.loadBy(Order.asc("name"), criterionCard);
+		}
+		else if (cardNo.equalsIgnoreCase("") && !name.equalsIgnoreCase("")){
+			list = dao.loadBy(Order.asc("name"), criterionName);
+		}
+		else{
+			list = dao.loadBy(Order.asc("name"), new Criterion[]{criterionCard, criterionName});
+		}
+		
+		
+		lbxList.getItems().clear();
+		for(Patient obj: list){
+			Listitem li = new Listitem();
+			lbxList.appendChild(li);
+			
+			Listcell lc = new Listcell(obj.getId().toString());
+			li.appendChild(lc);
+			lc = new Listcell(obj.getName());
+			li.appendChild(lc);
+			lc = new Listcell(obj.getCardNumber());			
+			li.appendChild(lc);
+			lc = new Listcell(obj.getGender());
+			li.appendChild(lc);
+			lc = new Listcell(obj.getPhone());
+			li.appendChild(lc);
+		}
+	}
+	
+	
+	@Listen ("onClick = #btnSearch")
+	public void btnSearchClick(){
+		String cardNo = "";
+		String name = "";
+		
+		cardNo = tbxSearchCardNo.getText().toString();
+		name = tbxSearchName.getText().toString();
+		
+		if (cardNo.equalsIgnoreCase("") && name.equalsIgnoreCase("")){
+			loadDataPatient();
+		}else{
+			loadDataPatient(cardNo, name);
+		}
+		
+		
+				
 	}
 }
