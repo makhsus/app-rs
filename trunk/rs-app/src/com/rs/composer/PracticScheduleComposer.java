@@ -225,8 +225,7 @@ public class PracticScheduleComposer extends BaseComposer {
 			ListitemRenderer<Employee> renderer = new ListitemRenderer<Employee>() {
 				@Override
 				public void render(Listitem item, Employee obj, int index) throws Exception {
-					String specialist = obj.getSpecialist()!=null?" - "+obj.getSpecialist():"";
-					item.appendChild(new Listcell(obj.getFullName()+specialist));
+					item.appendChild(new Listcell(obj.getFullName()));
 				}
 			};
 			lbxDocter.setItemRenderer(renderer);
