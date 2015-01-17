@@ -69,7 +69,7 @@ public class Employee implements Serializable {
 	@Column(name="identity_number", length=50, nullable = false)
 	private String identityNumber;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="date_expired_identity_number", nullable = false)
 	private Date dateExpiredIdentityNumber;
 	
