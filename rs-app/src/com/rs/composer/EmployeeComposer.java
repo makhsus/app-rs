@@ -14,7 +14,11 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 
 import com.rs.dao.EmployeeDao;
+import com.rs.dao.OccupationDao;
+import com.rs.dao.UsersDao;
 import com.rs.model.Employee;
+import com.rs.model.Occupation;
+import com.rs.model.Users;
 
 public class EmployeeComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
@@ -35,35 +39,55 @@ public class EmployeeComposer extends BaseComposer {
 	private void loadDataEmployee() {
 		selectedEmployee = null;
 		
+		OccupationDao occupationDao = new OccupationDao();
+		Occupation occupation = new Occupation();
 		EmployeeDao dao = new EmployeeDao();
+		UsersDao userDao = new UsersDao();
+		Users users = new Users();
 		dao.setSessionFactory(sessionFactory);
 		Criterion cr1 = Restrictions.eq("status", "Y");
-		List<Employee> list = dao.loadBy(Order.desc("idEmployee"), cr1);
-		listEmployee = list;
-		
-		lbxEmployee.getItems().clear();
-		lbxEmployee.setModel(new ListModelList<>(list));
-		ListitemRenderer<Employee> renderer = new ListitemRenderer<Employee>() {
-			@Override
-			public void render(Listitem item, Employee obj, int index) throws Exception {
+		List<Employee> listEmployee = dao.loadBy(Order.desc("idEmployee"), cr1);
 				
-				String isActive = "";
+				lbxEmployee.getItems().clear();
+				int number = 1;
 				
-				if (obj.getStatus().equals("Y")) {
-					isActive = "Aktif";
-				} else if (obj.getStatus().equals("N")) {
-					isActive = "Non Aktif";
-				} else {
-					isActive = "Root";
+				for(Employee obj: listEmployee){
+					Listitem li = new Listitem();
+					lbxEmployee.appendChild(li);
+					
+					userDao.setSessionFactory(sessionFactory);
+					Criterion cr2 = Restrictions.eq("idEmployee", obj);
+					List<Users> listUser = userDao.loadBy(Order.desc("idUser"), cr2);
+					
+					String isActive = "AKTIF";
+					String statusUser = "-";
+					
+					if (listUser.size() > 0) {
+						users = listUser.get(0);
+						statusUser = "AKTIF";
+						System.out.println("users = "+users.getIdEmployee().getIdEmployee());
+					}
+					
+					
+					
+					Listcell lc = new Listcell(Integer.toString(number++));
+					li.appendChild(lc);
+					lc = new Listcell(obj.getNik());
+					li.appendChild(lc);
+					lc = new Listcell(obj.getFullName());
+					li.appendChild(lc);
+					lc = new Listcell(obj.getPhoneNumber());
+					li.appendChild(lc);
+					lc = new Listcell(obj.getGender());
+					li.appendChild(lc);
+					lc = new Listcell(obj.getOccupationId().getOccupationName());
+					li.appendChild(lc);
+					lc = new Listcell(isActive);
+					li.appendChild(lc);
+					lc = new Listcell(statusUser);
+					li.appendChild(lc);
+					
 				}
-				
-				item.appendChild(new Listcell(Integer.toString(index+1)));
-				item.appendChild(new Listcell(obj.getFullName()));
-				item.appendChild(new Listcell(obj.getPhoneNumber()));
-				item.appendChild(new Listcell(isActive));
-			}
-		};
-		lbxEmployee.setItemRenderer(renderer);
 		
 	}
 
