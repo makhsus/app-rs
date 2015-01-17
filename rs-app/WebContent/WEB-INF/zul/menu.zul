@@ -2,7 +2,8 @@
 	<panelchildren>
 		<menubar>
 			<menuitem id="mntmHome" label="Beranda" href="/home" />
-			<menuitem id="mntmUserMngment" label="Manajemen User" href="/employee"/>
+			<menuitem id="mntmEmployee" label="Karyawan" href="/employee"/>
+			<menuitem id="mntmUsers" label="Users" href="/users"/>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
 			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
