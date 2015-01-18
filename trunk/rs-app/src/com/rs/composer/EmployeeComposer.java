@@ -80,7 +80,7 @@ public class EmployeeComposer extends BaseComposer {
 					li.appendChild(lc);
 					lc = new Listcell(obj.getGender());
 					li.appendChild(lc);
-					lc = new Listcell(obj.getOccupationId().getOccupationName());
+					lc = new Listcell(obj.getOccupationId()!=null ? obj.getOccupationId().getOccupationName():"");
 					li.appendChild(lc);
 					lc = new Listcell(isActive);
 					li.appendChild(lc);
