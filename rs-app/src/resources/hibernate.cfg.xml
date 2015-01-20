@@ -41,6 +41,7 @@
 		<mapping class="com.rs.model.UniqueNumber" />
 		<mapping class="com.rs.model.MedicalRecords" />
 		<mapping class="com.rs.model.SubOccupation" />
+		<mapping class="com.rs.model.ContentConfig" />
 		
 		
     </session-factory>
