@@ -1,0 +1,94 @@
+<?page title="Manajemen User" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="Karyawan" border="normal" apply="com.rs.composer.EmployeeComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List Data Karyawan" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Tambah Karyawan Baru" />
+		</toolbar>
+		<listbox id="lbxEmployee" mold="paging" pageSize="50">
+			<listhead>
+				<listheader label="No" width="3%" align="center"/>
+				<listheader label="Tgl. Input" />
+				<listheader label="NIK" />
+				<listheader label="Nama Lengkap" />
+				<listheader label="Telp./HP" />
+				<listheader label="JK" width="2%" align="center"/>
+				<listheader label="Jabatan" />
+				<listheader label="No.Identitas" />
+				<listheader label="Status" />
+			</listhead>
+		</listbox>
+		<radiogroup id="rgGender" />
+		<grid id="grdAdd">
+			<columns>
+				<column value="" width="180px" />
+				<column value="" width="20px" />
+				<column value="" />
+			</columns>
+			<rows>
+				<row>
+					<cell>
+						<vbox>
+							<label value="Nomor Induk Karyawan" />
+							<label style="color: red" value="*wajib diisi"/>
+						</vbox>
+					</cell>
+					<label value=" : " />
+					<textbox id="tbxNik" />
+				</row>
+				<row>
+					<cell>
+						<vbox>
+							<label value="Nama Lengkap" />
+							<label style="color: red" value="*wajib diisi"/>
+						</vbox>
+					</cell>
+					<label value=" : " />
+					<textbox id="tbxFullName" />
+				</row>
+				<row>
+					<cell>
+						<vbox>
+							<label value="Nomor Identitas " />
+							<label style="color: blue" value="*ktp/passport/sim dsb."/>
+							<label style="color: red" value="*wajib diisi"/>
+						</vbox>
+					</cell>
+					<label value=" : " />
+					<textbox id="tbxIdentityNumber" />
+				</row>
+				<row>
+					<cell>
+						<vbox>
+							<label value="Tgl. Berlaku Nomor Identitas" />
+							<label style="color: red" value="*wajib diisi"/>
+						</vbox>
+					</cell>
+					<label value=" : " />
+					<datebox id="dtbExpiredIdentityNumber" format="dd MMM yyyy" width="150px" />
+				</row>
+				<row>
+					<label value="Jenis Kelamin" />
+					<label value=" : " />
+					<cell>
+						<hbox>
+							<radio id="raMale" label="Laki-laki"
+								radiogroup="rgGender" checked="true"/>
+							<radio id="raFemale" label="Perempuan"
+								radiogroup="rgGender" />
+						</hbox>
+					</cell>
+				</row>
+				<row>
+					<label value="" />
+					<label value="" />
+					<hbox>
+						<button id="btnSearch" label="Submit" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>
