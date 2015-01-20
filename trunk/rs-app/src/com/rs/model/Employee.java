@@ -1,9 +1,5 @@
 package com.rs.model;
 
-/*
- *  candra.assasin@gmail.com
- */
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -88,6 +84,24 @@ public class Employee implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="create_by")
 	private Users createBy;
+	
+	@Column(name="village")
+	private String village;
+	
+	@Column(name="religion", length=50)
+	private String religion;
+	
+	@Column(name="blood_type", length=2)
+	private String bloodType;
+	
+	@Column(name="marital_status", length=50)
+	private String maritalStatus;
+	
+	@Column(name="education")
+	private String education;
+	
+	@Column(name="major")
+	private String major;
 	
 	public Long getIdEmployee() {
 		return idEmployee;
@@ -223,6 +237,54 @@ public class Employee implements Serializable {
 
 	public void setDateExpiredIdentityNumber(Date dateExpiredIdentityNumber) {
 		this.dateExpiredIdentityNumber = dateExpiredIdentityNumber;
+	}
+
+	public String getVillage() {
+		return village;
+	}
+
+	public void setVillage(String village) {
+		this.village = village;
+	}
+
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
 	}
 
 }
