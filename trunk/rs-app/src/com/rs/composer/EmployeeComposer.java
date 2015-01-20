@@ -7,11 +7,13 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
+import org.zkoss.zul.Window;
 
 import com.rs.dao.EmployeeDao;
 import com.rs.dao.OccupationDao;
@@ -19,25 +21,43 @@ import com.rs.dao.UsersDao;
 import com.rs.model.Employee;
 import com.rs.model.Occupation;
 import com.rs.model.Users;
+import com.rs.util.CommonUtil;
 
 public class EmployeeComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 	
-	private List<Employee> listEmployee;
-	private Employee selectedEmployee;
+	private String patternDate = "DD-MM-YYYY";
 	
 	@Wire
+	private Window win;
+	@Wire
 	private Listbox lbxEmployee;
+	@Wire
+	private Grid grdAdd;
 	
 	@Listen ("onCreate = #win")
 	public void win(){
 		isLooged();
 		loadDataEmployee();
+		grdAdd.setVisible(false);
+	}
+	
+	@Listen ("onClick = #tbnList")
+	public void tbnListClick(){
+		lbxEmployee.setVisible(true);
+		grdAdd.setVisible(false);
+		win.setTitle("List Data Karyawan");
+	}
+	
+	@Listen ("onClick = #tbnAdd")
+	public void tbnAddClick(){
+		lbxEmployee.setVisible(false);
+		grdAdd.setVisible(true);
+		win.setTitle("Tambah Karyawan Baru");
 	}
 	
 	
 	private void loadDataEmployee() {
-		selectedEmployee = null;
 		
 		OccupationDao occupationDao = new OccupationDao();
 		Occupation occupation = new Occupation();
@@ -59,18 +79,17 @@ public class EmployeeComposer extends BaseComposer {
 					Criterion cr2 = Restrictions.eq("idEmployee", obj);
 					List<Users> listUser = userDao.loadBy(Order.desc("idUser"), cr2);
 					
-					String isActive = "AKTIF";
-					String statusUser = "-";
+					String isActive = "NON";
 					
-					if (listUser.size() > 0) {
-						users = listUser.get(0);
-						statusUser = "AKTIF";
-						System.out.println("users = "+users.getIdEmployee().getIdEmployee());
+					if (obj.getStatus().equals("Y")) {
+						isActive = "OK";
 					}
 					
-					
+					String registerDate = CommonUtil.dateFormat(obj.getRegisterDate(), patternDate);
 					
 					Listcell lc = new Listcell(Integer.toString(number++));
+					li.appendChild(lc);
+					lc = new Listcell(registerDate);
 					li.appendChild(lc);
 					lc = new Listcell(obj.getNik());
 					li.appendChild(lc);
@@ -82,9 +101,9 @@ public class EmployeeComposer extends BaseComposer {
 					li.appendChild(lc);
 					lc = new Listcell(obj.getOccupationId()!=null ? obj.getOccupationId().getOccupationName():"");
 					li.appendChild(lc);
-					lc = new Listcell(isActive);
+					lc = new Listcell(obj.getIdentityNumber());
 					li.appendChild(lc);
-					lc = new Listcell(statusUser);
+					lc = new Listcell(isActive);
 					li.appendChild(lc);
 					
 				}
