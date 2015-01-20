@@ -15,7 +15,7 @@ public class EmployeeController {
 	@RequestMapping(value={"", "index"}, method=RequestMethod.GET)
 	public String index(HttpServletRequest request, ModelMap model){
 		model.addAttribute("title", "Karyawan");
-		return "zul/employee/home_employee.zul";
+		return "zul/employee/employee.zul";
 	}
 
 }
