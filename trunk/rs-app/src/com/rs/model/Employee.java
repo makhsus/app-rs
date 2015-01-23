@@ -103,6 +103,9 @@ public class Employee implements Serializable {
 	@Column(name="major")
 	private String major;
 	
+	@Column(name="place_of_birth", length=50)
+	private String placeOfBirth;
+	
 	public Long getIdEmployee() {
 		return idEmployee;
 	}
@@ -285,6 +288,14 @@ public class Employee implements Serializable {
 
 	public void setMajor(String major) {
 		this.major = major;
+	}
+
+	public String getPlaceOfBirth() {
+		return placeOfBirth;
+	}
+
+	public void setPlaceOfBirth(String placeOfBirth) {
+		this.placeOfBirth = placeOfBirth;
 	}
 
 }
