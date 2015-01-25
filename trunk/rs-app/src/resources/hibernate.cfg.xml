@@ -22,10 +22,16 @@
         <property name="hibernate.connection.username">padidev</property>
         <property name="hibernate.connection.password">padicon123</property> -->
         
-        <!-- Server MySQL Configuration -->
-        <property name="hibernate.connection.url">jdbc:mysql://128.199.167.199:3306/tes</property>
+        <!-- Local MySQL Configuration -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/dbrs</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">ticketingdb123</property>
+        <property name="hibernate.connection.password"></property>
+        
+        
+        <!-- Server MySQL Configuration -->
+        <!-- <property name="hibernate.connection.url">jdbc:mysql://128.199.167.199:3306/tes</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">ticketingdb123</property> -->
         
 		<mapping class="com.rs.model.Mahasiswa" />
 		<mapping class="com.rs.model.City" />
@@ -42,6 +48,10 @@
 		<mapping class="com.rs.model.MedicalRecords" />
 		<mapping class="com.rs.model.SubOccupation" />
 		<mapping class="com.rs.model.ContentConfig" />
+		<mapping class="com.rs.model.Supplier" />
+		<mapping class="com.rs.model.Medicament" />
+		<mapping class="com.rs.model.MedicamentPurchases" />
+		<mapping class="com.rs.model.MedicamentPurchasesItems" />
 		
 		
     </session-factory>
