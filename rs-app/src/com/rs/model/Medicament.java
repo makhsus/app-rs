@@ -33,7 +33,7 @@ public class Medicament implements Serializable {
 	private String medicamentName;
 	
 	@ManyToOne
-	@JoinColumn(name="supplier", referencedColumnName="supplier_id")
+	@JoinColumn(name="supplier")
 	private Supplier supplier;
 	
 	@Column(name="medicament_unit", length=20, nullable=false)
