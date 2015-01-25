@@ -12,6 +12,16 @@
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
 			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
 			<menuitem id="mntmAdmisi" label="Admisi" href="/admisi"/>
+			<menu id="mnApotek" label="Apotek">
+				<menupopup>
+					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicament/patient"/>
+					<menuseparator/>
+					<menuitem id="mntmObat" label="Data Obat" href="/medicament"/>
+					<menuitem id="mntmSupplier" label="Supplier" href="/medicament/supplier"/>
+					<menuseparator/>
+					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicament/purchase"/>
+				</menupopup>
+			</menu>
 			<!-- <menu id="mnPatient" label="Patient">
 				<menupopup>
 					<menuitem id="mntmRegRj" label="Registrasi Rawat Jalan" href="/patient/regOutpatiens" />

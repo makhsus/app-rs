@@ -31,7 +31,7 @@ public class LogInOutComposer extends BaseComposer {
 			sessionZk.setAttribute(CommonUtil.SESSION_FACTORY, sessionFactory);
 		}
 		
-		System.out.println("WII: "+sessionZk.getAttribute(CommonUtil.LOGIN_USER));
+		System.out.println("Session: "+sessionZk.getAttribute(CommonUtil.LOGIN_USER));
 		
 		if(sessionZk.getAttribute(CommonUtil.LOGIN_USER) != null){
 			Executions.sendRedirect("/home");
