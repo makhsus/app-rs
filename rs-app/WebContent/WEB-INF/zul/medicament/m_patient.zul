@@ -1,0 +1,28 @@
+<?page title="Obat Pasien" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="" border="normal">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add"  disabled="true"/>
+		</toolbar>
+		<grid>
+			<columns>
+				<column label="" width="20%"/>
+				<column label=""/>
+			</columns>
+			<rows>
+				<row>
+					<label />
+					<button id="btnAddAdmisi" label="Cari Admisi"/>
+				</row>
+				<row>
+					<label value="Nomor Registrasi" />
+					<label id="lblNoreg"/>
+				</row>
+			</rows>
+		</grid>
+		
+	</window>
+</zk>
