@@ -1,0 +1,22 @@
+<?page title="Supplier" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title="Supplier" border="normal" apply="com.rs.composer.SupplierMedicamentComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" disabled="true" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+		</toolbar>
+		<listbox id="lbxSupplier" mold="paging" pageSize="20">
+			<listhead>
+				<listheader label="NO" width="40px" />
+				<listheader label="NAMA" />
+				<listheader label="KODE" width="100px" />
+				<listheader label="TELEPON" width="130px" />
+				<listheader label="ALAMAT" />
+				<listheader label="IS ACTIVE" width="80px" />
+				<listheader label="#" width="10%"/>
+			</listhead>
+		</listbox>
+	</window>
+</zk>
