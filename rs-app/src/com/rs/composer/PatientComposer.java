@@ -7,6 +7,9 @@ import java.util.List;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
@@ -139,7 +142,7 @@ public class PatientComposer extends BaseComposer {
 		//System.out.println("list: "+list);
 		
 		lbxList.getItems().clear();
-		for(Patient obj: list){
+		for(final Patient obj: list){
 			Listitem li = new Listitem();
 			lbxList.appendChild(li);
 			
@@ -154,6 +157,12 @@ public class PatientComposer extends BaseComposer {
 			lc = new Listcell(obj.getPhone());
 			li.appendChild(lc);
 			Button btnA = new Button("Daftar Admisi");
+			btnA.addEventListener("onClick", new EventListener<Event>() {
+				@Override
+				public void onEvent(Event arg0) throws Exception {
+					Executions.sendRedirect("/admisi?patientId="+obj.getId().toString());
+				}
+			});
 			lc = new Listcell("");
 			lc.appendChild(btnA);
 			li.appendChild(lc);

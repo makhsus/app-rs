@@ -1,5 +1,6 @@
 package com.rs.composer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -65,6 +68,8 @@ public class AdmisiComposer extends BaseComposer {
 	private String patternJam = "HH:mm";
 	private String recordStatusNew = "NEW";
 	
+	private String patientId = null;
+	
 	
 	@Wire
 	private Window winSelectSchedule, winMedicalRecord;
@@ -85,6 +90,15 @@ public class AdmisiComposer extends BaseComposer {
 	@Wire
 	private Textbox tbxAlergi, tbxAnamnesi, tbxDiagnosa, tbxPlan, tbxResepObat;
 	
+	@Override
+	public void doAfterCompose(Component comp) throws Exception {
+		// TODO Auto-generated method stub
+		super.doAfterCompose(comp);
+		
+		Execution execution = Executions.getCurrent();
+		patientId = execution.getParameter("patientId");
+		
+	}
 	
 	@Listen ("onCreate = #win")
 	public void winCreate(){
@@ -96,6 +110,28 @@ public class AdmisiComposer extends BaseComposer {
 		loadDataPasienToListbox();
 		loadPolyToListbox();
 		loadAdmisiToListbox();
+		
+		if (patientId != null && !patientId.equalsIgnoreCase("")){
+			
+			PatientDao dao = new PatientDao();
+			dao.setSessionFactory(sessionFactory);
+			
+			Criterion criterion = Restrictions.eq("id", Long.parseLong(patientId));
+			Patient patient;
+			try{
+				patient = dao.loadBy(Order.asc("name"), criterion).get(0);
+			}catch(Exception e){
+				e.printStackTrace();
+				patient = null;
+			}
+			
+			if (patient != null ){
+				tbnAddClick();
+				patientSelected = patient;
+				bdxPasien.setValue(patientSelected.getName()+" - "+patientSelected.getCardNumber());
+			}
+			
+		}
 	}
 	
 	@Listen ("onClick = #tbnList")
