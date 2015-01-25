@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name="apt_supplier")
+@Table(name="supplier")
 public class Supplier implements Serializable {
 	private static final long serialVersionUID = 3448025803207298346L;
 
