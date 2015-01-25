@@ -1,5 +1,6 @@
 package com.rs.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -186,5 +187,22 @@ public class CommonUtil {
 		un.setUniqueNumber(uniqueNumber);
 		
 		return un;
+	}
+	
+	public static String formatStringIDR(int param){
+		String result = "0";
+		
+		try {
+			String paramStr = Integer.toString(param);
+			double parsDouble = Double.parseDouble(paramStr);
+			DecimalFormat formatter = new DecimalFormat("#,###.##");
+			
+			result = formatter.format(parsDouble);
+			
+		} catch (Exception e) {
+			System.out.println("Exception: "+e.getMessage());
+		}
+		
+		return result;
 	}
 }
