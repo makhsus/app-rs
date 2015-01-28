@@ -9,11 +9,11 @@
 			<rows>
 				<row>
 					Username:
-					<textbox id="tbxUsername" type="text" placeholder="Enter UserName" value="rssa-rc-01" />
+					<textbox id="tbxUsername" type="text" placeholder="Enter UserName" value="candra" />
 				</row>
 				<row>
 					PassWord:
-					<textbox id="tbxPassword" type="password" placeholder="Enter Password" value="rssa-rc-01" />
+					<textbox id="tbxPassword" type="password" placeholder="Enter Password" value="candra" />
 				</row>
 				<row spans="2" style="text-align:center">
 					<button id="btnLogin" label="Login" />
