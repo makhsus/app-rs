@@ -14,12 +14,12 @@
 			<menuitem id="mntmAdmisi" label="Admisi" href="/admisi"/>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
-					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicament/patient"/>
+					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicine/patient"/>
 					<menuseparator/>
-					<menuitem id="mntmObat" label="Data Obat" href="/medicament"/>
-					<menuitem id="mntmSupplier" label="Supplier" href="/medicament/supplier"/>
+					<menuitem id="mntmObat" label="Data Obat" href="/medicine"/>
+					<menuitem id="mntmSupplier" label="Supplier" href="/medicine/supplier"/>
 					<menuseparator/>
-					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicament/purchase"/>
+					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicine/purchase"/>
 				</menupopup>
 			</menu>
 			<!-- <menu id="mnPatient" label="Patient">
