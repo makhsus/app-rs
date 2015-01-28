@@ -15,9 +15,6 @@
 				<column value="" />
 			</columns>
 			<rows>
-				<row spans="3">
-					<label value="Cari Pasien" />
-				</row>
 				<row>
 					<label value="Nomor Kartu" />
 					<label value=" : " />

@@ -1,7 +1,7 @@
 <?page title="Admisi" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="../menu.zul" />
-	<window id="win" title="Admisi" border="normal" apply="com.rs.composer.AdmisiComposer">
+	<window id="win" title="Admisi" border="normal" apply="com.rs.composer.AdmissionComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List" />
 			<toolbarbutton label="|" disabled="true" />
@@ -9,9 +9,6 @@
 			<toolbarbutton label="|" disabled="true" />
 			<toolbarbutton id="tbnEdit" label="Edit" />
 			<toolbarbutton label="|" disabled="true" />
-			<toolbarbutton id="tbnMedicalRecord" label="Rekam Medis" />
-			<toolbarbutton label="|" disabled="true" />
-			<toolbarbutton id="tbnStatus" label="Change Status" />
 		</toolbar>
 		<grid id="grdAddEdit" visible="false">
 			<auxhead>

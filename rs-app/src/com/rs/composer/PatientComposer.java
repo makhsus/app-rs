@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -160,6 +162,9 @@ public class PatientComposer extends BaseComposer {
 			btnA.addEventListener("onClick", new EventListener<Event>() {
 				@Override
 				public void onEvent(Event arg0) throws Exception {
+//					Execution exec = Executions.getCurrent();
+//					exec.getDesktop().setAttribute("tes", "tes");
+//					exec.sendRedirect("/admisi");
 					Executions.sendRedirect("/admisi?patientId="+obj.getId().toString());
 				}
 			});
