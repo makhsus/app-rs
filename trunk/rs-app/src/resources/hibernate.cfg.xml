@@ -49,10 +49,10 @@
 		<mapping class="com.rs.model.SubOccupation" />
 		<mapping class="com.rs.model.ContentConfig" />
 		<mapping class="com.rs.model.Supplier" />
-		<mapping class="com.rs.model.Medicament" />
-		<mapping class="com.rs.model.MedicamentPurchases" />
-		<mapping class="com.rs.model.MedicamentPurchasesItems" />
-		<mapping class="com.rs.model.MedicamentPatient" />
+		<mapping class="com.rs.model.Medicine" />
+		<mapping class="com.rs.model.MedicinePurchases" />
+		<mapping class="com.rs.model.MedicinePurchasesItems" />
+		<mapping class="com.rs.model.MedicinePatient" />
 		
 		
     </session-factory>
