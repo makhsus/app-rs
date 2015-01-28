@@ -19,6 +19,9 @@ import com.rs.util.HibernateUtil;
 
 public class LogInOutComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
+	
+	private static final int USER_ROLE_ADMIN = 1;
+	private static final int USER_ROLE_RECEPTIONIST = 2;
 
 	@Wire
 	private Textbox tbxUsername, tbxPassword;
@@ -54,7 +57,8 @@ public class LogInOutComposer extends BaseComposer {
 		Criterion crLogon1 = Restrictions.eq("userName", username);
 		Criterion crLogon2 = Restrictions.eq("password", password);
 		List<Users> listUsers = dao.loadBy(Order.asc("idUser"), crLogon1, crLogon2);
-		//System.out.println("listUser: "+listUsers.size());
+		//List<Users> listUsers = dao.loadAll(null);
+		System.out.println("listUser: "+listUsers.size());
 		
 		if(listUsers.size()<1){
 			Messagebox.show("Sorry, We can't find your account!");
@@ -62,7 +66,22 @@ public class LogInOutComposer extends BaseComposer {
 		}else{
 			Users user = listUsers.get(0);
 			sessionZk.setAttribute(CommonUtil.LOGIN_USER, user);
-			Executions.sendRedirect("/home");
+			
+			int roleId = user.getIdRole().getIdRole().intValue();
+			
+			switch (roleId) {
+			case USER_ROLE_ADMIN:
+				Executions.sendRedirect("/home");
+				break;
+				
+			case USER_ROLE_RECEPTIONIST:
+				Executions.sendRedirect("/admission");
+				break;
+
+			default:
+				break;
+			}
+			
 		}
 		
 	}
