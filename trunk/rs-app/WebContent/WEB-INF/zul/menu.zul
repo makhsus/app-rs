@@ -11,7 +11,7 @@
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
 			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
-			<menuitem id="mntmAdmisi" label="Admisi" href="/admisi"/>
+			<menuitem id="mntmAdmisi" label="Admisi" href="/admission"/>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
 					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicine/patient"/>
@@ -22,11 +22,6 @@
 					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicine/purchase"/>
 				</menupopup>
 			</menu>
-			<!-- <menu id="mnPatient" label="Patient">
-				<menupopup>
-					<menuitem id="mntmRegRj" label="Registrasi Rawat Jalan" href="/patient/regOutpatiens" />
-				</menupopup>
-			</menu> -->
 			<menu id="mnUserLogin" label="Users">
 				<menupopup>
 					<menuitem id="mntmProfile" label="Akun Saya" />
