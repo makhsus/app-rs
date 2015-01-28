@@ -1,0 +1,23 @@
+<?page title="Obat" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<window id="win" title=" Data Obat" border="normal" apply="com.rs.composer.MedicamentComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List" disabled="true" />
+			<toolbarbutton label="|" disabled="true" />
+			<toolbarbutton id="tbnAdd" label="Add" />
+		</toolbar>
+		<listbox id="lbxObat" mold="paging" pageSize="20">
+			<listhead>
+				<listheader label="NO" width="40px" />
+				<listheader label="NAMA" />
+				<listheader label="KODE" width="100px" />
+				<listheader label="SUPPLIER"/>
+				<listheader label="SATUAN" width="100px" />
+				<listheader label="HRG. BELI"/>	
+				<listheader label="HRG. JUAL"/>	
+				<listheader label="#" width="10%"/>
+			</listhead>
+		</listbox>
+	</window>
+</zk>
