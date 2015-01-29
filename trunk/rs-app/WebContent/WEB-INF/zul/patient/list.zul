@@ -1,8 +1,21 @@
 <?page title="${title}" contentType="text/html;charset=UTF-8"?>
 <zk>
+
+	<style dynamic="true">
+		.titlePage{ 
+			margin-left:8px; 
+			font-size:24pt; 
+			color:#777777; 
+		}
+	</style>
+
+	<vbox>
+		<space />
+		<space />
+		<label sclass="titlePage" value="Pasien RS. Siti Aminah" />
+	</vbox>
 	<include src="../menu.zul" />
-	<window id="win" title="Pasien Rumah Sakit Siti Aminah"
-		border="normal" apply="com.rs.composer.PatientComposer">
+	<window id="win" border="normal" apply="com.rs.composer.PatientComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List Pasien" />
 			<toolbarbutton label="|" disabled="true" />

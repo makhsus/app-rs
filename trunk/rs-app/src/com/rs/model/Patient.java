@@ -88,6 +88,17 @@ public class Patient implements Serializable {
 	public String getGender() {
 		return gender;
 	}
+	
+	public String getGenderString() {
+		String genString = "";
+		if (gender.equalsIgnoreCase("F")){
+			genString = "Perempuan";
+		}else{
+			genString = "Laki - laki";
+		}
+			
+		return genString;
+	}
 
 	public void setGender(String gender) {
 		this.gender = gender;

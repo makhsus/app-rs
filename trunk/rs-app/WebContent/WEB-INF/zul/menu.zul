@@ -9,8 +9,6 @@
 				</menupopup>
 			</menu>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
-			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
-			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
 			<menuitem id="mntmAdmisi" label="Admisi" href="/admission"/>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
@@ -22,6 +20,8 @@
 					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicine/purchase"/>
 				</menupopup>
 			</menu>
+			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
+			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
 			<menu id="mnUserLogin" label="Users">
 				<menupopup>
 					<menuitem id="mntmProfile" label="Akun Saya" />
