@@ -2,8 +2,10 @@ package com.rs.composer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.hibernate.Criteria;
@@ -30,6 +32,7 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Panel;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
@@ -79,7 +82,7 @@ public class AdmissionComposer extends BaseComposer {
 	@Wire
 	private Grid grdAddEdit;
 	@Wire
-	private Listbox lbxList, lbxPasien, lbxPoly, lbxAdmission;
+	private Listbox lbxPasien, lbxPoly, lbxAdmission;
 	@Wire 
 	private Bandbox bdxPasien;
 	@Wire 
@@ -92,6 +95,12 @@ public class AdmissionComposer extends BaseComposer {
 	private Label lblDokter, lblJam, lblRegNo, lblNamaPasien, lblAlergi, lblAnamnesi, lblDiagnosa, lblPlan, lblResepObat;
 	@Wire
 	private Textbox tbxAlergi, tbxAnamnesi, tbxDiagnosa, tbxPlan, tbxResepObat;
+	
+	@Wire
+	private Panel pnlAdmissionRRJ, pnlAdmissionRRI, pnlAdmissionIGD, pnlAdmissionLAB;
+	
+	@Wire
+	private Listbox lbxAdmissionRRJ, lbxAdmissionRRI, lbxAdmissionIGD, lbxAdmissionLAB;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -136,6 +145,27 @@ public class AdmissionComposer extends BaseComposer {
 			}
 			
 		}
+	}
+	
+	
+	@Listen ("onCreate = #pnlAdmissionRRJ")
+	public void onCreatePanelAdmissionRRJ(){
+		pnlAdmissionRRJ.setTitle("Daftar Rawat Jalan - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	}
+	
+	@Listen ("onCreate = #pnlAdmissionRRI")
+	public void onCreatePanelAdmissionRRI(){
+		pnlAdmissionRRI.setTitle("Daftar Rawat Inap - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	}
+	
+	@Listen ("onCreate = #pnlAdmissionIGD")
+	public void onCreatePanelAdmissionIGD(){
+		pnlAdmissionIGD.setTitle("Daftar Instalasi Gawat Darurat - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	}
+	
+	@Listen ("onCreate = #pnlAdmissionLAB")
+	public void onCreatePanelAdmissionLAB(){
+		pnlAdmissionLAB.setTitle("Daftar Laboratorium - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
 	}
 	
 	@Listen ("onClick = #tbnList")
@@ -241,13 +271,6 @@ public class AdmissionComposer extends BaseComposer {
 		clearTambahAdmisi();
 	}
 	
-	@Listen ("onSelect = #lbxList")
-	public void lbxListSelect(){
-		if(admissionList!=null){
-			int index = lbxList.getSelectedIndex();
-			admissionSelected = admissionList.get(index);
-		}
-	}
 	
 	@Listen ("onClick = #tbnMedicalRecord")
 	public void tbnMedicalRecordClick(){
@@ -481,14 +504,14 @@ public class AdmissionComposer extends BaseComposer {
 	}
 	
 	private void loadAdmisiToListbox(){
-		lbxList.getItems().clear();
+		lbxAdmissionRRJ.getItems().clear();
 		
 		AdmissionDao dao = new AdmissionDao();
 		dao.setSessionFactory(sessionFactory);
 		List<Admission> list = dao.loadAll(Order.desc("admId"));
 		admissionList = list;
 		
-		lbxList.setModel(new ListModelList<>(list));
+		lbxAdmissionRRJ.setModel(new ListModelList<>(list));
 		ListitemRenderer<Admission> renderer = new ListitemRenderer<Admission>() {
 			@Override
 			public void render(Listitem listitem, Admission obj, int index) throws Exception {
@@ -500,7 +523,7 @@ public class AdmissionComposer extends BaseComposer {
 				listitem.appendChild(new Listcell(CommonUtil.dateFormat(obj.getAdmDate(), "dd MMM yyyy")));
 			}
 		};
-		lbxList.setItemRenderer(renderer);
+		lbxAdmissionRRJ.setItemRenderer(renderer);
 	}
 	
 	private void loadAdmisiCategoryToListbox(){

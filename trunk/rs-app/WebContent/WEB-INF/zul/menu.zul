@@ -1,4 +1,4 @@
-<panel id="pnlMenu" apply="com.rs.composer.MenuComposer">
+<panel id="pnlMenu" apply="com.rs.composer.MenuComposer" border="normal">
 	<panelchildren>
 		<menubar>
 			<menuitem id="mntmHome" label="Beranda" href="/home" />
