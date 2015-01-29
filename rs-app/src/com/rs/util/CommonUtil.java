@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.hibernate.SessionFactory;
@@ -81,6 +82,15 @@ public class CommonUtil {
 		String result = "";
 		
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		result = sdf.format(date);
+		
+		return result;
+	}
+	
+	public static String dateFormat(Date date, String pattern, Locale locale){
+		String result = "";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern, locale);
 		result = sdf.format(date);
 		
 		return result;
