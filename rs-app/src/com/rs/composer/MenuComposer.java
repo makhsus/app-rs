@@ -52,8 +52,9 @@ public class MenuComposer extends BaseComposer {
 			mntmHome.setVisible(false);
 			mnDataUsers.setVisible(false);
 			mntmPoly.setVisible(false);
-			mntmJp.setVisible(false);
-			mntmPatient.setVisible(false);
+			mntmJp.setVisible(true);
+			mntmPatient.setVisible(true);
+			mntmAdmisi.setVisible(true);
 			mnApotek.setVisible(false);
 			mntmSample.setVisible(false);
 			break;

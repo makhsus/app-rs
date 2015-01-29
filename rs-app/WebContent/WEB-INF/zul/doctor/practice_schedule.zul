@@ -1,7 +1,20 @@
 <?page title="Jadwal Praktek Dokter" contentType="text/html;charset=UTF-8"?>
 <zk>
+	<style dynamic="true">
+		.titlePage{ 
+			margin-left:8px; 
+			font-size:24pt; 
+			color:#777777; 
+		}
+	</style>
+
+	<vbox>
+		<space />
+		<space />
+		<label sclass="titlePage" value="Jadwal Praktik Dokter RS. Siti Aminah" />
+	</vbox>
 	<include src="../menu.zul" />
-	<window id="winSchedule" title="Jadwal Prakter Dokter" border="normal" apply="com.rs.composer.PracticScheduleComposer">
+	<window id="winSchedule" border="normal" apply="com.rs.composer.PracticScheduleComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List" />
 			<toolbarbutton label="|" disabled="true" />

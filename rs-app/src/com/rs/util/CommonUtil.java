@@ -13,6 +13,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
+import org.joda.time.Years;
 
 import com.rs.bean.DayBean;
 import com.rs.dao.UniqueNumberDao;
@@ -92,6 +95,38 @@ public class CommonUtil {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern, locale);
 		result = sdf.format(date);
+		
+		return result;
+	}
+	
+	public static String getAge(Date birthdate){
+		String result = "";
+		
+		if (birthdate != null){
+			DateTime now = new DateTime();
+			DateTime bdate = new DateTime();
+			try{
+				bdate = new DateTime(birthdate);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			int yearsDiff = Years.yearsBetween(bdate, now).getYears();
+			int monthsDiff = Months.monthsBetween(bdate, now).getMonths();
+			int monthsLeft = monthsDiff - (yearsDiff * 12);
+			
+			String yString = "";
+			String mString = "";
+			
+			if (yearsDiff > 0){
+				yString = yearsDiff+" tahun ";
+			}
+			if (monthsLeft > 0){
+				mString = monthsLeft+" bulan ";
+			}
+			result = yString+mString;
+			
+		}
 		
 		return result;
 	}

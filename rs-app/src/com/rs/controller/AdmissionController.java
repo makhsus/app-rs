@@ -11,15 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admission")
 public class AdmissionController {
 	
-	@RequestMapping(value={"add"}, method=RequestMethod.GET)
-	public String add(HttpServletRequest request, ModelMap model){
-		model.addAttribute("title", "Daftar Admisi");
-		return "zul/admission/add.zul";
-	}
 	
 	@RequestMapping(value={"", "list"}, method=RequestMethod.GET)
 	public String list(HttpServletRequest request, ModelMap model){
 		model.addAttribute("title", "List Admission");
-		return "zul/admission/list.zul";
+		return "zul/admission/admission.zul";
 	}
 }

@@ -233,8 +233,5 @@ public class PatientComposer extends BaseComposer {
 		}else{
 			loadDataPatient(cardNo, name);
 		}
-		
-		
-				
 	}
 }
