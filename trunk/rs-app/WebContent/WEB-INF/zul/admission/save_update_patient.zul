@@ -11,6 +11,11 @@
 			</columns>
 			
 			<rows>
+				<row visible="false">
+					<label value="ID USer" />
+					<textbox id="tbxId" width="100%"/>
+
+				</row>
 				<row>
 					<label value="No. Kartu RS" />
 					<textbox id="tbxCardNo" constraint="no empty" width="100%"/>

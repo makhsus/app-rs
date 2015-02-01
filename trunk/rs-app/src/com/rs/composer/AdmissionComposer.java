@@ -75,7 +75,7 @@ public class AdmissionComposer extends BaseComposer {
 	@Wire
 	private Listbox lbxReligion, lbxEducation, lbxOccupation;
 	@Wire
-	private Textbox tbxCardNo, tbxName, tbxHusbandWifeName, tbxParentName, tbxAddress, tbxPhone, tbxOtherReligion, tbxOtherEducation, tbxOtherOccupation;
+	private Textbox tbxId, tbxCardNo, tbxName, tbxHusbandWifeName, tbxParentName, tbxAddress, tbxPhone, tbxOtherReligion, tbxOtherEducation, tbxOtherOccupation;
 	@Wire
 	private Datebox dtbBirthdate;
 	@Wire
@@ -332,11 +332,8 @@ public class AdmissionComposer extends BaseComposer {
 	@Listen("onClick = #btnEditPatient")
 	public void clickButtonEditPatient(){
 		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admission/save_update_patient.zul", null, null);
+		windowAdd.setAttribute("patient", selectedPatient);
         windowAdd.doModal();
-        
-        Map<String, Object> map = new HashMap<String, Object>();
-		map.put("patient", selectedPatient);
-		EventQueues.lookup("onPatientQueue", EventQueues.DESKTOP, true).publish(new Event("patientBeginEditing", null, map));
 	}
 	
 	@Listen("onClick = #btnDeletePatient")
@@ -348,10 +345,14 @@ public class AdmissionComposer extends BaseComposer {
 	public void onCreateWinSaveUpdatePatient(){
 		isLooged();
 		
-		subscribeToEventQueues("onPatientQueue");
 		loadReligionToListbox();
 		loadEducationToListbox();
 		loadOccupationToListbox();
+		
+		Patient patient = (Patient) winSaveUpdatePatient.getAttribute("patient");
+		if (patient != null){
+			setPatientToView(patient);
+		}
 	}
 	
 	private void loadReligionToListbox(){
@@ -466,6 +467,10 @@ public class AdmissionComposer extends BaseComposer {
 		}
 		else{
 			Patient patient = new Patient();
+			
+			if (tbxId.getText() != null && !tbxId.getText().equalsIgnoreCase("")){
+				patient.setId(Long.parseLong(tbxId.getText()));
+			}
 			patient.setCardNumber(tbxCardNo.getText());
 			patient.setName(tbxName.getText());
 			patient.setGender(rgGender.getSelectedIndex() == 0 ? "M" : "F");
@@ -500,10 +505,66 @@ public class AdmissionComposer extends BaseComposer {
 	
 	
 	public void setPatientToView(Patient patient){
+		
+		String id = patient.getId().toString() != null ? patient.getId().toString() : "";
 		String cardNo = patient.getCardNumber() != null ? patient.getCardNumber() : "";
+		String name = patient.getName() != null ? patient.getName().toUpperCase() : "";
+		String gender = patient.getGender() != null ? patient.getGender() : "";
+		String maritalStatus = patient.getMaritalStatus() != null ? patient.getMaritalStatus() : "";
+		String husbandName = patient.getHusbandName() != null ? patient.getHusbandName() : "";
+		String wifeName = patient.getWifeName() != null ? patient.getWifeName() : "";
+		String parentName = patient.getParentName() != null ? patient.getParentName() : "";
+		Date birthdate = patient.getBirthdate() != null ? patient.getBirthdate() : null;
+		String age = birthdate != null ? CommonUtil.getAge(birthdate) : "-";
+		String religion = patient.getReligion() != null ? patient.getReligion() : "";
+		String address = patient.getAddress() != null ? patient.getAddress() : "";
+		String education = patient.getLastStudy() != null ? patient.getLastStudy() : "";
+		String occupation = patient.getOccupation() != null ? patient.getOccupation() : "";
+		String phone = patient.getPhone() != null ? patient.getPhone() : "";
 		
+		int rIndex = 0;
+		for (int i=0 ; i<lbxReligion.getListModel().getSize(); i++){
+			rIndex = i;
+			ContentConfig config = (ContentConfig) lbxReligion.getListModel().getElementAt(i); 
+			if (religion.equalsIgnoreCase(config.getValue1())){
+				break;
+			}
+		}
 		
+		int eIndex = 0;
+		for (int i=0 ; i<lbxEducation.getListModel().getSize(); i++){
+			eIndex = i;
+			ContentConfig config = (ContentConfig) lbxEducation.getListModel().getElementAt(i); 
+			if (education.equalsIgnoreCase(config.getValue1())){
+				break;
+			}
+		}
+		
+		int oIndex = 0;
+		for (int i=0 ; i<lbxOccupation.getListModel().getSize(); i++){
+			oIndex = i;
+			ContentConfig config = (ContentConfig) lbxOccupation.getListModel().getElementAt(i); 
+			if (occupation.equalsIgnoreCase(config.getValue1())){
+				break;
+			}
+		}
+		
+		tbxId.setText(id);
 		tbxCardNo.setText(cardNo);
+		tbxName.setText(name);
+		rgGender.setSelectedIndex( gender.equalsIgnoreCase("F") ? 1 : 0 );
+		rgMaritalStatus.setSelectedIndex( maritalStatus.equalsIgnoreCase("Menikah") ? 1 : 0 );
+		tbxHusbandWifeName.setText(husbandName.equalsIgnoreCase("") ? wifeName : husbandName);
+		tbxParentName.setText(parentName);
+		dtbBirthdate.setValue(birthdate);
+		lblAge.setValue(age);
+		lbxReligion.setSelectedIndex(rIndex);
+		tbxAddress.setText(address);
+		lbxEducation.setSelectedIndex(eIndex);
+		lbxOccupation.setSelectedIndex(oIndex);
+		tbxPhone.setText(phone);
+		
+		
 	}
 	
 	
@@ -524,13 +585,6 @@ public class AdmissionComposer extends BaseComposer {
 						lbxPatient.setVisible(false);
 						
 						setDetailPatientValue(patient);
-					}
-					else if(event.getName().equals("patientBeginEditing")){
-						@SuppressWarnings("unchecked")
-						Map<String, Object> map = (Map<String, Object>) event.getData();
-						Patient patient = (Patient) map.get("patient");
-						
-						setPatientToView(patient);
 					}
 				}
 			}
