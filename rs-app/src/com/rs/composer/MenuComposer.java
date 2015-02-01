@@ -19,7 +19,7 @@ public class MenuComposer extends BaseComposer {
 	private Menu mnDataUsers, mnApotek, mnUserLogin;
 	
 	@Wire
-	private Menuitem mntmHome, mntmPoly, mntmJp, mntmPatient, mntmAdmisi, mntmSample;
+	private Menuitem mntmHome, mntmPoly, mntmJp, mntmPatient, mntmFrontDesk, mntmSample;
 	
 	
 	@Listen("onCreate = #pnlMenu")
@@ -54,7 +54,7 @@ public class MenuComposer extends BaseComposer {
 			mntmPoly.setVisible(false);
 			mntmJp.setVisible(true);
 			mntmPatient.setVisible(true);
-			mntmAdmisi.setVisible(true);
+			mntmFrontDesk.setVisible(true);
 			mnApotek.setVisible(false);
 			mntmSample.setVisible(false);
 			break;

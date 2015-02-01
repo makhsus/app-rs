@@ -75,7 +75,7 @@ public class LogInOutComposer extends BaseComposer {
 				break;
 				
 			case USER_ROLE_RECEPTIONIST:
-				Executions.sendRedirect("/admission");
+				Executions.sendRedirect("/frontdesk/home");
 				break;
 
 			default:
