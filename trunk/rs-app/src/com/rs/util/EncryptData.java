@@ -64,5 +64,11 @@ public class EncryptData {
 		md5 = md.digest();
 		return convertedToHex(md5);
 	}
+	
+	public static String EncryptPassword(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		String encrypt = EncryptMD5(text);
+		String lastEncrypt = hashSHA1(encrypt);
+		return lastEncrypt;
+	}
 
 }
