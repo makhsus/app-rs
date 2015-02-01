@@ -78,8 +78,8 @@ public class Employee implements Serializable {
 	private Date updateDate;
 
 	@ManyToOne
-	@JoinColumn(name="occupation")
-	private Occupation occupationId;	
+	@JoinColumn(name="sub_occupation")
+	private SubOccupation subOccupationId;	
 	
 	@ManyToOne
 	@JoinColumn(name="create_by")
@@ -210,12 +210,12 @@ public class Employee implements Serializable {
 		this.updateDate = updateDate;
 	}
 
-	public Occupation getOccupationId() {
-		return occupationId;
+	public SubOccupation getSubOccupationId() {
+		return subOccupationId;
 	}
 
-	public void setOccupationId(Occupation occupationId) {
-		this.occupationId = occupationId;
+	public void setSubOccupationId(SubOccupation subOccupationId) {
+		this.subOccupationId = subOccupationId;
 	}
 
 	public Users getCreateBy() {
