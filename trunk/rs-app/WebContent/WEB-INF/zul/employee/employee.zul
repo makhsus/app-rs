@@ -1,7 +1,7 @@
 <?page title="Manajemen User" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="../menu.zul" />
-	<window id="win" title="Karyawan" border="normal" apply="com.rs.composer.EmployeeComposer">
+	<window id="winEmployee" title="Karyawan" border="normal" apply="com.rs.composer.EmployeeComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List Data Karyawan" />
 			<toolbarbutton label="|" disabled="true" />
@@ -15,78 +15,154 @@
 				<listheader label="Nama Lengkap" />
 				<listheader label="Telp./HP" />
 				<listheader label="JK" width="2%" align="center"/>
-				<listheader label="Jabatan" />
 				<listheader label="No.Identitas" />
-				<listheader label="Status" />
+				<listheader label="Jabatan" />
+				<listheader label="Group Jabatan" />
 			</listhead>
 		</listbox>
 		<radiogroup id="rgGender" />
 		<grid id="grdAdd">
 			<columns>
-				<column value="" width="180px" />
+				<column value="" width="180px"/>
+				<column value="" width="20px" />
+				<column value="" width="350px" />
+				<column value="" width="100px"/>
+				<column value="" width="20px" />
+				<column value="" />
+				<column value="" width="100px"/>
 				<column value="" width="20px" />
 				<column value="" />
 			</columns>
 			<rows>
 				<row>
 					<cell>
-						<vbox>
+						<hbox>
 							<label value="Nomor Induk Karyawan" />
-							<label style="color: red" value="*wajib diisi"/>
-						</vbox>
+							<label style="color: red" value="*"/>
+						</hbox>
 					</cell>
 					<label value=" : " />
-					<textbox id="tbxNik" />
+					<textbox id="tbxNik" width="300px" constraint="no empty:Nomor Induk Karyawan harus diisi"/>
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
 				</row>
 				<row>
 					<cell>
-						<vbox>
+						<hbox>
 							<label value="Nama Lengkap" />
-							<label style="color: red" value="*wajib diisi"/>
-						</vbox>
+							<label style="color: red" value="*"/>
+						</hbox>
 					</cell>
 					<label value=" : " />
-					<textbox id="tbxFullName" />
+					<textbox id="tbxFullName" width="300px" constraint="no empty:Nama Lengkap harus diisi"/>
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
 				</row>
 				<row>
 					<cell>
 						<vbox>
+						<hbox>
 							<label value="Nomor Identitas " />
+							<label style="color: red" value="*"/>
+						</hbox>
 							<label style="color: blue" value="*ktp/passport/sim dsb."/>
-							<label style="color: red" value="*wajib diisi"/>
 						</vbox>
 					</cell>
 					<label value=" : " />
-					<textbox id="tbxIdentityNumber" />
-				</row>
-				<row>
-					<cell>
-						<vbox>
-							<label value="Tgl. Berlaku Nomor Identitas" />
-							<label style="color: red" value="*wajib diisi"/>
-						</vbox>
-					</cell>
+					<textbox id="tbxIdentityNumber" width="300px"/>
+					<label value="Berlaku sampai" />
 					<label value=" : " />
-					<datebox id="dtbExpiredIdentityNumber" format="dd MMM yyyy" width="150px" />
+					<datebox id="dtbExpiredIdentityNumber" format="dd MMM yyyy" width="250px" onCreate="self.value = new Date()"/>
+					<label value="" />
+					<label value="" />
+					<label value="" />
 				</row>
 				<row>
 					<label value="Jenis Kelamin" />
 					<label value=" : " />
-					<cell>
-						<hbox>
-							<radio id="raMale" label="Laki-laki"
-								radiogroup="rgGender" checked="true"/>
-							<radio id="raFemale" label="Perempuan"
-								radiogroup="rgGender" />
-						</hbox>
+					<hbox>
+						<radio id="raMale" label="Laki-laki" radiogroup="rgGender" checked="true" value="L"/>
+						<radio id="raFemale" label="Perempuan" radiogroup="rgGender" value="P"/>
+					</hbox>
+					<label value="Gol. Darah"/>
+					<label value=" : " />
+					<listbox id="lbxBloodType" mold="select" width="250px"/>
+					<label value="Agama" />
+					<label value=" : " />
+					<listbox id="lbxReligion" mold="select" width="250px"/>
+				</row>
+				<row>
+					<label value="Tempat Lahir" />
+					<label value=" : " />
+					<textbox id="tbxPlaceOfBirth" width="300px" />
+					<label value="Tanggal Lahir" width="150px" />
+					<label value=" : " />
+					<datebox id="dtbDateOfBirth" format="dd MMM yyyy" width="250px" onCreate="self.value = new Date()"/>
+					<label value="" />
+					<label value="" />
+					<label value="" />
+				</row>
+				<row>
+					<label value="Alamat Lengkap" />
+					<label value=" : " />
+					<textbox id="tbxAddress" width="300px" rows="5" cols="5"/>
+					<label value="Desa / Kecamatan" />
+					<label value=" : " />
+					<textbox id="tbxVillage" width="250px"/>
+					<label value="Kota/Propinsi" />
+					<label value=" : " />
+					<vbox>
+						<listbox id="lbxProvinces" mold="select" width="250px"/>
+						<listbox id="lbxCities" mold="select" width="250px"/>
+					</vbox>
+				</row>
+				<row>
+					<label value="Email" />
+					<label value=" : " />
+					<textbox id="tbxEmail" width="300px" />
+					<label value="No. HP / Telp"/>
+					<label value=" : " />
+					<textbox id="tbxPhoneNumber" width="250px" />
+					<label value="" />
+					<label value="" />
+					<label value="" />
+				</row>
+				<row>
+					<label value="Pendidikan" />
+					<label value=" : " />
+					<listbox id="lbxEducation" mold="select" width="300px"/>
+					<label value="Jurusan"/>
+					<label value=" : " />
+					<textbox id="tbxMajor" width="250px"/>
+					<label value="Status"/>
+					<label value=" : " />
+					<listbox id="lbxMaritalStatus" mold="select" width="250px"/>
+				</row>
+				<row>
+					<label value="Group Karyawan" />
+					<label value=" : " />
+					<listbox id="lbxOccupation" mold="select" width="300px"/>
+					<label value="Status Karyawan"/>
+					<label value=" : " />
+					<cell colspan="2" >
+					<listbox id="lbxSubOccupation" mold="select" width="250px"/>
 					</cell>
 				</row>
 				<row>
-					<label value="" />
-					<label value="" />
-					<hbox>
-						<button id="btnSearch" label="Submit" />
-					</hbox>
+					<cell colspan="5"  align="center">
+						<button id="btnAddEmployee" label="Tambah Karyawan" width="300px"/>
+					</cell>
+					<cell colspan="4"  align="center">
+						<button id="btnClose" label="Batalkan" width="300px"/>
+					</cell>
 				</row>
 			</rows>
 		</grid>
