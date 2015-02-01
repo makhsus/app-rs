@@ -9,7 +9,7 @@
 				</menupopup>
 			</menu>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
-			<menuitem id="mntmAdmisi" label="Admisi" href="/admission"/>
+			<menuitem id="mntmFrontDesk" label="Front Desk" href="/frontdesk/home"/>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
 					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicine/patient"/>
