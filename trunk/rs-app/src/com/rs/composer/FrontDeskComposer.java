@@ -44,7 +44,7 @@ import com.rs.model.Users;
 import com.rs.util.CommonUtil;
 import com.rs.util.JavaScriptUtil;
 
-public class AdmissionComposer extends BaseComposer {
+public class FrontDeskComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 
 	private List<Patient> patientList;
@@ -55,11 +55,11 @@ public class AdmissionComposer extends BaseComposer {
 	
 	
 	@Wire
-	private Panel pnlAdmissionRRJ, pnlAdmissionRRI, pnlAdmissionIGD, pnlAdmissionLAB;
+	private Panel pnlRRJ, pnlRRI, pnlIGD, pnlLAB, pnlPatientSearchList;
 	@Wire
 	private Listbox lbxPatient;
 	@Wire
-	private Listbox lbxAdmissionRRJ, lbxAdmissionRRI, lbxAdmissionIGD, lbxAdmissionLAB;
+	private Listbox lbxRRJ, lbxRRI, lbxIGD, lbxLAB;
 	@Wire
 	private Groupbox boxPatient, boxEmpty;
 	@Wire
@@ -129,47 +129,47 @@ public class AdmissionComposer extends BaseComposer {
 	}
 	
 	
-	@Listen ("onCreate = #pnlAdmissionRRJ")
-	public void onCreatePanelAdmissionRRJ(){
-		pnlAdmissionRRJ.setTitle("Daftar Rawat Jalan - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	@Listen ("onCreate = #pnlRRJ")
+	public void onCreatePanelRRJ(){
+		pnlRRJ.setTitle("Daftar Rawat Jalan - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
 	}
 	
-	@Listen ("onCreate = #pnlAdmissionRRI")
-	public void onCreatePanelAdmissionRRI(){
-		pnlAdmissionRRI.setTitle("Daftar Rawat Inap - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	@Listen ("onCreate = #pnlRRI")
+	public void onCreatePanelRRI(){
+		pnlRRI.setTitle("Daftar Rawat Inap - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
 	}
 	
-	@Listen ("onCreate = #pnlAdmissionIGD")
-	public void onCreatePanelAdmissionIGD(){
-		pnlAdmissionIGD.setTitle("Daftar Instalasi Gawat Darurat - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	@Listen ("onCreate = #pnlIGD")
+	public void onCreatePanelIGD(){
+		pnlIGD.setTitle("Daftar Instalasi Gawat Darurat - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
 	}
 	
-	@Listen ("onCreate = #pnlAdmissionLAB")
-	public void onCreatePanelAdmissionLAB(){
-		pnlAdmissionLAB.setTitle("Daftar Laboratorium - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
+	@Listen ("onCreate = #pnlLAB")
+	public void onCreatePanelLAB(){
+		pnlLAB.setTitle("Daftar Laboratorium - "+CommonUtil.dateFormat(new Date(), "EEEE, dd MMM yyyy", new Locale("id", "ID")));
 	}
 	
 	
 	private void loadAdmisiToListbox(){
-		lbxAdmissionRRJ.getItems().clear();
-		
-		AdmissionDao dao = new AdmissionDao();
-		dao.setSessionFactory(sessionFactory);
-		List<Admission> list = dao.loadAll(Order.desc("admId"));
-		
-		lbxAdmissionRRJ.setModel(new ListModelList<>(list));
-		ListitemRenderer<Admission> renderer = new ListitemRenderer<Admission>() {
-			@Override
-			public void render(Listitem listitem, Admission obj, int index) throws Exception {
-				listitem.appendChild(new Listcell(obj.getRegistrationNo()));
-				listitem.appendChild(new Listcell(Integer.toString(obj.getSequenceNo())));
-				listitem.appendChild(new Listcell(obj.getPatient().getName()));
-				listitem.appendChild(new Listcell(obj.getDoctor().getFullName()));
-				listitem.appendChild(new Listcell(obj.getPoly().getPolyclinicCode()));
-				listitem.appendChild(new Listcell(CommonUtil.dateFormat(obj.getAdmDate(), "dd MMM yyyy")));
-			}
-		};
-		lbxAdmissionRRJ.setItemRenderer(renderer);
+//		lbxRRJ.getItems().clear();
+//		
+//		AdmissionDao dao = new AdmissionDao();
+//		dao.setSessionFactory(sessionFactory);
+//		List<Admission> list = dao.loadAll(Order.desc("admId"));
+//		
+//		lbxAdmissionRRJ.setModel(new ListModelList<>(list));
+//		ListitemRenderer<Admission> renderer = new ListitemRenderer<Admission>() {
+//			@Override
+//			public void render(Listitem listitem, Admission obj, int index) throws Exception {
+//				listitem.appendChild(new Listcell(obj.getRegistrationNo()));
+//				listitem.appendChild(new Listcell(Integer.toString(obj.getSequenceNo())));
+//				listitem.appendChild(new Listcell(obj.getPatient().getName()));
+//				listitem.appendChild(new Listcell(obj.getDoctor().getFullName()));
+//				listitem.appendChild(new Listcell(obj.getPoly().getPolyclinicCode()));
+//				listitem.appendChild(new Listcell(CommonUtil.dateFormat(obj.getAdmDate(), "dd MMM yyyy")));
+//			}
+//		};
+//		lbxAdmissionRRJ.setItemRenderer(renderer);
 	}
 	
 
@@ -189,6 +189,22 @@ public class AdmissionComposer extends BaseComposer {
 	
 	
 	private void loadDataPatient(String cardNo, String name){
+		String titleStr = "Daftar Pasien untuk pencarian ";
+		
+		if (!cardNo.equalsIgnoreCase("")){
+			titleStr += "nomor kartu "+ "\"" +cardNo + "\"";
+			
+			if (!name.equalsIgnoreCase("")){
+				titleStr += " dan ";
+			}
+		}
+		if (!name.equalsIgnoreCase("")){
+			titleStr += "nama "+ "\"" +name + "\"";
+		}
+		
+		pnlPatientSearchList.setTitle(titleStr);
+		
+		
 		PatientDao dao = new PatientDao();
 		dao.setSessionFactory(sessionFactory);
 		
@@ -220,15 +236,15 @@ public class AdmissionComposer extends BaseComposer {
 			Listitem li = new Listitem();
 			lbxPatient.appendChild(li);
 			
-			Listcell lc = new Listcell(obj.getId().toString());
-			li.appendChild(lc);
-			lc = new Listcell(obj.getName());
+			Listcell lc = new Listcell(obj.getName());
 			li.appendChild(lc);
 			lc = new Listcell(obj.getCardNumber());			
 			li.appendChild(lc);
-			lc = new Listcell(obj.getGender());
+			lc = new Listcell(obj.getGenderString());
 			li.appendChild(lc);
 			lc = new Listcell(obj.getPhone());
+			li.appendChild(lc);
+			lc = new Listcell(obj.getAddress());
 			li.appendChild(lc);
 		}
 		
@@ -240,12 +256,12 @@ public class AdmissionComposer extends BaseComposer {
 			
 			if (list.size() == 1){
 				boxPatientDetail.setVisible(true);
-				lbxPatient.setVisible(false);
+				pnlPatientSearchList.setVisible(false);
 				
 				setDetailPatientValue(list.get(0));
 			}else{
 				boxPatientDetail.setVisible(false);
-				lbxPatient.setVisible(true);
+				pnlPatientSearchList.setVisible(true);
 			}
 		}else{
 			boxPatient.setVisible(false);
@@ -349,6 +365,10 @@ public class AdmissionComposer extends BaseComposer {
 					dao.setSessionFactory(sessionFactory);
 					if(dao.delete(selectedPatient)){
 						Messagebox.show("Pasien berhasil dihapus", "Hapus Pasien", Messagebox.OK, Messagebox.EXCLAMATION);
+						
+						boxPatient.setVisible(false);
+						boxEmpty.setVisible(false);
+						btnSearchClick();
 					}else{
 						Messagebox.show("Gagal menghapus pasien", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
 					}
@@ -599,7 +619,7 @@ public class AdmissionComposer extends BaseComposer {
 						boxPatient.setVisible(true);
 						boxEmpty.setVisible(false);
 						boxPatientDetail.setVisible(true);
-						lbxPatient.setVisible(false);
+						pnlPatientSearchList.setVisible(false);
 						
 						setDetailPatientValue(patient);
 					}
