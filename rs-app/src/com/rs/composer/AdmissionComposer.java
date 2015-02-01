@@ -336,8 +336,25 @@ public class AdmissionComposer extends BaseComposer {
         windowAdd.doModal();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Listen("onClick = #btnDeletePatient")
 	public void clickButtonDeletePatient(){
+		Messagebox.show("Nama : "+selectedPatient.getName()+"\n"+
+				"No. Kartu : "+selectedPatient.getCardNumber()+"\n\n"+
+				"Anda yakin ingin menghapus pasien?", 
+				"Hapus Pasien", Messagebox.YES | Messagebox.NO,Messagebox.QUESTION, new EventListener(){
+			public void onEvent(Event e){
+				if("onYes".equals(e.getName())){
+					PatientDao dao = new PatientDao();
+					dao.setSessionFactory(sessionFactory);
+					if(dao.delete(selectedPatient)){
+						Messagebox.show("Pasien berhasil dihapus", "Hapus Pasien", Messagebox.OK, Messagebox.EXCLAMATION);
+					}else{
+						Messagebox.show("Gagal menghapus pasien", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+					}
+				}
+			}
+		});
 	}
 	
 	
@@ -359,7 +376,7 @@ public class AdmissionComposer extends BaseComposer {
 		ContentConfigDao dao = new ContentConfigDao();
 		dao.setSessionFactory(sessionFactory);
 		
-		List<ContentConfig> list = dao.getReligions();
+		List<ContentConfig> list = dao.getDataReligion();
 		
 		lbxReligion.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
@@ -376,7 +393,7 @@ public class AdmissionComposer extends BaseComposer {
 		ContentConfigDao dao = new ContentConfigDao();
 		dao.setSessionFactory(sessionFactory);
 		
-		List<ContentConfig> list = dao.getEducations();
+		List<ContentConfig> list = dao.getDataEducation();
 		
 		lbxEducation.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
@@ -393,7 +410,7 @@ public class AdmissionComposer extends BaseComposer {
 		ContentConfigDao dao = new ContentConfigDao();
 		dao.setSessionFactory(sessionFactory);
 		
-		List<ContentConfig> list = dao.getOccupations();
+		List<ContentConfig> list = dao.getDataWork();
 		
 		lbxOccupation.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
