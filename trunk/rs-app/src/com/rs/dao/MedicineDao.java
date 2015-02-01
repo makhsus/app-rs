@@ -1,6 +1,6 @@
 package com.rs.dao;
 
-import com.rs.model.Medicine;;
+import com.rs.model.Medicine;
 
 public class MedicineDao extends CommonDao<Medicine> {
 

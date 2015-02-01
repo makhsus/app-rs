@@ -1,0 +1,111 @@
+<zk>
+<window id="winSaveUpdatePatient" title="Pasien Baru" border="normal"
+	width="560px" apply="com.rs.composer.AdmissionComposer"
+	position="center,center" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<grid>
+			<columns>
+				<column value="" width="160px" />
+				<column value="" />
+			</columns>
+			
+			<rows>
+				<row>
+					<label value="No. Kartu RS" />
+					<textbox id="tbxCardNo" constraint="no empty" width="100%"/>
+
+				</row>
+				<row>
+					<label value="Nama Pasien" />
+					<textbox id="tbxName" constraint="no empty" width="100%" onChange="self.setText(self.getText().toUpperCase().trim());" />
+				</row>
+				<row>
+					<label value="Jenis Kelamin" />
+					<radiogroup id="rgGender" >
+						<radio id="raMale" label="Laki-laki" checked="true"/>
+						<space></space>
+						<radio id="raFemale" label="Perempuan"/>
+					</radiogroup>
+				</row>
+				<row>
+					<label value="Status Perkawinan" />
+					<radiogroup id="rgMaritalStatus" >
+						<radio id="raSingle" label="Lajang" checked="true" onCheck='raHusband.setChecked(false); raHusband.setDisabled(true); raWife.setChecked(false); raWife.setDisabled(true); tbxHusbandWifeName.setDisabled(true); tbxHusbandWifeName.setText("")'/>
+						<space/>
+						<radio id="raMarried" label="Menikah"  onCheck='raHusband.setDisabled(false); raHusband.setChecked(true); raWife.setDisabled(false); tbxHusbandWifeName.setDisabled(false);'/>
+						<space/>
+						<radio id="raJA" label="Jomblo Akut"/>
+						<space/>
+						<radio id="raLDR" label="LDR"/>
+					</radiogroup>
+				</row>
+				<row>
+					<hbox>
+						<label value="Nama" />
+						<radiogroup id="rgHusbandWife" >
+							<radio id="raHusband" label="Suami" disabled="true"/>
+							<label value=" / " />
+							<radio id="raWife" label="Istri" disabled="true"/>
+						</radiogroup>
+					</hbox>
+					
+					<textbox id="tbxHusbandWifeName" width="100%" disabled="true" onChange="self.setText(self.getText().toUpperCase().trim());" />
+				</row>
+				<row>
+					<label value="Nama Orang tua" />
+					<textbox id="tbxParentName" width="100%" onChange="self.setText(self.getText().toUpperCase().trim());" />					
+				</row>
+				<row>
+					<label value="Tanggal Lahir" />
+					<datebox id="dtbBirthdate" format="dd MMM yyyy" width="100%" constraint="no empty" />
+				</row>
+				<row>
+					<label value="Umur" />
+					<label id="lblAge" value="-" />
+				</row>
+				<row>
+					<label value="Agama" />
+					<vbox width="100%">
+						<listbox id="lbxReligion" mold="select" hflex="2"/>
+						<textbox id="tbxOtherReligion" placeholder="Sebutkan" width="100%" visible="false" constraint="no empty"/>
+					</vbox>
+					
+
+				</row>
+				<row>
+					<label value="Alamat" />
+					<textbox id="tbxAddress" width="100%" constraint="no empty" rows="6" />
+				</row>
+				<row>
+					<label value="Pendidikan" />
+					<vbox width="100%">
+						<listbox id="lbxEducation" mold="select" hflex="2"/>
+						<textbox id="tbxOtherEducation" placeholder="Sebutkan" width="100%" visible="false" constraint="no empty"/>
+					</vbox>
+
+				</row>
+				<row>
+					<label value="Pekerjaan" />
+					<vbox width="100%">
+						<listbox id="lbxOccupation" mold="select" hflex="2"/>
+						<textbox id="tbxOtherOccupation" placeholder="Sebutkan" width="100%" visible="false" constraint="no empty"/>
+					</vbox>
+
+				</row>
+				<row>
+					<label value="No. Telp. / HP" />
+					<textbox id="tbxPhone" width="100%" />
+
+				</row>
+			</rows>
+		</grid>
+		
+		
+		<hbox align="end" pack="end" width="100%">
+			<button id="btnSaveClose" label="Batal" onClick="winSaveUpdatePatient.detach()" />
+			<button id="btnSaveSubmit" label="Simpan Pasien"  />
+		</hbox>
+	</vlayout>
+</window>
+</zk>

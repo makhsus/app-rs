@@ -2,8 +2,10 @@ package com.rs.composer;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -12,8 +14,12 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -21,59 +27,61 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
+import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Vbox;
+import org.zkoss.zul.Window;
 
 import com.rs.dao.AdmissionDao;
+import com.rs.dao.ContentConfigDao;
 import com.rs.dao.PatientDao;
 import com.rs.model.Admission;
+import com.rs.model.ContentConfig;
 import com.rs.model.Patient;
-import com.rs.model.Polyclinic;
-import com.rs.model.PracticSchedule;
 import com.rs.model.Users;
 import com.rs.util.CommonUtil;
+import com.rs.util.JavaScriptUtil;
 
 public class AdmissionComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 
 	private List<Patient> patientList;
-	private List<Polyclinic> polyList;
-	private List<String> admCategoryList;
-	private List<Admission> admissionList;
 	private Users loggedUser;
-	private Polyclinic polySelected;
-	private PracticSchedule scheduleSelectedFromHome;
-	private PracticSchedule scheduleSelectedFromSelection;
-	private Admission admissionSelected;
-	private Admission admissionAddEdit;
-	
-	private String patternJam = "HH:mm";
-	private String recordStatusNew = "NEW";
 	
 	private String patientId = null;
+	private Patient selectedPatient;
 	
 	
 	@Wire
 	private Panel pnlAdmissionRRJ, pnlAdmissionRRI, pnlAdmissionIGD, pnlAdmissionLAB;
-	
 	@Wire
 	private Listbox lbxPatient;
-	
 	@Wire
 	private Listbox lbxAdmissionRRJ, lbxAdmissionRRI, lbxAdmissionIGD, lbxAdmissionLAB;
-	
 	@Wire
 	private Groupbox boxPatient, boxEmpty;
-	
 	@Wire
 	private Vbox boxPatientDetail;
-	
 	@Wire
 	private Textbox tbxSearchCardNo, tbxSearchName;
+	@Wire
+	private Label lblPatientName, lblPatientCardNo, lblPatientGender, lblPatientBirthdate, lblPatientAge, lblPatientReligion, lblPatientMaritalStatus, lblPatientHusbandWifeName, lblPatientOccupation, lblPatientEducation, lblPatientPhone, lblPatientParent, lblPatientAddress, lblEmptyDetail;
+	
 	
 	@Wire
-	private Label lblPatientName, lblPatientCardNo, lblPatientGender, lblPatientBirthdate, lblPatientAge, lblPatientReligion, lblPatientOccupation, lblPatientAddress, lblEmptyDetail;
+	private Window winSaveUpdatePatient;
+	@Wire
+	private Listbox lbxReligion, lbxEducation, lbxOccupation;
+	@Wire
+	private Textbox tbxCardNo, tbxName, tbxHusbandWifeName, tbxParentName, tbxAddress, tbxPhone, tbxOtherReligion, tbxOtherEducation, tbxOtherOccupation;
+	@Wire
+	private Datebox dtbBirthdate;
+	@Wire
+	private Radiogroup rgGender, rgMaritalStatus, rgHusbandWife;
+	@Wire
+	private Label lblAge;
 	
 	
 	@Override
@@ -87,11 +95,11 @@ public class AdmissionComposer extends BaseComposer {
 	}
 	
 	@Listen ("onCreate = #win")
-	public void winCreate(){
+	public void onCreateWin(){
 		isLooged();
 		loggedUser = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		
-		
+		subscribeToEventQueues("onPatientQueue");
 		boxPatient.setVisible(false);
 		boxEmpty.setVisible(false);
 		
@@ -148,7 +156,6 @@ public class AdmissionComposer extends BaseComposer {
 		AdmissionDao dao = new AdmissionDao();
 		dao.setSessionFactory(sessionFactory);
 		List<Admission> list = dao.loadAll(Order.desc("admId"));
-		admissionList = list;
 		
 		lbxAdmissionRRJ.setModel(new ListModelList<>(list));
 		ListitemRenderer<Admission> renderer = new ListitemRenderer<Admission>() {
@@ -259,7 +266,7 @@ public class AdmissionComposer extends BaseComposer {
 				emptyDetail += "nama "+ name;
 			}
 			
-			emptyDetail += " tidak dapat ditemukan.";
+			emptyDetail += " tidak dapat ditemukan";
 			lblEmptyDetail.setValue(emptyDetail);
 		}
 	}
@@ -277,14 +284,30 @@ public class AdmissionComposer extends BaseComposer {
 	
 	
 	public void setDetailPatientValue(Patient patient){
+		this.selectedPatient = patient;
+		
+		String husbandWifeName = "-";
+		if (patient.getHusbandName() != null && patient.getWifeName() == null){
+			husbandWifeName = patient.getHusbandName();
+		}
+		else if (patient.getWifeName() != null && patient.getHusbandName() == null){
+			husbandWifeName = patient.getWifeName();
+		}
+		
 		lblPatientName.setValue(patient.getName() != null ? patient.getName() : "-");
 		lblPatientCardNo.setValue("No. Kartu RS : " + (patient.getCardNumber() != null ? patient.getCardNumber() : "-"));
 		lblPatientGender.setValue(patient.getGender() != null ? patient.getGenderString() : "-");
 		lblPatientBirthdate.setValue(patient.getBirthdate() != null ? CommonUtil.dateFormat(patient.getBirthdate(), "dd MMM yyyy", new Locale("id", "ID")) : "-");
 		lblPatientAge.setValue(patient.getBirthdate() != null ? CommonUtil.getAge(patient.getBirthdate()) : "-");
 		lblPatientReligion.setValue(patient.getReligion() != null ? patient.getReligion() : "-");
+		lblPatientMaritalStatus.setValue(patient.getMaritalStatus() != null ? patient.getMaritalStatus() : "-");
+		lblPatientHusbandWifeName.setValue(husbandWifeName);
 		lblPatientOccupation.setValue(patient.getOccupation() != null ? patient.getOccupation() : "-");
+		lblPatientEducation.setValue(patient.getLastStudy() != null ? patient.getLastStudy() : "-");
+		lblPatientPhone.setValue(patient.getPhone() != null ? patient.getPhone() : "-");
+		lblPatientParent.setValue(patient.getParentName() != null ? patient.getParentName() : "-");
 		lblPatientAddress.setValue(patient.getAddress() != null ? patient.getAddress() : "-");
+		
 	}
 	
 	// in your controller
@@ -298,6 +321,220 @@ public class AdmissionComposer extends BaseComposer {
 	@Listen("onOK = #tbxSearchName")
 	public void onQueryName(Event event) {
 		btnSearchClick();
+	}
+	
+	@Listen("onClick = #btnAddPatient")
+	public void clickButtonAddPatient(){
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admission/save_update_patient.zul", null, null);
+        windowAdd.doModal();
+	}
+	
+	@Listen("onClick = #btnEditPatient")
+	public void clickButtonEditPatient(){
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admission/save_update_patient.zul", null, null);
+        windowAdd.doModal();
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+		map.put("patient", selectedPatient);
+		EventQueues.lookup("onPatientQueue", EventQueues.DESKTOP, true).publish(new Event("patientBeginEditing", null, map));
+	}
+	
+	@Listen("onClick = #btnDeletePatient")
+	public void clickButtonDeletePatient(){
+	}
+	
+	
+	@Listen("onCreate = #winSaveUpdatePatient")
+	public void onCreateWinSaveUpdatePatient(){
+		isLooged();
+		
+		subscribeToEventQueues("onPatientQueue");
+		loadReligionToListbox();
+		loadEducationToListbox();
+		loadOccupationToListbox();
+	}
+	
+	private void loadReligionToListbox(){
+		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		List<ContentConfig> list = dao.getReligions();
+		
+		lbxReligion.setModel(new ListModelList<>(list));
+		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
+			@Override
+			public void render(Listitem item, ContentConfig obj, int index) throws Exception {
+				item.appendChild(new Listcell(obj.getValue1()));
+			}
+		};
+		lbxReligion.setItemRenderer(renderer);
+		lbxReligion.setSelectedIndex(0);
+	}
+	
+	private void loadEducationToListbox(){
+		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		List<ContentConfig> list = dao.getEducations();
+		
+		lbxEducation.setModel(new ListModelList<>(list));
+		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
+			@Override
+			public void render(Listitem item, ContentConfig obj, int index) throws Exception {
+				item.appendChild(new Listcell(obj.getValue1()));
+			}
+		};
+		lbxEducation.setItemRenderer(renderer);
+		lbxEducation.setSelectedIndex(0);
+	}
+	
+	private void loadOccupationToListbox(){
+		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		List<ContentConfig> list = dao.getOccupations();
+		
+		lbxOccupation.setModel(new ListModelList<>(list));
+		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
+			@Override
+			public void render(Listitem item, ContentConfig obj, int index) throws Exception {
+				item.appendChild(new Listcell(obj.getValue1()));
+			}
+		};
+		lbxOccupation.setItemRenderer(renderer);
+		lbxOccupation.setSelectedIndex(0);
+	}
+	
+	@Listen ("onSelect = #lbxReligion")
+	public void lbxReligionSelect(){
+		if (lbxReligion.getSelectedIndex() == lbxReligion.getListModel().getSize()-1)
+			tbxOtherReligion.setVisible(true);
+		else
+			tbxOtherReligion.setVisible(false);
+	}
+	
+	@Listen ("onSelect = #lbxEducation")
+	public void lbxEducationSelect(){
+		if (lbxEducation.getSelectedIndex() == lbxEducation.getListModel().getSize()-1)
+			tbxOtherEducation.setVisible(true);
+		else
+			tbxOtherEducation.setVisible(false);
+	}
+	
+	@Listen ("onSelect = #lbxOccupation")
+	public void lbxOccupationSelect(){
+		if (lbxOccupation.getSelectedIndex() == lbxOccupation.getListModel().getSize()-1)
+			tbxOtherOccupation.setVisible(true);
+		else
+			tbxOtherOccupation.setVisible(false);
+	}
+	
+	@Listen ("onChange = #dtbBirthdate")
+	public void dtbBirthdateChange(){
+		if (dtbBirthdate.getValue() != null){
+			lblAge.setValue(CommonUtil.getAge(dtbBirthdate.getValue()));
+		}
+	}
+	
+	@Listen ("onClick = #btnSaveSubmit")
+	public void btnSaveSubmitClick(){
+		String jqCommand = JavaScriptUtil.shakeWindow("winSaveUpdatePatient");
+		
+		if (tbxCardNo.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxName.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (dtbBirthdate.getValue() == null){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxName.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxOtherReligion.isVisible() && tbxOtherReligion.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxAddress.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxOtherEducation.isVisible() && tbxOtherEducation.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else if (tbxOtherOccupation.isVisible() && tbxOtherOccupation.getText().equalsIgnoreCase("")){
+			Clients.evalJavaScript(jqCommand);
+		}
+		else{
+			Patient patient = new Patient();
+			patient.setCardNumber(tbxCardNo.getText());
+			patient.setName(tbxName.getText());
+			patient.setGender(rgGender.getSelectedIndex() == 0 ? "M" : "F");
+			patient.setMaritalStatus(rgMaritalStatus.getSelectedItem().getLabel());
+			patient.setHusbandName( !tbxHusbandWifeName.isDisabled() && rgHusbandWife.getSelectedIndex() == 0 ? tbxHusbandWifeName.getText() : "");
+			patient.setWifeName( !tbxHusbandWifeName.isDisabled() && rgHusbandWife.getSelectedIndex() == 1 ? tbxHusbandWifeName.getText() : "");
+			patient.setParentName(tbxParentName.getText() != null ? tbxParentName.getText() : "");
+			patient.setBirthdate(dtbBirthdate.getValue());
+			patient.setReligion(tbxOtherReligion.isVisible() ? tbxOtherReligion.getText() : lbxReligion.getSelectedItem().getLabel());
+			patient.setAddress(tbxAddress.getText());
+			patient.setLastStudy(tbxOtherEducation.isVisible() ? tbxOtherEducation.getText() : lbxEducation.getSelectedItem().getLabel());
+			patient.setOccupation(tbxOtherOccupation.isVisible() ? tbxOtherOccupation.getText() : lbxOccupation.getSelectedItem().getLabel());
+			patient.setPhone(tbxPhone.getText());
+			
+			patient.setCreatedBy(loggedUser);
+			patient.setCreatedDate(new Date());
+			
+			PatientDao dao = new PatientDao();
+			dao.setSessionFactory(sessionFactory);
+			if(dao.saveOrUpdate(patient)){
+				winSaveUpdatePatient.detach();
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("patient", patient);
+				EventQueues.lookup("onPatientQueue", EventQueues.DESKTOP, true).publish(new Event("patientDidSave", null, map));
+			}else{
+				Clients.evalJavaScript(jqCommand);
+				Messagebox.show("Gagal menyimpan data", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			}
+		}
+	}
+	
+	
+	public void setPatientToView(Patient patient){
+		String cardNo = patient.getCardNumber() != null ? patient.getCardNumber() : "";
+		
+		
+		tbxCardNo.setText(cardNo);
+	}
+	
+	
+	
+	public void subscribeToEventQueues(final String eventQueueName){
+		EventQueues.lookup(eventQueueName, EventQueues.DESKTOP, true).subscribe(new EventListener<Event>() {
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if(eventQueueName.equals("onPatientQueue")){
+					if(event.getName().equals("patientDidSave")){
+						@SuppressWarnings("unchecked")
+						Map<String, Object> map = (Map<String, Object>) event.getData();
+						Patient patient = (Patient) map.get("patient");
+						
+						boxPatient.setVisible(true);
+						boxEmpty.setVisible(false);
+						boxPatientDetail.setVisible(true);
+						lbxPatient.setVisible(false);
+						
+						setDetailPatientValue(patient);
+					}
+					else if(event.getName().equals("patientBeginEditing")){
+						@SuppressWarnings("unchecked")
+						Map<String, Object> map = (Map<String, Object>) event.getData();
+						Patient patient = (Patient) map.get("patient");
+						
+						setPatientToView(patient);
+					}
+				}
+			}
+		});
 	}
 	
 }

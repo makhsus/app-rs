@@ -44,44 +44,94 @@
 				</hbox>
 				<space />
 				<space />
-				<hbox align="center" pack="center" width="100%">
+				<vbox align="center" pack="center" width="100%">
 					<button id="btnSearch" label="Cari Pasien" width="240px" />
-				</hbox>
+					<space/>
+					<space/>
+					<label style="color:#777777;">Pasien baru?</label>
+					<button id="btnAddPatient" label="Tambah Pasien" width="240px" />
+				</vbox>
 				<space />
 				<groupbox id="boxPatient" style="margin-left:16px; margin-right:16px;">
 					<vbox style="padding:16px;">
 						<vbox id="boxPatientDetail">
 							<label id="lblPatientName" style="font-size:18pt; color:#777777;">Glen Rynaldi Hermanus</label>
-							<label id="lblPatientCardNo" style="color:#777777;">Nomor Kartu : PT0001230123</label>
+							<hbox align="center">
+								<label id="lblPatientCardNo" style="color:#777777;">Nomor Kartu : PT0001230123</label>
+								
+								<space/>
+								<space/>
+								
+								<button id="btnEditPatient" label="Edit Pasien"/>
+								<button id="btnDeletePatient" label="Hapus Pasien"/>
+							</hbox>
+							
 							<grid>
 								<columns>
-									<column width="160px"></column>
-									<column></column>
+									<column width="160px"/>
+									<column width="20px"/>
+									<column/>
+									<column width="160px"/>
+									<column width="20px"/>
+									<column/>
 								</columns>
 								<rows>
 									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Jenis Kelamin</label>
+										<label style="color:#777777; font-weight:bold;">Jenis Kelamin</label>
+										<label style="color:#777777;"> : </label>
 										<label id="lblPatientGender" style="color:#777777;">Laki - Laki</label>
-									</row>
-									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Tanggal Lahir</label>
+										
+										<label style="color:#777777; font-weight:bold;">Tanggal Lahir</label>
+										<label style="color:#777777;"> : </label>
 										<label id="lblPatientBirthdate" style="color:#777777;">27 Desember 1990</label>
 									</row>
 									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Umur</label>
+										<label style="color:#777777; font-weight:bold;">Agama</label>
+										<label style="color:#777777;"> : </label>
+										<label id="lblPatientReligion" style="color:#777777;">Islam</label>
+										
+										<label style="color:#777777; font-weight:bold;">Umur</label>
+										<label style="color:#777777;"> : </label>
 										<label id="lblPatientAge" style="color:#777777;">23 tahun</label>
 									</row>
 									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Agama</label>
-										<label id="lblPatientReligion" style="color:#777777;">Islam</label>
+										<label style="color:#777777; font-weight:bold;">Status Perkawinan</label>
+										<label style="color:#777777;"> : </label>
+										<label id="lblPatientMaritalStatus" style="color:#777777;">Lajang</label>
+										
+										<label style="color:#777777; font-weight:bold;">Nama Suami/Istri</label>
+										<label style="color:#777777;"> : </label>
+										<label id="lblPatientHusbandWifeName" style="color:#777777;">IRNIS MUBARAK</label>
 									</row>
 									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Pekerjaan</label>
-										<label id="lblPatientOccupation" style="color:#777777;">Mahasiswa</label>
+										<label style="color:#777777; font-weight:bold;">Pekerjaan</label>
+										<label style="color:#777777;"> : </label>
+										<label id="lblPatientOccupation" style="color:#777777;">Pelajar</label>
+										
+										<label style="color:#777777; font-weight:bold;">Pendidikan</label>
+										<label style="color:#777777;"> : </label>
+										<label id="lblPatientEducation" style="color:#777777;">SD</label>
 									</row>
 									<row style="background-color:#ffffff;">
-										<label style="color:#777777;">Alamat</label>
-										<label id="lblPatientAddress" style="color:#777777;">Jalan Rawasari Timur 1 dalam no.3 RT 008/ 002 Kecamatan Cempaka Putih Jakarta</label>
+										<label style="color:#777777; font-weight:bold;">No. Telepon/Handphone</label>
+										<label style="color:#777777;"> : </label>
+										<cell colspan="4">
+											<label id="lblPatientPhone" style="color:#777777;">08123123123</label>
+										</cell>
+									</row>
+									<row style="background-color:#ffffff;">
+										<label style="color:#777777; font-weight:bold;">Nama Orang Tua</label>
+										<label style="color:#777777;"> : </label>
+										<cell colspan="4">
+											<label id="lblPatientParent" style="color:#777777;">MASTUR MUBARAK</label>
+										</cell>
+									</row>
+									<row style="background-color:#ffffff;">
+										<label style="color:#777777; font-weight:bold;">Alamat</label>
+										<label style="color:#777777;"> : </label>
+										<cell colspan="4">
+											<label id="lblPatientAddress" style="color:#777777;">Jalan Rawasari Timur 1 dalam no.3 RT 008/ 002 Kecamatan Cempaka Putih Jakarta</label>
+										</cell>
 									</row>
 								</rows>
 							</grid>
@@ -108,13 +158,13 @@
 				<groupbox id="boxEmpty" style="margin-left:16px; margin-right:16px;">
 					<vbox style="padding:16px;" align="center" pack="center" width="100%">
 						<space />
-						<label style="font-size:16pt; color:#777777;">Pasien tidak ditemukan.</label>
+						<label style="font-size:16pt; color:#777777;">Pasien tidak ditemukan</label>
+						<label id="lblEmptyDetail" style="color:#777777;">Pasien dengan nama Andarohmano tidak dapat ditemukan</label>
 						<space />
-						<label id="lblEmptyDetail" style="color:#777777;">Pasien dengan nama Andarohmano tidak dapat ditemukan.</label>
-						<space />
+						<label style="color:#777777;">Operator dapat menambahkan pasien baru</label>
+						<label style="color:#777777;">atau</label>
 						<hbox align="center" pack="center" width="100%">
 							<button id="btnListPatient" label="Lihat Daftar Pasien" width="240px" />
-							<button id="btnAddPatient" label="Tambah Pasien" width="240px" />	
 						</hbox>
 					</vbox>
 				</groupbox>

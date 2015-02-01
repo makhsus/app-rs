@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -67,8 +69,23 @@ public class Patient implements Serializable {
 	
 	@Column(name="card_no", length=30)
 	private String cardNumber;
+	
+	@Column(name="marital_status", length=10)
+	private String maritalStatus;
+	
+	@ManyToOne
+	@JoinColumn(name="created_by")
+	private Users createdBy;
 
 	
+	public Users getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Users createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -199,6 +216,16 @@ public class Patient implements Serializable {
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+	
+	
 	
 	
 	
