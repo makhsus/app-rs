@@ -24,6 +24,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import com.rs.dao.CityDao;
+import com.rs.dao.ContentConfigDao;
 import com.rs.dao.EmployeeDao;
 import com.rs.dao.OccupationDao;
 import com.rs.dao.ProvinceDao;
@@ -37,7 +38,6 @@ import com.rs.model.Province;
 import com.rs.model.SubOccupation;
 import com.rs.model.Users;
 import com.rs.util.CommonUtil;
-import com.rs.util.ContentConfigData;
 
 public class EmployeeComposer extends BaseComposer {
 	
@@ -279,8 +279,8 @@ public class EmployeeComposer extends BaseComposer {
 	}
 	
 	private void loadDataReligion() {
-		ContentConfigData dataReligion = new ContentConfigData();
-		List<ContentConfig> list = dataReligion.getDataReligion(sessionFactory);
+		ContentConfigDao dao = new ContentConfigDao();
+		List<ContentConfig> list = dao.getDataReligion();
 		lbxReligion.getItems().clear();
 		lbxReligion.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
@@ -298,8 +298,8 @@ public class EmployeeComposer extends BaseComposer {
 	}
 	
 	private void loadDataBloodType() {
-		ContentConfigData dataBloodType = new ContentConfigData();
-		List<ContentConfig> list = dataBloodType.getDataBloodType(sessionFactory);
+		ContentConfigDao dao = new ContentConfigDao();
+		List<ContentConfig> list = dao.getDataBloodType();
 		lbxBloodType.getItems().clear();
 		lbxBloodType.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
@@ -356,8 +356,8 @@ public class EmployeeComposer extends BaseComposer {
 	}
 	
 	private void loadDataEducation() {
-		ContentConfigData dataEducation = new ContentConfigData();
-		List<ContentConfig> list = dataEducation.getDataEducation(sessionFactory);
+		ContentConfigDao dao = new ContentConfigDao();
+		List<ContentConfig> list = dao.getDataEducation();
 		lbxEducation.getItems().clear();
 		lbxEducation.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
@@ -375,8 +375,8 @@ public class EmployeeComposer extends BaseComposer {
 	}
 	
 	private void loadDataMaritalStatus() {
-		ContentConfigData dataMaritalStatus = new ContentConfigData();
-		List<ContentConfig> list = dataMaritalStatus.getDataMaritalStatus(sessionFactory);
+		ContentConfigDao dao = new ContentConfigDao();
+		List<ContentConfig> list = dao.getDataMaritalStatus();
 		lbxMaritalStatus.getItems().clear();
 		lbxMaritalStatus.setModel(new ListModelList<>(list));
 		ListitemRenderer<ContentConfig> renderer = new ListitemRenderer<ContentConfig>() {
