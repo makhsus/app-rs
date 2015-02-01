@@ -16,12 +16,13 @@ public class ContentConfigDao extends CommonDao<ContentConfig> {
 	}
 	
 	
-	public List<ContentConfig> getReligions(){
+	public List<ContentConfig> getDataReligion(){
 		List<ContentConfig> result = new ArrayList<>();
+		Criterion cr1 = Restrictions.eq("category", "RELIGION");
+		Criterion cr2 = Restrictions.eq("status", "Y");
 		
-		Criterion criterion = Restrictions.eq("category", "RELIGION");
 		try{
-			result = loadBy(Order.asc("id"), criterion);
+			result = loadBy(Order.asc("idContentConfig"), cr1, cr2);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -29,12 +30,13 @@ public class ContentConfigDao extends CommonDao<ContentConfig> {
 		return result;
 	}
 	
-	public List<ContentConfig> getEducations(){
+	public List<ContentConfig> getDataEducation(){
 		List<ContentConfig> result = new ArrayList<>();
+		Criterion cr1 = Restrictions.eq("category", "EDUCATION");
+		Criterion cr2 = Restrictions.eq("status", "Y");
 		
-		Criterion criterion = Restrictions.eq("category", "EDUCATION");
 		try{
-			result = loadBy(Order.asc("id"), criterion);
+			result = loadBy(Order.asc("idContentConfig"), cr1, cr2);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -42,12 +44,41 @@ public class ContentConfigDao extends CommonDao<ContentConfig> {
 		return result;
 	}
 	
-	public List<ContentConfig> getOccupations(){
+	public List<ContentConfig> getDataWork(){
 		List<ContentConfig> result = new ArrayList<>();
+		Criterion cr1 = Restrictions.eq("category", "WORK");
+		Criterion cr2 = Restrictions.eq("status", "Y");
 		
-		Criterion criterion = Restrictions.eq("category", "WORK");
 		try{
-			result = loadBy(Order.asc("id"), criterion);
+			result = loadBy(Order.asc("idContentConfig"), cr1, cr2);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public List<ContentConfig> getDataBloodType(){
+		List<ContentConfig> result = new ArrayList<>();
+		Criterion cr1 = Restrictions.eq("category", "BLOOD_TYPE");
+		Criterion cr2 = Restrictions.eq("status", "Y");
+		
+		try{
+			result = loadBy(Order.asc("idContentConfig"), cr1, cr2);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public List<ContentConfig> getDataMaritalStatus(){
+		List<ContentConfig> result = new ArrayList<>();
+		Criterion cr1 = Restrictions.eq("category", "MARITAL_STATUS");
+		Criterion cr2 = Restrictions.eq("status", "Y");
+		
+		try{
+			result = loadBy(Order.asc("idContentConfig"), cr1, cr2);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
