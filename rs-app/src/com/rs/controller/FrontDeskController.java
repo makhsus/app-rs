@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/admission")
-public class AdmissionController {
+@RequestMapping("/frontdesk")
+public class FrontDeskController {
 	
 	
-	@RequestMapping(value={"", "list"}, method=RequestMethod.GET)
-	public String list(HttpServletRequest request, ModelMap model){
-		model.addAttribute("title", "List Admission");
-		return "zul/admission/admission.zul";
+	@RequestMapping(value={"home"}, method=RequestMethod.GET)
+	public String frontdeskHome(HttpServletRequest request, ModelMap model){
+		model.addAttribute("title", "Front Desk");
+		return "zul/frontdesk/home.zul";
 	}
 }
