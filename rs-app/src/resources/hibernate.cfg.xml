@@ -36,6 +36,7 @@
         <mapping class="com.rs.model.Admission" />
 		<mapping class="com.rs.model.Mahasiswa" />
 		<mapping class="com.rs.model.City" />
+		<mapping class="com.rs.model.ContentConfig" />
 		<mapping class="com.rs.model.Employee" />
 		<mapping class="com.rs.model.Province" />
 		<mapping class="com.rs.model.Roles" />

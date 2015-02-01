@@ -7,8 +7,6 @@ import java.util.List;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -28,7 +26,6 @@ import org.zkoss.zul.Window;
 
 import com.rs.dao.PatientDao;
 import com.rs.model.Patient;
-import com.rs.model.Polyclinic;
 
 public class PatientComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
