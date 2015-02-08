@@ -40,6 +40,7 @@
 		<mapping class="com.rs.model.Employee" />
 		<mapping class="com.rs.model.Province" />
 		<mapping class="com.rs.model.Roles" />
+		<mapping class="com.rs.model.Room" />
 		<mapping class="com.rs.model.SubRoles" />
 		<mapping class="com.rs.model.Users" />
 		<mapping class="com.rs.model.Patient" />
@@ -55,6 +56,7 @@
 		<mapping class="com.rs.model.MedicinePurchases" />
 		<mapping class="com.rs.model.MedicinePurchasesItems" />
 		<mapping class="com.rs.model.MedicinePatient" />
+		<mapping class="com.rs.model.MedicalTransaction" />
 		
 		
     </session-factory>

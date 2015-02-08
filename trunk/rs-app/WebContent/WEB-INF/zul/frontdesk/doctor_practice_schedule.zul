@@ -1,0 +1,23 @@
+<window id="winDoctorPracticeSchedule" title="Pilih Jadwal" border="normal"
+	width="700px" apply="com.rs.composer.FrontDeskComposer"
+	position="center, center" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<radiogroup id="rgSchedule"/>
+		<grid>
+			<auxhead>
+				<auxheader id="axrSchedule" colspan="3" />
+			</auxhead>
+			<columns>
+				<column label="" width="5%" />
+				<column label="Nama Dokter" />
+				<column label="Jam" width="30%"  />
+			</columns>
+			<rows id="rwsSchedule" />
+		</grid>
+		<hbox align="end" pack="end" width="100%">
+			<button id="btnClosePracticeSchedule" label="Batal" onClick="winDoctorPracticeSchedule.detach()" />
+			<button id="btnSubmitPracticeSchedule" label="Pilih"  />
+		</hbox>
+	</vlayout>
+</window>

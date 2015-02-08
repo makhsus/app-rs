@@ -1,0 +1,44 @@
+<zk>
+<window id="winSaveUpdateRRJ" title="Daftar Rawat Jalan" border="normal"
+	width="560px" apply="com.rs.composer.FrontDeskComposer"
+	position="center,center" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<grid>
+			<columns>
+				<column value="" width="160px" />
+				<column value="" />
+			</columns>
+			
+			<rows>
+				<row>
+					<label value="Pasien" />
+					<label id="lblPatientRRJ" value="-"/>
+				</row>
+				<row>
+					<label value="Poli" />
+					<listbox id="lbxPolyRRJ" mold="select" hflex="1" vflex="1"/>
+				</row>
+				<row>
+					<label value="" />
+					<button id="btnScheduleRRJ" label="Pilih Jadwal" />
+				</row>
+				<row>
+					<label value="Dokter" />
+					<label id="lblDoctorRRJ" value="---" />
+				</row>
+				<row>
+					<label value="Jam" />
+					<label id="lblHoursRRJ" value="---" />
+				</row>
+			</rows>
+		</grid>
+		
+		
+		<hbox align="end" pack="end" width="100%">
+			<button id="btnCloseRRJ" label="Batal" onClick="winSaveUpdateRRJ.detach()" />
+			<button id="btnSubmitRRJ" label="Daftar Rawat Jalan"  />
+		</hbox>
+	</vlayout>
+</window>
+</zk>

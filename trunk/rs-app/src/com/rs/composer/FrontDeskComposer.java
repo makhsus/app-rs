@@ -1,14 +1,18 @@
 package com.rs.composer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -19,6 +23,8 @@ import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Label;
@@ -29,17 +35,31 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
+import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.Row;
+import org.zkoss.zul.Rows;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Window;
 
 import com.rs.dao.AdmissionDao;
 import com.rs.dao.ContentConfigDao;
+import com.rs.dao.MedicalRecordsDao;
+import com.rs.dao.MedicalTransactionDao;
 import com.rs.dao.PatientDao;
+import com.rs.dao.PolyclinicDao;
+import com.rs.dao.PracticeScheduleDao;
+import com.rs.dao.UniqueNumberDao;
 import com.rs.model.Admission;
 import com.rs.model.ContentConfig;
+import com.rs.model.Employee;
+import com.rs.model.MedicalRecords;
+import com.rs.model.MedicalTransaction;
 import com.rs.model.Patient;
+import com.rs.model.Polyclinic;
+import com.rs.model.PracticSchedule;
+import com.rs.model.UniqueNumber;
 import com.rs.model.Users;
 import com.rs.util.CommonUtil;
 import com.rs.util.JavaScriptUtil;
@@ -48,10 +68,13 @@ public class FrontDeskComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 
 	private List<Patient> patientList;
+	private List<Polyclinic> polyList;
 	private Users loggedUser;
 	
 	private String patientId = null;
 	private Patient selectedPatient;
+	private Polyclinic selectedPoly;
+	private PracticSchedule selectedSchedule;
 	
 	
 	@Wire
@@ -83,6 +106,24 @@ public class FrontDeskComposer extends BaseComposer {
 	@Wire
 	private Label lblAge;
 	
+	
+	@Wire
+	private Window winSaveUpdateRRJ;
+	@Wire
+	private Listbox lbxPolyRRJ;
+	@Wire
+	private Button btnScheduleRRJ;
+	@Wire
+	private Label lblPatientRRJ, lblDoctorRRJ, lblHoursRRJ;
+	
+	@Wire
+	private Window winDoctorPracticeSchedule;
+	@Wire
+	private Auxheader axrSchedule;
+	@Wire
+	private Radiogroup rgSchedule;
+	@Wire
+	private Rows rwsSchedule;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -381,6 +422,7 @@ public class FrontDeskComposer extends BaseComposer {
 	@Listen("onCreate = #winSaveUpdatePatient")
 	public void onCreateWinSaveUpdatePatient(){
 		isLooged();
+		loggedUser = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		
 		loadReligionToListbox();
 		loadEducationToListbox();
@@ -474,8 +516,8 @@ public class FrontDeskComposer extends BaseComposer {
 		}
 	}
 	
-	@Listen ("onClick = #btnSaveSubmit")
-	public void btnSaveSubmitClick(){
+	@Listen ("onClick = #btnSubmitPatient")
+	public void btnSubmitPatientClick(){
 		String jqCommand = JavaScriptUtil.shakeWindow("winSaveUpdatePatient");
 		
 		if (tbxCardNo.getText().equalsIgnoreCase("")){
@@ -604,7 +646,225 @@ public class FrontDeskComposer extends BaseComposer {
 		
 	}
 	
+	@Listen("onClick = #btnRegRRJ")
+	public void clickButtonRegisterRRJ(){
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/frontdesk/save_update_rrj.zul", null, null);
+		windowAdd.setAttribute("patient", selectedPatient);
+        windowAdd.doModal();
+	}
 	
+	
+	@Listen("onCreate = #winSaveUpdateRRJ")
+	public void onCreateWinSaveUpdateRRJ(){
+		isLooged();
+		loggedUser = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
+		
+		subscribeToEventQueues("onPracticeScheduleQueue");
+		loadPolyToListbox();
+		
+		selectedPatient = (Patient) winSaveUpdateRRJ.getAttribute("patient");
+		if (selectedPatient != null){
+			lblPatientRRJ.setValue(selectedPatient.getName());
+		}
+	}
+	
+	
+	private void loadPolyToListbox(){
+		lbxPolyRRJ.getItems().clear();
+		
+		PolyclinicDao dao = new PolyclinicDao();
+		dao.setSessionFactory(sessionFactory);
+		Criterion cr1 = Restrictions.eq("isActive", true);
+		List<Polyclinic> list = dao.loadBy(Order.asc("polyclinicId"), cr1);
+		
+		lbxPolyRRJ.setModel(new ListModelList<>(list));
+		ListitemRenderer<Polyclinic> renderer = new ListitemRenderer<Polyclinic>() {
+			@Override
+			public void render(Listitem item, Polyclinic obj, int index) throws Exception {
+				item.appendChild(new Listcell(obj.getPolyclinicName()));
+			}
+		};
+		lbxPolyRRJ.setItemRenderer(renderer);
+		
+		polyList = list;
+	}
+	
+	
+	@Listen ("onSelect = #lbxPolyRRJ")
+	public void lbxPolyRRJSelect(){
+		if(polyList!=null){
+			int index = lbxPolyRRJ.getSelectedIndex();
+			selectedPoly = polyList.get(index);
+		}
+	}
+	
+	@Listen("onClick = #btnScheduleRRJ")
+	public void onClickButtonScheduleRRJ(){
+		if(selectedPoly==null){
+			Messagebox.show("Silahkan pilih poli", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+		
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/frontdesk/doctor_practice_schedule.zul", null, null);
+		windowAdd.setAttribute("selectedPoly", selectedPoly);
+		windowAdd.doModal();
+	}
+	
+	@Listen ("onClick = #btnSubmitRRJ")
+	public void btnSubmitRRJClick(){
+		if(selectedPatient==null){
+			Messagebox.show("Silahkan pilih pasien", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+		if(selectedPoly==null){
+			Messagebox.show("Silahkan pilih poli", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+		if(selectedSchedule==null){
+			Messagebox.show("Silahkan pilih jadwal", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+		
+		Calendar calNow = Calendar.getInstance(CommonUtil.JAKARTA_TIMEZONE);
+		
+		UniqueNumber regNo = CommonUtil.generateUniqueNumber(sessionFactory, CommonUtil.CODE_FOR_REG_RAWAT_JALAN);
+		UniqueNumberDao unDao = new UniqueNumberDao();
+		unDao.setSessionFactory(sessionFactory);
+		unDao.saveOrUpdate(regNo);
+		
+		int seqNo = 1;
+		
+		MedicalTransactionDao dao = new MedicalTransactionDao();
+		dao.setSessionFactory(sessionFactory);
+		
+		Criterion crCekPatient1 = Restrictions.eq("regDate", calNow.getTime());
+		Criterion crCekPatient2 = Restrictions.eq("poly", selectedPoly);
+		Criterion crCekPatient3 = Restrictions.eq("doctor", selectedSchedule.getDoctor());
+		List<MedicalTransaction> mrList = dao.loadBy(Order.asc("id"), crCekPatient1, crCekPatient2, crCekPatient3);
+		if(mrList.size()>0){
+			seqNo = mrList.size()+1;
+		}
+		
+		
+		
+		MedicalTransaction obj = new MedicalTransaction();
+		obj.setRegistrationNo(regNo.getUniqueNumber());
+		obj.setSequenceNo(seqNo);
+		obj.setPatient(selectedPatient);
+		obj.setPoly(selectedPoly);
+		obj.setDoctor(selectedSchedule.getDoctor());
+		obj.setRegDate(calNow.getTime());
+		obj.setStatus("RRJ");
+		obj.setCreatedBy(loggedUser);
+		obj.setCreatedDate(calNow.getTime());
+		
+		dao = new MedicalTransactionDao();
+		dao.setSessionFactory(sessionFactory);
+		if(dao.saveOrUpdate(obj)){
+			winSaveUpdateRRJ.detach();
+		}else{
+			Messagebox.show("Save/Update Failed", "Error", Messagebox.OK, Messagebox.ERROR);
+		}
+	}
+	
+	@Listen ("onCreate = #winDoctorPracticeSchedule")
+	public void winSelectScheduleCreate(){
+		isLooged();
+		
+		Polyclinic poly = (Polyclinic) winDoctorPracticeSchedule.getAttribute("selectedPoly");
+		axrSchedule.setLabel("Poli "+poly.getPolyclinicName());
+		
+		Session session = sessionFactory.openSession();
+		Criteria cr = session.createCriteria(PracticSchedule.class);
+		cr.add(Restrictions.eq("polyclinic", poly));
+		cr.setProjection(Projections.distinct(Projections.property("doctor")));
+		@SuppressWarnings("unchecked")
+		List<Employee> epList = cr.list();
+		session.close();
+		
+		int day = CommonUtil.dayNumberConvertFromJavaCalendar();
+		for(Employee ep: epList){
+			PracticeScheduleDao dao = new PracticeScheduleDao();
+			dao.setSessionFactory(sessionFactory);
+			Criterion crPs1 = Restrictions.eq("polyclinic", poly);
+			Criterion crPs2 = Restrictions.eq("doctor", ep);
+			Criterion crPs3 = Restrictions.like("days", "%"+day+"%");
+			List<PracticSchedule> psList = dao.loadBy(Order.asc("startTime"), crPs1, crPs2, crPs3);
+			
+			int psSize = psList.size();
+			for(int i=0;i<psSize;i++){
+				PracticSchedule ps = psList.get(i);
+				String name = ep.getFullName();
+				
+				String jam = CommonUtil.dateFormat(ps.getStartTime(), "HH:mm")+"-"+
+							 CommonUtil.dateFormat(ps.getEndTime(), "HH:mm");
+				
+				Radio radio = new Radio();
+				radio.setId("radio"+ps.getId());
+				radio.setRadiogroup(rgSchedule);
+				radio.setValue(ps);
+				
+				if(psSize>1){
+					if(i==0){
+						Row row = new Row();
+						row.appendChild(radio);
+						row.appendChild(new Label(name));
+						row.appendChild(new Label(jam));
+						rwsSchedule.appendChild(row);
+					}else{
+						Row row = new Row();
+						row.appendChild(radio);
+						row.appendChild(new Label());
+						row.appendChild(new Label(jam));
+						rwsSchedule.appendChild(row);
+					}
+				}else{
+					Row row = new Row();
+					row.appendChild(radio);
+					row.appendChild(new Label(name));
+					row.appendChild(new Label(jam));
+					rwsSchedule.appendChild(row);
+				}
+			}
+		}
+	}
+	
+	@Listen ("onCheck = #rgSchedule")
+	public void rgScheduleClick(){
+		selectedSchedule = rgSchedule.getSelectedItem().getValue();
+	}
+	
+	@Listen ("onClick = #btnSubmitPracticeSchedule")
+	public void btnSubmitSelectSchedueClick(){
+		if(selectedSchedule==null){
+			Messagebox.show("Silahkan pilih jadwal praktek yang tersedia", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("selectedSchedule", selectedSchedule);
+		EventQueues.lookup("onPracticeScheduleQueue", EventQueues.DESKTOP, true).publish(new Event("scheduleDidSelected", null, map));
+		
+		winDoctorPracticeSchedule.detach();
+	}
+	
+//	private void loadPracticeScheduleToListbox(){
+//		lbxPolyRRJ.getItems().clear();
+//		
+//		PolyclinicDao dao = new PolyclinicDao();
+//		dao.setSessionFactory(sessionFactory);
+//		Criterion cr1 = Restrictions.eq("isActive", true);
+//		List<Polyclinic> list = dao.loadBy(Order.asc("polyclinicId"), cr1);
+//		
+//		lbxPolyRRJ.setModel(new ListModelList<>(list));
+//		ListitemRenderer<Polyclinic> renderer = new ListitemRenderer<Polyclinic>() {
+//			@Override
+//			public void render(Listitem item, Polyclinic obj, int index) throws Exception {
+//				item.appendChild(new Listcell(obj.getPolyclinicName()));
+//			}
+//		};
+//		lbxPolyRRJ.setItemRenderer(renderer);
+//	}
 	
 	public void subscribeToEventQueues(final String eventQueueName){
 		EventQueues.lookup(eventQueueName, EventQueues.DESKTOP, true).subscribe(new EventListener<Event>() {
@@ -622,6 +882,20 @@ public class FrontDeskComposer extends BaseComposer {
 						pnlPatientSearchList.setVisible(false);
 						
 						setDetailPatientValue(patient);
+					}
+				}
+				
+				else if(eventQueueName.equals("onPracticeScheduleQueue")){
+					if(event.getName().equals("scheduleDidSelected")){
+						@SuppressWarnings("unchecked")
+						Map<String, Object> map = (Map<String, Object>) event.getData();
+						selectedSchedule = (PracticSchedule) map.get("selectedSchedule");
+						
+						String jam = CommonUtil.dateFormat(selectedSchedule.getStartTime(), "HH:mm")+" - "+
+								 CommonUtil.dateFormat(selectedSchedule.getEndTime(), "HH:mm");
+						
+						lblDoctorRRJ.setValue(selectedSchedule.getDoctor().getFullName());
+						lblHoursRRJ.setValue(jam);
 					}
 				}
 			}
