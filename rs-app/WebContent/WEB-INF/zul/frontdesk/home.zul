@@ -137,7 +137,13 @@
 							</grid>
 							<space/>
 							<hbox align="center" pack="center" width="100%">
-								<button id="btnRegPatientToAdm" label="Daftar Admisi" width="240px" />
+								<button id="btnRegRRJ" label="Daftar Rawat Jalan" width="240px" />
+								<space/>
+								<button id="btnRegRRI" label="Daftar Rawat Inap" width="240px" />
+								<space/>
+								<button id="btnRegIGD" label="Daftar IGD" width="240px" />
+								<space/>
+								<button id="btnRegLAB" label="Daftar Laboratorium" width="240px" />
 							</hbox>
 						</vbox>
 						

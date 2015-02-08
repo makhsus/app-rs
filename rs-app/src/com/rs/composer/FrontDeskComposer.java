@@ -341,13 +341,13 @@ public class FrontDeskComposer extends BaseComposer {
 	
 	@Listen("onClick = #btnAddPatient")
 	public void clickButtonAddPatient(){
-		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admission/save_update_patient.zul", null, null);
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/frontdesk/save_update_patient.zul", null, null);
         windowAdd.doModal();
 	}
 	
 	@Listen("onClick = #btnEditPatient")
 	public void clickButtonEditPatient(){
-		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/admission/save_update_patient.zul", null, null);
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/frontdesk/save_update_patient.zul", null, null);
 		windowAdd.setAttribute("patient", selectedPatient);
         windowAdd.doModal();
 	}
