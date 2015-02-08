@@ -108,8 +108,8 @@
 		
 		
 		<hbox align="end" pack="end" width="100%">
-			<button id="btnSaveClose" label="Batal" onClick="winSaveUpdatePatient.detach()" />
-			<button id="btnSaveSubmit" label="Simpan Pasien"  />
+			<button id="btnClosePatient" label="Batal" onClick="winSaveUpdatePatient.detach()" />
+			<button id="btnSubmitPatient" label="Simpan Pasien"  />
 		</hbox>
 	</vlayout>
 </window>
