@@ -1,7 +1,10 @@
 package com.rs.composer;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -15,13 +18,17 @@ import org.zkoss.zul.Textbox;
 import com.rs.dao.UsersDao;
 import com.rs.model.Users;
 import com.rs.util.CommonUtil;
+import com.rs.util.EncryptData;
 import com.rs.util.HibernateUtil;
 
 public class LogInOutComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 	
+	private static final Log logger = LogFactory.getLog(LogInOutComposer.class);
+	
 	private static final int USER_ROLE_ADMIN = 1;
 	private static final int USER_ROLE_RECEPTIONIST = 2;
+	private String patternDate = "DD-MM-YYYY";
 
 	@Wire
 	private Textbox tbxUsername, tbxPassword;
@@ -43,7 +50,7 @@ public class LogInOutComposer extends BaseComposer {
 	}
 	
 	@Listen("onClick = #btnLogin")
-	public void btnLogin(){
+	public void btnLogin() {
 		String username = tbxUsername.getText().trim();
 		String password = tbxPassword.getText().trim();
 		
@@ -52,10 +59,27 @@ public class LogInOutComposer extends BaseComposer {
 			return;
 		}
 		
+		String passwordEncryption = "";
+		
+		try {
+			passwordEncryption = EncryptData.passwordEncrypt(password);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		Date dateNow = new Date();
+		
+		System.out.println("user : " + username);
+		System.out.println("date login : " + dateNow);
+		logger.info("user : " + username);
+		logger.info("date login : " + dateNow);
+		
+		
+		
 		UsersDao dao = new UsersDao();
 		dao.setSessionFactory(sessionFactory);
 		Criterion crLogon1 = Restrictions.eq("userName", username);
-		Criterion crLogon2 = Restrictions.eq("password", password);
+		Criterion crLogon2 = Restrictions.eq("password", passwordEncryption);
 		List<Users> listUsers = dao.loadBy(Order.asc("idUser"), crLogon1, crLogon2);
 		//List<Users> listUsers = dao.loadAll(null);
 		System.out.println("listUser: "+listUsers.size());
@@ -66,6 +90,19 @@ public class LogInOutComposer extends BaseComposer {
 		}else{
 			Users user = listUsers.get(0);
 			sessionZk.setAttribute(CommonUtil.LOGIN_USER, user);
+			
+			user.setLastLogin(dateNow);
+			
+			try {
+				dao.saveOrUpdate(user);
+				System.out.println("save last login user success");
+				logger.info("save last login user success");
+			}catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("save last login user failed because "+e.getMessage());
+				logger.info("save last login user failed because "+e.getMessage());
+			}
+			
 			
 			int roleId = user.getIdRole().getIdRole().intValue();
 			

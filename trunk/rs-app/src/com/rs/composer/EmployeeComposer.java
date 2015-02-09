@@ -159,8 +159,6 @@ public class EmployeeComposer extends BaseComposer {
 		employee.setPlaceOfBirth(placeOfBirth);
 		employee.setSubOccupationId(subOccupationSelected);
 		
-		Messagebox.show("Simpan Data Karyawan Baru ?", "Confirm Dialog", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
-		
 		try {
 			employeeDao.setSessionFactory(sessionFactory);
 			employeeDao.saveOrUpdate(employee);
