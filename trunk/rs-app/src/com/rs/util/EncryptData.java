@@ -14,9 +14,9 @@ public class EncryptData {
 	private static final Logger logger = Logger.getLogger(EncryptData.class);
 
 	public static String passwordEncrypt(String dataPassword) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		String dataPassword2 = EncryptMD5(dataPassword);
-		dataPassword2 = hashSHA1(dataPassword);
-		return dataPassword2;
+		String password = EncryptMD5(dataPassword);
+		String lastPassword = hashSHA1(password);
+		return lastPassword;
 	}
 
 	public static String hashSHA1(String data) throws NoSuchAlgorithmException {
@@ -63,12 +63,6 @@ public class EncryptData {
 		md.update(text.getBytes("iso-8859-1"), 0, text.length());
 		md5 = md.digest();
 		return convertedToHex(md5);
-	}
-	
-	public static String EncryptPassword(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		String encrypt = EncryptMD5(text);
-		String lastEncrypt = hashSHA1(encrypt);
-		return lastEncrypt;
 	}
 
 }
