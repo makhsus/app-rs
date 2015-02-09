@@ -1,0 +1,19 @@
+<?page title="List Users" contentType="text/html;charset=UTF-8"?>
+<zk>
+<include src="../menu.zul" />
+<window id="winUsers" title="Users" border="normal" apply="com.rs.composer.UsersComposer">
+		<toolbar>
+			<toolbarbutton id="tbnList" label="List Users" />
+		</toolbar>
+		<listbox id="lbxUsers" mold="paging" pageSize="50">
+			<listhead>
+				<listheader label="No" width="3%" align="center"/>
+				<listheader label="Tgl. Input" />
+				<listheader label="Tgl. Update" />
+				<listheader label="NIK" />
+				<listheader label="User Name" />
+				<listheader label="Role" />
+			</listhead>
+		</listbox>
+</window>
+</zk>
