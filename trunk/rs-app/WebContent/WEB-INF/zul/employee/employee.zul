@@ -1,4 +1,4 @@
-<?page title="Manajemen User" contentType="text/html;charset=UTF-8"?>
+<?page title="Manajemen Karyawan" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="../menu.zul" />
 	<window id="winEmployee" title="Karyawan" border="normal" apply="com.rs.composer.EmployeeComposer">
