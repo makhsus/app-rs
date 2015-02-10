@@ -1,0 +1,35 @@
+<?page title="Tambah Users" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="winAddUsers" title="Tambah Users" border="normal" width="460px" apply="com.rs.composer.UsersComposer" 
+position="center,center" closable="true" action="show: slideDown;hide: slideUp">
+	<grid id="grdAdd">
+		<columns>
+			<column value="" width="70px"/>
+			<column value="" width="20px" />
+			<column value="" width="340px" />
+		</columns>
+		<rows>
+			<row>
+				<cell colspan="3"  align="center">
+					<label value="Anda Bisa Gunakan Kombinasi NIK Karyawan" />
+				</cell>
+			</row>
+			<row>
+				<label value="NIK" />
+				<label value=" : " />
+				<label id="lblNik"/>
+			</row>
+			<row>
+				<label value="UserName" />
+				<label value=" : " />
+				<textbox id="tbxUserName" width="300px" constraint="no empty:UserName harus diisi"/>
+			</row>
+			<row>
+				<label value="" />
+				<label value="" />
+				<button id="btnSubmit" label="Tambah User" width="300px"/>
+			</row>
+		</rows>
+	</grid>
+</window>
+</zk>
