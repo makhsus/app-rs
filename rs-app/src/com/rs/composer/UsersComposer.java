@@ -7,8 +7,10 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
@@ -30,12 +32,27 @@ public class UsersComposer extends BaseComposer {
 	private Window winUsers;
 	@Wire
 	private Listbox lbxUsers;
+	@Wire
+	private Label lblNik;
 	
 	@Listen ("onCreate = #winUsers")
 	public void win(){
 		isLooged();
 		loadDataUsers();
 		userLogin = (Users)sessionZk.getAttribute(CommonUtil.LOGIN_USER);
+	}
+	
+	@Listen ("onClick = #tbnList")
+	public void tbnListClick(){
+		isLooged();
+		loadDataUsers();
+		userLogin = (Users)sessionZk.getAttribute(CommonUtil.LOGIN_USER);
+	}
+	
+	@Listen ("onClick = #tbnAdd")
+	public void tbnAddClick(){
+		Window window = (Window)Executions.createComponents("add_user.zul", null, null);
+        window.doModal();
 	}
 	
 	public void loadDataUsers() {
