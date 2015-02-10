@@ -29,6 +29,7 @@ public class LogInOutComposer extends BaseComposer {
 	private static final int USER_ROLE_ADMIN = 1;
 	private static final int USER_ROLE_RECEPTIONIST = 2;
 	private String patternDate = "DD-MM-YYYY";
+	private Users userLogin;
 
 	@Wire
 	private Textbox tbxUsername, tbxPassword;
@@ -47,6 +48,12 @@ public class LogInOutComposer extends BaseComposer {
 			Executions.sendRedirect("/home");
 			return;
 		}
+	}
+	
+	@Listen("onCreate = #winLogout ")
+	public void winLogout(){
+		Messagebox.show("Waktu sesi Login telah habis, silahkan Login kembali", "Error", Messagebox.OK, Messagebox.ERROR);
+		Executions.sendRedirect("/login");
 	}
 	
 	@Listen("onClick = #btnLogin")
@@ -120,6 +127,10 @@ public class LogInOutComposer extends BaseComposer {
 			}
 			
 		}
+		
+	}
+	
+	public void sessionLogOut() {
 		
 	}
 }

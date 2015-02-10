@@ -39,11 +39,10 @@ public class UsersComposer extends BaseComposer {
 	}
 	
 	public void loadDataUsers() {
-		Users users = new Users();
-		UsersDao daoUser = new UsersDao();
-		
+		UsersDao dao = new UsersDao();
+		dao.setSessionFactory(sessionFactory);
 		Criterion cr1 = Restrictions.eq("status", "Y");
-		List<Users> listUsers = daoUser.loadBy(Order.desc("idUser"), cr1);
+		List<Users> listUsers = dao.loadBy(Order.desc("idUser"), cr1);
 		
 		lbxUsers.getItems().clear();
 		int number = 1;
@@ -53,10 +52,12 @@ public class UsersComposer extends BaseComposer {
 			lbxUsers.appendChild(li);
 			
 			String createDate = CommonUtil.dateFormat(obj.getCreateDate(), patternDate);
-			String updateDate = CommonUtil.dateFormat(obj.getLastUpdate(), patternDate);
+			String updateDate = "";
 			
-			if ((updateDate.equals("")) || (updateDate == "")) {
+			if (obj.getLastUpdate() == null) {
 				updateDate = "-";
+			} else {
+				updateDate = CommonUtil.dateFormat(obj.getLastUpdate(), patternDate);
 			}
 			
 			Listcell lc = new Listcell(Integer.toString(number++));
