@@ -4,6 +4,7 @@
 <window id="winUsers" title="Users" border="normal" apply="com.rs.composer.UsersComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List Users" />
+    		<toolbarbutton id="tbnAdd" label="Tambah Users" />
 		</toolbar>
 		<listbox id="lbxUsers" mold="paging" pageSize="50">
 			<listhead>
