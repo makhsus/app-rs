@@ -5,7 +5,7 @@
 			<menu id="mnDataUsers" label="Data User">
 				<menupopup>
 					<menuitem id="mntmEmployee" label="Karyawan" href="/employee"/>
-					<menuitem id="mntmUsers" label="Users" href="/user/home_user"/>
+					<menuitem id="mntmUsers" label="Users" href="/user/listUser"/>
 				</menupopup>
 			</menu>
 			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
