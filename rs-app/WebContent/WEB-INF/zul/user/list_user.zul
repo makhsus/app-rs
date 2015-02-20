@@ -16,5 +16,32 @@
 				<listheader label="Role" />
 			</listhead>
 		</listbox>
+		<grid id="grdSearchNik">
+			<columns>
+				<column value="" width="80px"/>
+				<column value="" width="20px" />
+				<column value=""/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Cari NIK" />
+					<label value=":" />
+					<textbox id="txbSearchNik" width="250px"/>
+				</row>
+				<row>
+					<label value="" />
+					<label value="" />
+					<button id="btnSearchNik" label="Cari Sekarang"/>
+				</row>
+			</rows>
+		</grid>
+		<listbox id="lbxUsersSelected" mold="paging" pageSize="50">
+			<listhead>
+				<listheader label="NIK" />
+				<listheader label="Nama Lengkap" />
+				<listheader label="No. Handphone" />
+				<listheader label="Aksi" />
+			</listhead>
+		</listbox>
 </window>
 </zk>
