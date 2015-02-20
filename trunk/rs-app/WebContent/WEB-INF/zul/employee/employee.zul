@@ -113,7 +113,7 @@
 				<row>
 					<label value="Alamat Lengkap" />
 					<label value=" : " />
-					<textbox id="tbxAddress" width="300px" rows="5" cols="5"/>
+					<textbox id="tbxAddress" width="300px" rows="5" cols="5" constraint="no empty: Alamat harus diisi"/>
 					<label value="Desa / Kecamatan" />
 					<label value=" : " />
 					<textbox id="tbxVillage" width="250px"/>
