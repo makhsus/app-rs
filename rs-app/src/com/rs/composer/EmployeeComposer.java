@@ -45,7 +45,7 @@ public class EmployeeComposer extends BaseComposer {
 	private static final Log logger = LogFactory.getLog(EmployeeComposer.class);
 	
 	private String patternDate = "DD-MM-YYYY";
-	private String genderStr;
+	private String genderStr = "L";
 	private String bloodTypeStr;
 	private String religionStr;
 	private String maritalStatusStr;
@@ -159,9 +159,12 @@ public class EmployeeComposer extends BaseComposer {
 		employee.setPlaceOfBirth(placeOfBirth);
 		employee.setSubOccupationId(subOccupationSelected);
 		
+		System.out.println("prov : " + provinceSelected);
+		System.out.println("citi : " + citySelected);
+		
 		try {
 			employeeDao.setSessionFactory(sessionFactory);
-			employeeDao.saveOrUpdate(employee);
+			//employeeDao.saveOrUpdate(employee);
 			System.out.println("save employee "+nik+" : success");
 			logger.info("save employee "+nik+" : success");
 			Messagebox.show("Save/Update Success", "Success", Messagebox.OK, Messagebox.INFORMATION);
@@ -183,6 +186,8 @@ public class EmployeeComposer extends BaseComposer {
 	@Listen ("onSelect = #lbxBloodType")
 	public void lbxBloodTypeSelect(){
 		bloodTypeStr = lbxBloodType.getSelectedItem().getValue();
+		System.out.println(lbxBloodType.getSelectedItem().getValue());
+		System.out.println(bloodTypeStr);
 	}
 	
 	@Listen ("onSelect = #lbxReligion")
@@ -278,6 +283,7 @@ public class EmployeeComposer extends BaseComposer {
 	
 	private void loadDataReligion() {
 		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
 		List<ContentConfig> list = dao.getDataReligion();
 		lbxReligion.getItems().clear();
 		lbxReligion.setModel(new ListModelList<>(list));
@@ -297,6 +303,7 @@ public class EmployeeComposer extends BaseComposer {
 	
 	private void loadDataBloodType() {
 		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
 		List<ContentConfig> list = dao.getDataBloodType();
 		lbxBloodType.getItems().clear();
 		lbxBloodType.setModel(new ListModelList<>(list));
@@ -332,6 +339,7 @@ public class EmployeeComposer extends BaseComposer {
 		
 		if (list.size() > 0) {
 			lbxCities.setSelectedIndex(0);
+			citySelected = cityList.get(0);
 		}
 
 	}
@@ -350,11 +358,17 @@ public class EmployeeComposer extends BaseComposer {
 			}
 		};
 		lbxProvinces.setItemRenderer(renderer);
+		
+		if (list.size() > 0) {
+			lbxProvinces.setSelectedIndex(0);
+			provinceSelected = provinceList.get(0);
+		}
 
 	}
 	
 	private void loadDataEducation() {
 		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
 		List<ContentConfig> list = dao.getDataEducation();
 		lbxEducation.getItems().clear();
 		lbxEducation.setModel(new ListModelList<>(list));
@@ -374,6 +388,7 @@ public class EmployeeComposer extends BaseComposer {
 	
 	private void loadDataMaritalStatus() {
 		ContentConfigDao dao = new ContentConfigDao();
+		dao.setSessionFactory(sessionFactory);
 		List<ContentConfig> list = dao.getDataMaritalStatus();
 		lbxMaritalStatus.getItems().clear();
 		lbxMaritalStatus.setModel(new ListModelList<>(list));
