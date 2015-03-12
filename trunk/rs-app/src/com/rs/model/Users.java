@@ -1,9 +1,5 @@
 package com.rs.model;
 
-/*
- *  candra.assasin@gmail.com
- */
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -59,8 +55,8 @@ public class Users implements Serializable {
 	private Employee idEmployee;
 	
 	@ManyToOne
-	@JoinColumn(name="id_role", referencedColumnName="id_role", nullable=false)
-	private Roles idRole;
+	@JoinColumn(name="id_sub_role", referencedColumnName="id_sub_role", nullable=false)
+	private SubRoles idSubRole;
 
 	public Long getIdUser() {
 		return idUser;
@@ -134,12 +130,12 @@ public class Users implements Serializable {
 		this.idEmployee = idEmployee;
 	}
 
-	public Roles getIdRole() {
-		return idRole;
+	public SubRoles getIdSubRole() {
+		return idSubRole;
 	}
 
-	public void setIdRole(Roles idRole) {
-		this.idRole = idRole;
+	public void setIdSubRole(SubRoles idSubRole) {
+		this.idSubRole = idSubRole;
 	}
 	
 	
