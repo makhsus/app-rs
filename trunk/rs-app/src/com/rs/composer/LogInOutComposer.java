@@ -80,6 +80,7 @@ public class LogInOutComposer extends BaseComposer {
 		System.out.println("date login : " + dateNow);
 		logger.info("user : " + username);
 		logger.info("date login : " + dateNow);
+		System.out.println("pass : " + passwordEncryption);
 		
 		
 		
@@ -111,7 +112,7 @@ public class LogInOutComposer extends BaseComposer {
 			}
 			
 			
-			int roleId = user.getIdRole().getIdRole().intValue();
+			int roleId = user.getIdSubRole().getIdRole().getIdRole().intValue();
 			
 			switch (roleId) {
 			case USER_ROLE_ADMIN:

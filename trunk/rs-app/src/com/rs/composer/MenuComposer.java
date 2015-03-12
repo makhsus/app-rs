@@ -82,7 +82,7 @@ public class MenuComposer extends BaseComposer {
 	public void setMenuByRole(Users user){
 		mnUserLogin.setLabel(CommonUtil.neatString(user.getIdEmployee().getFullName().trim()));
 		
-		int roleId = user.getIdRole().getIdRole().intValue();
+		int roleId = user.getIdSubRole().getIdRole().getIdRole().intValue();
 		
 		switch (roleId) {
 		case USER_ROLE_ADMIN:
