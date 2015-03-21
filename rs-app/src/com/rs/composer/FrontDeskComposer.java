@@ -144,7 +144,7 @@ public class FrontDeskComposer extends BaseComposer {
 		boxPatient.setVisible(false);
 		boxEmpty.setVisible(false);
 		
-		loadAdmisiToListbox();
+		loadRRJToListbox();
 		
 		if (patientId != null && !patientId.equalsIgnoreCase("")){
 			
@@ -865,6 +865,39 @@ public class FrontDeskComposer extends BaseComposer {
 //		};
 //		lbxPolyRRJ.setItemRenderer(renderer);
 //	}
+	
+	
+	
+	private void loadRRJToListbox(){
+		lbxRRJ.getItems().clear();
+		Calendar c = Calendar.getInstance();
+		
+		MedicalTransactionDao dao = new MedicalTransactionDao();
+		dao.setSessionFactory(sessionFactory);
+		Criterion cr1 = Restrictions.eq("status", "RRJ");
+		Criterion cr2 = Restrictions.eq("regDate", c.getTime());
+		List<MedicalTransaction> list = dao.loadBy(Order.asc("regDate"), cr1, cr2);
+		
+		lbxRRJ.setModel(new ListModelList<>(list));
+		ListitemRenderer<MedicalTransaction> renderer = new ListitemRenderer<MedicalTransaction>() {
+			@Override
+			public void render(Listitem item, MedicalTransaction obj, int index) throws Exception {
+				item.appendChild(new Listcell(obj.getRegistrationNo()));
+				item.appendChild(new Listcell(Integer.toString(obj.getSequenceNo())));
+				item.appendChild(new Listcell(obj.getPatient().getName()));
+				item.appendChild(new Listcell(obj.getDoctor().getFullName()));
+				item.appendChild(new Listcell(obj.getPoly().getPolyclinicName()));
+				item.appendChild(new Listcell(CommonUtil.dateFormat(obj.getRegDate(), "dd MMM yyyy")));
+				item.appendChild(new Listcell(CommonUtil.dateFormat(obj.getRegDate(), "HH:mm")));
+				item.appendChild(new Listcell(obj.getStatus()));
+				
+			}
+		};
+		lbxRRJ.setItemRenderer(renderer);
+	}
+	
+	
+	
 	
 	public void subscribeToEventQueues(final String eventQueueName){
 		EventQueues.lookup(eventQueueName, EventQueues.DESKTOP, true).subscribe(new EventListener<Event>() {

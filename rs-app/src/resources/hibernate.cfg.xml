@@ -23,15 +23,15 @@
         <property name="hibernate.connection.password">padicon123</property> -->
         
         <!-- Local MySQL Configuration -->
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/rssa</property>
+        <!-- <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/rssa</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.password"></property> -->
         
         
         <!-- Server MySQL Configuration -->
-        <!-- <property name="hibernate.connection.url">jdbc:mysql://128.199.167.199:3306/tes</property>
+        <property name="hibernate.connection.url">jdbc:mysql://128.199.167.199:3306/tes</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">ticketingdb123</property> -->
+        <property name="hibernate.connection.password">ticketingdb123</property>
         
         <mapping class="com.rs.model.Admission" />
 		<mapping class="com.rs.model.Mahasiswa" />
