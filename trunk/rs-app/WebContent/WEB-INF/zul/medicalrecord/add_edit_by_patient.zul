@@ -1,0 +1,84 @@
+<?page title="Medical Record" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="../menu.zul" />
+	<borderlayout id="blt" apply="com.rs.composer.medicalrecord.AddEditByPatientComposer" >
+		<north>
+			<grid>
+				<auxhead>
+					<auxheader colspan="3" label="Cari Berdasarkan Nama Pasien atau Nomor Kartu"/>
+				</auxhead>
+				<columns>
+					<column label="" width="30%" hflex="1"/>
+					<column label="" hflex="2"/>
+
+				</columns>
+				<rows>
+					<row>
+						<label value="Nama Pasien" hflex="1"/>
+						<textbox id="tbxPasienName" hflex="2" />
+					</row>
+					<row>
+						<label value="Nomor Kartu" hflex="1"/>
+						<textbox id="tbxCardNo" hflex="2" />
+					</row>
+					<row>
+						<label/>
+						<button id="btnSearch" label="Cari"/>
+					</row>
+				</rows>
+			</grid>
+		</north>
+		<center >
+			<div>
+				<listbox id="lbxSearchResult">
+					<listhead>
+						<listheader label="Nama"/>
+						<listheader label="Nomor Kartu"/>
+						<listheader label="" align="center"/>
+					</listhead>
+				</listbox>
+			</div>
+		</center>
+		<east id="bltEast" size="50%" visible="false">
+			<div>
+				<grid>
+					<auxhead>
+						<auxheader colspan="2" label="Input Rekam Medis"/>
+					</auxhead>
+					<columns>
+						<column label="" hflex="1"/>
+						<column label="" hflex="2"/>
+					</columns>
+					<rows>
+						<row>
+							<label  value="Alergi" />
+							<textbox id="tbxAlergi" rows="3" cols="60" hflex="2"/>
+						</row>
+						<row>
+							<label  value="Anamnesi, Pemeriksaan (Fisik, Penunjang)" />
+							<textbox id="tbxAnamnesis" rows="3" cols="60" hflex="2"/>
+						</row>
+						<row>
+							<label  value="Diagnosa Medik" />
+							<textbox id="tbxDiagnosis" rows="3" cols="60" hflex="2"/>
+						</row>
+						<row>
+							<label  value="Terapi dan Rencana Tindak Lanjut" />
+							<textbox id="tbxActionPlan" rows="3" cols="60" hflex="2"/>
+						</row>
+						<row>
+							<label  value="Resep Obat" />
+							<textbox id="tbxResep" rows="3" cols="60" hflex="2"/>
+						</row>
+						<row>
+							<label/>
+							<hbox>
+								<button id="btnSaveMr" label="Simpan"/>
+							</hbox>
+						</row>
+					</rows>
+				</grid>
+			</div>
+		</east>
+	</borderlayout>
+</zk>
