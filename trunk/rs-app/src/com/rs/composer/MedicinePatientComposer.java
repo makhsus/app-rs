@@ -91,7 +91,7 @@ public class MedicinePatientComposer extends BaseComposer {
 		
 		lbxMedicalRecord.getItems().clear();
 		lbxMedicalRecord.setModel(new ListModelList<>(mrList));
-		ListitemRenderer<MedicalRecords> renderer = new ListitemRenderer<MedicalRecords>() {
+		/*ListitemRenderer<MedicalRecords> renderer = new ListitemRenderer<MedicalRecords>() {
 			@Override
 			public void render(Listitem li, MedicalRecords obj, int index) throws Exception {
 				li.appendChild(new Listcell(obj.getRegistrationNo()));
@@ -100,7 +100,7 @@ public class MedicinePatientComposer extends BaseComposer {
 				li.appendChild(new Listcell(obj.getDoctor().getFullName()));
 			}
 		};
-		lbxMedicalRecord.setItemRenderer(renderer);
+		lbxMedicalRecord.setItemRenderer(renderer);*/
 		
 	}
 	
@@ -144,7 +144,7 @@ public class MedicinePatientComposer extends BaseComposer {
 						mrPatientSelected = mr;
 						
 						lblNoreg.setValue(mr.getRegistrationNo());
-						lblNamaPasien.setValue(mr.getPatient().getName());
+						//lblNamaPasien.setValue(mr.getPatient().getName());
 						tbxSearchAdmisi.setText("");
 						tbnAddItem.setDisabled(false);
 						lbxItems.setDisabled(false);

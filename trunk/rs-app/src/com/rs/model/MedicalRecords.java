@@ -26,30 +26,16 @@ public class MedicalRecords implements Serializable {
 	@Column(name="medical_records_id")
 	private Long medicalRecordsId;
 	
-	@Column(name="registration_no", unique=true, nullable=false)
+	@Column(name="registration_no") //should uniq & notnull
 	private String registrationNo;
 	
-	@Column(name="sequence_no", length=6)
-	private int sequenceNo;
+	@ManyToOne
+	@JoinColumn(name="medical_trn")
+	private MedicalTransaction medicalTransaction;
 	
 	@ManyToOne
-	@JoinColumn(name="patient", nullable=false)
+	@JoinColumn(name="patient_id")
 	private Patient patient;
-	
-	@ManyToOne
-	@JoinColumn(name="poly", nullable=false)
-	private Polyclinic poly;
-	
-	@ManyToOne
-	@JoinColumn(name="doctor", nullable=false)
-	private Employee doctor;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="admisi_date", nullable=false)
-	private Date admisiDate;
-	
-	@Column(name="practice_time", length=20)
-	private String practiceTime;
 	
 	@Column(name="record_status", length=100)
 	private String recordStatus;
@@ -101,52 +87,12 @@ public class MedicalRecords implements Serializable {
 		this.registrationNo = registrationNo;
 	}
 
-	public int getSequenceNo() {
-		return sequenceNo;
-	}
-	
-	public void setSequenceNo(int sequenceNo) {
-		this.sequenceNo = sequenceNo;
+	public MedicalTransaction getMedicalTransaction() {
+		return medicalTransaction;
 	}
 
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-
-	public Polyclinic getPoly() {
-		return poly;
-	}
-
-	public void setPoly(Polyclinic poly) {
-		this.poly = poly;
-	}
-
-	public Employee getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Employee doctor) {
-		this.doctor = doctor;
-	}
-
-	public Date getAdmisiDate() {
-		return admisiDate;
-	}
-
-	public void setAdmisiDate(Date admisiDate) {
-		this.admisiDate = admisiDate;
-	}
-
-	public String getPracticeTime() {
-		return practiceTime;
-	}
-
-	public void setPracticeTime(String practiceTime) {
-		this.practiceTime = practiceTime;
+	public void setMedicalTransaction(MedicalTransaction medicalTransaction) {
+		this.medicalTransaction = medicalTransaction;
 	}
 
 	public String getRecordStatus() {
@@ -211,6 +157,14 @@ public class MedicalRecords implements Serializable {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
-	}	
+	}
+	
+	public Patient getPatient() {
+		return patient;
+	}
+	
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
 	
 }

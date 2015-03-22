@@ -2,14 +2,14 @@
 	<panelchildren>
 		<menubar>
 			<menuitem id="mntmHome" label="Beranda" href="/home" />
-			<menu id="mnDataUsers" label="Data User">
+			<menuitem id="mntmFrontDesk" label="Front Desk" href="/frontdesk/home"/>
+			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
+			<menu label="Rekam Medis">
 				<menupopup>
-					<menuitem id="mntmEmployee" label="Karyawan" href="/employee"/>
-					<menuitem id="mntmUsers" label="Users" href="/user/listUser"/>
+					<menuitem id="mntmMrByNoreg" label="Tambah/Edit berdasarkan No. Reg" href="/medicalrecord/addeditbynoreg"/>
+					<menuitem id="mntmMrByPasien" label="Tambah/Edit berdasarkan Pasien" href="/medicalrecord/addeditbypatient"/>
 				</menupopup>
 			</menu>
-			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
-			<menuitem id="mntmFrontDesk" label="Front Desk" href="/frontdesk/home"/>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
 					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicine/patient"/>
@@ -20,8 +20,14 @@
 					<menuitem id="mntmBeliObat" label="Pembelian Obat" href="/medicine/purchase"/>
 				</menupopup>
 			</menu>
-			<menuitem id="mntmPatient" label="Pasien" href="/patient"/>
+			<menuitem id="mntmPoly" label="Poliklinik" href="/polyclinic"/>
 			<menuitem id="mntmJp" label="Jadwal Praktek" href="/doctor/schedule"/>
+			<menu id="mnDataUsers" label="Data User">
+				<menupopup>
+					<menuitem id="mntmEmployee" label="Karyawan" href="/employee"/>
+					<menuitem id="mntmUsers" label="Users" href="/user/listUser"/>
+				</menupopup>
+			</menu>
 			<menu id="mnUserLogin" label="Users">
 				<menupopup>
 					<menuitem id="mntmProfile" label="Akun Saya" />
