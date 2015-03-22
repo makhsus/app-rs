@@ -109,7 +109,7 @@ public class AdmisiComposer extends BaseComposer {
 		subscribeToEventQueues("onSubmit");
 		loadDataPasienToListbox();
 		loadPolyToListbox();
-		loadAdmisiToListbox();
+		//loadAdmisiToListbox();
 		
 		if (patientId != null && !patientId.equalsIgnoreCase("")){
 			
@@ -215,12 +215,12 @@ public class AdmisiComposer extends BaseComposer {
 		
 		MedicalRecords obj = new MedicalRecords();
 		obj.setRegistrationNo(regNo.getUniqueNumber());
-		obj.setSequenceNo(seqNo);
+		/*obj.setSequenceNo(seqNo);
 		obj.setPatient(patientSelected);
 		obj.setPoly(polySelected);
 		obj.setDoctor(scheduleSelectedFromHome.getDoctor());
 		obj.setAdmisiDate(calNow.getTime());
-		obj.setPracticeTime(jam);
+		obj.setPracticeTime(jam);*/
 		obj.setRecordStatus(recordStatusNew);
 		obj.setCreatedBy(loggedUser);
 		obj.setCreatedDate(calNow.getTime());
@@ -229,7 +229,7 @@ public class AdmisiComposer extends BaseComposer {
 		dao.setSessionFactory(sessionFactory);
 		if(dao.saveOrUpdate(obj)){
 			clearTambahAdmisi();
-			loadAdmisiToListbox();
+			//loadAdmisiToListbox();
 		}else{
 			Messagebox.show("Save/Update Failed", "Error", Messagebox.OK, Messagebox.ERROR);
 		}
@@ -394,7 +394,7 @@ public class AdmisiComposer extends BaseComposer {
 		
 		
 		lblRegNo.setValue(medicalRecordAddEdit.getRegistrationNo());
-		lblNamaPasien.setValue(medicalRecordAddEdit.getPatient().getName());
+		//lblNamaPasien.setValue(medicalRecordAddEdit.getPatient().getName());
 		
 	}
 	
@@ -509,7 +509,7 @@ public class AdmisiComposer extends BaseComposer {
 		lbxPoly.setItemRenderer(renderer);
 	}
 	
-	private void loadAdmisiToListbox(){
+	/*private void loadAdmisiToListbox(){
 		lbxList.getItems().clear();
 		
 		MedicalRecordsDao dao = new MedicalRecordsDao();
@@ -532,7 +532,7 @@ public class AdmisiComposer extends BaseComposer {
 			}
 		};
 		lbxList.setItemRenderer(renderer);
-	}
+	}*/
 	
 	private void clearTambahAdmisi(){
 		patientSelected = null;
