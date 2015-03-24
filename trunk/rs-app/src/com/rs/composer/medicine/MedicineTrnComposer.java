@@ -16,29 +16,26 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 
 import com.rs.composer.BaseComposer;
-import com.rs.dao.MedicalRecordsDao;
-import com.rs.model.MedicalRecords;
+import com.rs.dao.MedicalTransactionDao;
+import com.rs.model.MedicalTransaction;;
 
 public class MedicineTrnComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 	
-	private List<MedicalRecords> mrSearchList;
-	private MedicalRecords mrPatientSelected;
-	private MedicalRecords mrSearchSelected;
+	private List<MedicalTransaction> medicalTrnList;
+	private MedicalTransaction mrPatientSelected;
+	private MedicalTransaction mrSearchSelected;
 	
 	@Wire
 	private Window winSearchPatient;
 	@Wire
-	private Textbox tbxSearchAdmisi;
+	private Textbox tbxSearchNoreg;
 	@Wire
 	private Label lblNoreg, lblNamaPasien;
 	@Wire
@@ -54,8 +51,13 @@ public class MedicineTrnComposer extends BaseComposer {
 		subscribeToEventQueues("onSubmit");
 	}
 	
-	@Listen("onOK = #tbxSearchAdmisi")
-	public void tbxSearchAdmisiOnOk(){
+	@Listen("onOK = #tbxSearchNoreg")
+	public void tbxSearchNoregOnOk(){
+		searchAdmisi();
+	}
+	
+	@Listen ("onClick = #btnSearchNoreg")
+	public void btnSearchNoregOnClick(){
 		searchAdmisi();
 	}
 	
@@ -64,7 +66,7 @@ public class MedicineTrnComposer extends BaseComposer {
 		mrPatientSelected = null;
 		lblNoreg.setValue("");
 		lblNamaPasien.setValue("");
-		tbxSearchAdmisi.setText("");
+		tbxSearchNoreg.setText("");
 		tbnAddItem.setDisabled(true);
 		lbxItems.setDisabled(true);
 	}
@@ -87,11 +89,11 @@ public class MedicineTrnComposer extends BaseComposer {
 	@SuppressWarnings("unchecked")
 	@Listen ("onCreate = #winSearchPatient")
 	public void winSearchPatientOnCreate(){
-		List<MedicalRecords> mrList = (List<MedicalRecords>) winSearchPatient.getAttribute("resultSearcMr");
+		/*List<MedicalRecords> mrList = (List<MedicalRecords>) winSearchPatient.getAttribute("resultSearcMr");
 		this.mrSearchList = mrList;
 		
 		lbxMedicalRecord.getItems().clear();
-		lbxMedicalRecord.setModel(new ListModelList<>(mrList));
+		lbxMedicalRecord.setModel(new ListModelList<>(mrList));*/
 		/*ListitemRenderer<MedicalRecords> renderer = new ListitemRenderer<MedicalRecords>() {
 			@Override
 			public void render(Listitem li, MedicalRecords obj, int index) throws Exception {
@@ -112,10 +114,10 @@ public class MedicineTrnComposer extends BaseComposer {
 	
 	@Listen ("onSelect = #lbxMedicalRecord")
 	public void lbxMedicalRecordOnSelect(){
-		if(mrSearchList!=null){
+		/*if(mrSearchList!=null){
 			int index = lbxMedicalRecord.getSelectedIndex();
 			mrSearchSelected = mrSearchList.get(index);
-		}
+		}*/
 	}
 	
 	@Listen ("onClick = #btnSubmit")
@@ -141,14 +143,14 @@ public class MedicineTrnComposer extends BaseComposer {
 				if(eventQueueName.equals("onSubmit")){
 					if(event.getName().equals("mrForMedicamentPatient")){
 						Map<String, Object> map = (Map<String, Object>) event.getData();
-						MedicalRecords mr = (MedicalRecords) map.get("medicalRecord");
-						mrPatientSelected = mr;
+						//MedicalRecords mr = (MedicalRecords) map.get("medicalRecord");
+						//mrPatientSelected = mr;
 						
-						lblNoreg.setValue(mr.getRegistrationNo());
+						//lblNoreg.setValue(mr.getRegistrationNo());
 						//lblNamaPasien.setValue(mr.getPatient().getName());
-						tbxSearchAdmisi.setText("");
-						tbnAddItem.setDisabled(false);
-						lbxItems.setDisabled(false);
+						//tbxSearchNoreg.setText("");
+						//tbnAddItem.setDisabled(false);
+						//lbxItems.setDisabled(false);
 					}
 				}
 			}
@@ -157,26 +159,26 @@ public class MedicineTrnComposer extends BaseComposer {
 	
 	
 	public void searchAdmisi(){
-		String key = tbxSearchAdmisi.getText().trim();
+		String key = tbxSearchNoreg.getText().trim();
 		
 		if(key.equalsIgnoreCase("")){
 			return;
 		}
 		
-		MedicalRecordsDao dao = new MedicalRecordsDao();
+		MedicalTransactionDao dao = new MedicalTransactionDao();
 		dao.setSessionFactory(sessionFactory);
 		
 		Criterion cr1 = Restrictions.like("registrationNo", "%"+key+"%");
-		List<MedicalRecords> mrList = dao.loadBy(Order.asc("registrationNo"), cr1);
+		List<MedicalTransaction> medicalTrnList = dao.loadBy(Order.asc("registrationNo"), cr1);
 		
-		if(mrList.size()<1){
+		if(medicalTrnList.size()<1){
 			Messagebox.show("Nomor Registrasi tidak ditemukan", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
 			tbnAddItem.setDisabled(true);
 			lbxItems.setDisabled(true);
 			return;
 		}else{
-			Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/medicament/result_search_patient.zul", null, null);
-			windowAdd.setAttribute("resultSearcMr", mrList);
+			Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/medicine/noreg_result_list.zul", null, null);
+			windowAdd.setAttribute("resultSearcMr", medicalTrnList);
 			windowAdd.doModal();
 		}
 		

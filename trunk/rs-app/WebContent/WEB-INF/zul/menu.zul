@@ -12,7 +12,7 @@
 			</menu>
 			<menu id="mnApotek" label="Apotek">
 				<menupopup>
-					<menuitem id="mntmObatPasien" label="Pemberian Obat Pasien" href="/medicine/patient"/>
+					<menuitem id="mntmMedicineTrn" label="Transaksi Obat" href="/medicine/trn"/>
 					<menuseparator/>
 					<menuitem id="mntmObat" label="Data Obat" href="/medicine"/>
 					<menuitem id="mntmSupplier" label="Supplier" href="/medicine/supplier"/>

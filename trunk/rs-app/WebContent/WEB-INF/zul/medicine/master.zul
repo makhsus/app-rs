@@ -1,7 +1,7 @@
 <?page title="Obat" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="../menu.zul" />
-	<window id="win" title=" Data Obat" border="normal" apply="com.rs.composer.MedicamentComposer">
+	<window id="win" title=" Data Obat" border="normal" apply="com.rs.composer.medicine.MedicineComposer">
 		<toolbar>
 			<toolbarbutton id="tbnList" label="List" disabled="true" />
 			<toolbarbutton label="|" disabled="true" />
