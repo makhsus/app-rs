@@ -23,9 +23,9 @@ public class MedicineController {
 		return "zul/medicine/supplier.zul";
 	}
 	
-	@RequestMapping(value={"patient"}, method=RequestMethod.GET)
+	@RequestMapping(value={"trn"}, method=RequestMethod.GET)
 	public String patient(HttpServletRequest request, ModelMap model){
 		model.addAttribute("title", "Pemberian Obat Pasien");
-		return "zul/medicine/m_patient.zul";
+		return "zul/medicine/transactions.zul";
 	}
 }

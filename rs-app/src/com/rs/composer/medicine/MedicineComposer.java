@@ -31,7 +31,7 @@ public class MedicineComposer extends BaseComposer {
 	private void loadDataObat(){
 		MedicineDao dao = new MedicineDao();
 		dao.setSessionFactory(sessionFactory);
-		List<Medicine> list = dao.loadAll(Order.asc("medicamentName"));
+		List<Medicine> list = dao.loadAll(Order.asc("medicineName"));
 		
 		lbxObat.getItems().clear();
 		int no = 1;

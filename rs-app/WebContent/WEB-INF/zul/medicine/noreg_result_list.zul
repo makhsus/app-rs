@@ -1,0 +1,19 @@
+<window id="winSearchPatient" title="Pasiens" border="normal"
+	width="700px" apply="com.rs.composer.medicine.MedicineTrnComposer"
+	position="center, top" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<listbox id="lbxMedicalRecord" mold="paging" pageSize="20">
+			<listhead>
+				<listheader label="No. Registrasi" />
+				<listheader label="Nama Pasien" />
+				<listheader label="Poli" />
+				<listheader label="Dokter" />
+			</listhead>
+		</listbox>
+		<hlayout>
+			<button id="btnSubmit" label="Submit"  />
+			<button id="btnClose" label="Close" />
+		</hlayout>
+	</vlayout>
+</window>
