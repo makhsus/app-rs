@@ -15,7 +15,7 @@
         <!-- Local Postges Configuration -->
         <!-- <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/dbrs</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">makhsus</property> --> 
+        <property name="hibernate.connection.password">makhsus</property> -->
         
         <!-- Server Postges Configuration  -->
         <!-- <property name="hibernate.connection.url">jdbc:postgresql://128.199.167.199:5432/mencoba</property>
@@ -53,9 +53,9 @@
 		<mapping class="com.rs.model.ContentConfig" />
 		<mapping class="com.rs.model.Supplier" />
 		<mapping class="com.rs.model.Medicine" />
+		<mapping class="com.rs.model.MedicineTransaction" />
 		<mapping class="com.rs.model.MedicinePurchases" />
 		<mapping class="com.rs.model.MedicinePurchasesItems" />
-		<mapping class="com.rs.model.MedicinePatient" />
 		<mapping class="com.rs.model.MedicalTransaction" />
 		
 		
