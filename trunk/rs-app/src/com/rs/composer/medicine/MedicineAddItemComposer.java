@@ -22,10 +22,12 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 import com.rs.bean.MedicineTrnItemBean;
 import com.rs.composer.BaseComposer;
 import com.rs.dao.MedicineDao;
+import com.rs.model.MedicalTransaction;
 import com.rs.model.Medicine;
 import com.rs.util.CommonUtil;
 
@@ -35,8 +37,11 @@ public class MedicineAddItemComposer extends BaseComposer {
 	
 	private List<Medicine> medicines;
 	private Medicine medicineSelected;
+	private MedicalTransaction medicalTrnCurrent;
 	
 	
+	@Wire
+	private Window winAddMedicines;
 	@Wire
 	private Button btnSearchMedicine, btnSubmit;
 	@Wire
@@ -51,6 +56,7 @@ public class MedicineAddItemComposer extends BaseComposer {
 	@Listen ("onCreate = #winAddMedicines")
 	public void winAddMedicinesOnCreate(){
 		isLooged();
+		medicalTrnCurrent = (MedicalTransaction) winAddMedicines.getAttribute("medicalTrnSelected");
 	}
 	
 	@Listen("onOK = #tbxNameCodeMedic")
@@ -103,6 +109,7 @@ public class MedicineAddItemComposer extends BaseComposer {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("itemBean", itemBean);
+		map.put("medicalTrn", medicalTrnCurrent);
 		EventQueues.lookup("onSubmit", EventQueues.DESKTOP, true).publish(new Event("medicalTrnAddItem", null, map));
 		
 	}
@@ -111,6 +118,7 @@ public class MedicineAddItemComposer extends BaseComposer {
 		lblNameCodeMedic.setValue("");
 		medicineSelected = null;
 		ibxQty.setDisabled(true);
+		ibxQty.setValue(null);
 		btnSubmit.setDisabled(true);
 		
 		String key = tbxNameCodeMedic.getValue().trim();

@@ -1,6 +1,6 @@
 <window id="winAddMedicines" title="Add Items" border="normal"
 	width="700px" apply="com.rs.composer.medicine.MedicineAddItemComposer"
-	position="center, top" closable="true"
+	position="center, top" closable="true" sizable="true" 
 	action="show: slideDown;hide: slideUp">
 	<vlayout>
 		<grid>
