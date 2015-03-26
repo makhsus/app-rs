@@ -1,0 +1,56 @@
+<window id="winAddMedicines" title="Add Items" border="normal"
+	width="700px" apply="com.rs.composer.medicine.MedicineAddItemComposer"
+	position="center, top" closable="true"
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<grid>
+			<auxhead>
+				<auxheader colspan="3" label="Cari Obat"/>
+			</auxhead>
+			<columns>
+				<column label="" hflex="1"/>
+				<column label="" hflex="2"/>
+				<column label="" hflex="min"/>	
+			</columns>
+			<rows>
+				<row>
+					<label value="Nama atau Kode Obat" hflex="1"/>
+					<textbox id="tbxNameCodeMedic" hflex="2"/>
+					<button id="btnSearchMedicine" label="Cari" hflex="min"/>
+				</row>
+			</rows>
+		</grid>
+		<listbox id="lbxMedicines" mold="paging" pageSize="7">
+			<listhead>
+				<listheader label="Nama Obat" />
+				<listheader label="Kode Obat" width="100px" />
+				<listheader label="Qty Tersedia" width="90px" />
+				<listheader label="Harga Satuan" width="130px" align="right" />
+				<listheader label="Satuan" width="90px" align="center" />
+			</listhead>
+		</listbox>
+		<grid>
+			<auxhead>
+				<auxheader colspan="2" label="Input Kuantitas"/>
+			</auxhead>
+			<columns>
+				<column label="" hflex="1"/>
+				<column label="" hflex="2"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Nama atau Kode Obat terpilih" hflex="1"/>
+					<label id="lblNameCodeMedic" hflex="2"/>
+				</row>
+				<row>
+					<label value="Kuantitas" hflex="1"/>
+					<intbox id="ibxQty" disabled="true"/>
+				</row>
+			</rows>
+		</grid>
+		<hlayout>
+			<button id="btnSubmit" label="Submit" disabled="true"  />
+			<button id="btnClose" label="Close" onClick="winAddMedicines.detach()" />
+		</hlayout>
+	</vlayout>
+</window>
