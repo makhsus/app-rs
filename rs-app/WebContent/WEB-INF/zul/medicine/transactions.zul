@@ -32,6 +32,10 @@
 					<label id="lblNamaPasien"/>
 				</row>
 				<row>
+					<label value="Poli" />
+					<label id="lblPoly"/>
+				</row>
+				<row>
 					<label value="Dokter" />
 					<label id="lblDokter"/>
 				</row>
