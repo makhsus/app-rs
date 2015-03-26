@@ -53,10 +53,11 @@
 				<listheader label="No" width="40px" />
 				<listheader label="Nama Obat" />
 				<listheader label="Kode Obat" />
-				<listheader label="Satuan" width="130px" />
-				<listheader label="Harga Satuan" />
-				<listheader label="Kuantitas" width="130px" />
-				<listheader label="Total" />
+				<listheader label="Harga Satuan" width="130px" align="right"/>
+				<listheader label="Satuan"  width="90px" />
+				<listheader label="Qty" width="70px" />
+				<listheader label="Total" width="130px" align="right" />
+				<listheader label="" />
 			</listhead>
 		</listbox>
 		

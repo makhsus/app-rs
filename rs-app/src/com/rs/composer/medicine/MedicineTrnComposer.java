@@ -1,5 +1,8 @@
 package com.rs.composer.medicine;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +16,11 @@ import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
@@ -22,12 +29,19 @@ import org.zkoss.zul.Window;
 import com.rs.bean.MedicineTrnItemBean;
 import com.rs.composer.BaseComposer;
 import com.rs.dao.MedicalTransactionDao;
-import com.rs.model.MedicalTransaction;;
+import com.rs.model.MedicalTransaction;
+import com.rs.model.Medicine;
+import com.rs.model.MedicineTransaction;
+import com.rs.model.Users;
+import com.rs.util.CommonUtil;
 
 public class MedicineTrnComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 	
+	private Users userLogged;
 	private MedicalTransaction medicalTrnSelected;
+	private MedicineTransaction medicineTrnSelected;
+	private List<MedicineTransaction> medicineTrnList = new ArrayList<>();
 	
 	
 	@Wire
@@ -43,6 +57,7 @@ public class MedicineTrnComposer extends BaseComposer {
 	@Listen ("onCreate = #win")
 	public void winCreate(){
 		isLooged();
+		userLogged = (Users) sessionZk.getAttribute(CommonUtil.LOGIN_USER);
 		
 		subscribeToEventQueues("onSubmit");
 	}
@@ -77,7 +92,7 @@ public class MedicineTrnComposer extends BaseComposer {
 		}
 		
 		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/medicine/add_medicines.zul", null, null);
-		//windowAdd.setAttribute("resultSearcMt", medicalTrnList);
+		windowAdd.setAttribute("medicalTrnSelected", medicalTrnSelected);
 		windowAdd.doModal();
 		
 	}
@@ -105,12 +120,34 @@ public class MedicineTrnComposer extends BaseComposer {
 						lbxItems.setDisabled(false);
 					}else if(event.getName().equals("medicalTrnAddItem")){
 						Map<String, Object> map = (Map<String, Object>) event.getData();
+						MedicalTransaction mt = (MedicalTransaction) map.get("medicalTrn");
 						MedicineTrnItemBean itemBean = (MedicineTrnItemBean) map.get("itemBean");
-						System.out.println("Medicine: "+itemBean.getMedicine().getMedicineName());
-						System.out.println("Quantity: "+itemBean.getQuantity());
 						
-						//tambahkan_ke_listbox
+						medicalTrnSelected = mt;
+						Medicine medicine = itemBean.getMedicine();
+						Integer qty = itemBean.getQuantity();
 						
+						boolean isMedicineExist = false;
+						boolean isQtySame = false;
+						for(MedicineTransaction mTrn: medicineTrnList){
+							if(medicine.getMedicineCode().equalsIgnoreCase(mTrn.getMedicineCode())){
+								isMedicineExist = true;
+								if(qty==mTrn.getQuantity()){
+									isQtySame = true;
+								}
+							}
+						}
+						
+						if(isMedicineExist){
+							if(isQtySame){
+								return;
+							}else{
+								updateQuantityItem(medicine, qty);
+							}
+						}else{
+							addItem(mt, medicine, qty);
+						}
+
 					}
 				}
 			}
@@ -144,5 +181,72 @@ public class MedicineTrnComposer extends BaseComposer {
 		
 	}
 	
-
+	private void medicineItemsListbox(){
+		lbxItems.getItems().clear();
+		lbxItems.setModel(new ListModelList<>(medicineTrnList));
+		ListitemRenderer<MedicineTransaction> renderer = new ListitemRenderer<MedicineTransaction>() {
+			@Override
+			public void render(Listitem li, MedicineTransaction obj, int index) throws Exception {
+				Listcell lc = new Listcell();
+				Toolbarbutton tbnEditQty = new Toolbarbutton("Edit Qty");
+				lc.appendChild(tbnEditQty);
+				Label lbl = new Label("|");
+				lc.appendChild(lbl);
+				Toolbarbutton tbnDelete = new Toolbarbutton("Hapus");
+				lc.appendChild(tbnDelete);
+				
+				li.appendChild(new Listcell(Integer.toString(index+1)));
+				li.appendChild(new Listcell(obj.getMedicineName()));
+				li.appendChild(new Listcell(obj.getMedicineCode()));
+				li.appendChild(new Listcell(CommonUtil.formatStringIDR(obj.getMedicinePrice().intValue())));
+				li.appendChild(new Listcell(obj.getMedicineUnit()));
+				li.appendChild(new Listcell(Integer.toString(obj.getQuantity())));
+				li.appendChild(new Listcell(CommonUtil.formatStringIDR(obj.getTotalPrice().intValue())));
+				li.appendChild(lc);
+			}
+		};
+		lbxItems.setItemRenderer(renderer);
+	}
+	
+	private void addItem(MedicalTransaction medicalTransaction, Medicine medicine, Integer quantity){
+		Integer totalPrice = medicine.getPriceSell().intValue() * quantity;
+		
+		MedicineTransaction obj = new MedicineTransaction();
+		obj.setMedicalTrn(medicalTransaction);
+		obj.setMedicine(medicine);
+		obj.setMedicineName(medicine.getMedicineName());
+		obj.setMedicineCode(medicine.getMedicineCode());
+		obj.setMedicinePrice(medicine.getPriceSell());
+		obj.setQuantity(quantity);
+		obj.setTotalPrice(new BigDecimal(totalPrice));
+		obj.setPatient(medicalTransaction.getPatient());
+		obj.setCreatedBy(userLogged);
+		obj.setCreatedDate(Calendar.getInstance().getTime());
+		medicineTrnList.add(obj);
+		
+		medicineItemsListbox();
+	}
+	
+	private void updateQuantityItem(Medicine medicine, Integer quantity){
+		int index = -1;
+		for(int i=0;i<medicineTrnList.size();i++){
+			MedicineTransaction mTrn = medicineTrnList.get(i);
+			if(medicine.getMedicineCode().equalsIgnoreCase(mTrn.getMedicineCode())){
+				index = i;
+			}
+		}
+		
+		if(index > -1){
+			Integer totalPrice = medicine.getPriceSell().intValue() * quantity;
+			
+			MedicineTransaction mTrn = medicineTrnList.get(index);
+			mTrn.setQuantity(quantity);
+			mTrn.setTotalPrice(new BigDecimal(totalPrice));
+			
+			medicineTrnList.remove(index);
+			medicineTrnList.add(index, mTrn);
+			
+			medicineItemsListbox();
+		}
+	}
 }
