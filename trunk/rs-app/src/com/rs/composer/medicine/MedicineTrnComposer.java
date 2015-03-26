@@ -1,6 +1,5 @@
 package com.rs.composer.medicine;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +13,13 @@ import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 
+import com.rs.bean.MedicineTrnItemBean;
 import com.rs.composer.BaseComposer;
 import com.rs.dao.MedicalTransactionDao;
 import com.rs.model.MedicalTransaction;;
@@ -28,18 +27,15 @@ import com.rs.model.MedicalTransaction;;
 public class MedicineTrnComposer extends BaseComposer {
 	private static final long serialVersionUID = 1L;
 	
-	private List<MedicalTransaction> medicalTrnList;
-	private MedicalTransaction mrPatientSelected;
-	private MedicalTransaction mrSearchSelected;
+	private MedicalTransaction medicalTrnSelected;
 	
-	@Wire
-	private Window winSearchPatient;
+	
 	@Wire
 	private Textbox tbxSearchNoreg;
 	@Wire
-	private Label lblNoreg, lblNamaPasien;
+	private Label lblNoreg, lblNamaPasien, lblPoly, lblDokter;
 	@Wire
-	private Listbox lbxMedicalRecord, lbxItems;
+	private Listbox lbxItems;
 	@Wire
 	private Toolbarbutton tbnAddItem;
 	
@@ -53,86 +49,40 @@ public class MedicineTrnComposer extends BaseComposer {
 	
 	@Listen("onOK = #tbxSearchNoreg")
 	public void tbxSearchNoregOnOk(){
-		searchAdmisi();
+		searchMedicalTrn();
 	}
 	
 	@Listen ("onClick = #btnSearchNoreg")
 	public void btnSearchNoregOnClick(){
-		searchAdmisi();
+		searchMedicalTrn();
 	}
 	
 	@Listen ("onClick = #tbnClear")
 	public void tbnClearOnClick(){
-		mrPatientSelected = null;
+		medicalTrnSelected = null;
 		lblNoreg.setValue("");
 		lblNamaPasien.setValue("");
 		tbxSearchNoreg.setText("");
+		lblPoly.setValue("");
+		lblDokter.setValue("");
 		tbnAddItem.setDisabled(true);
 		lbxItems.setDisabled(true);
 	}
 	
 	@Listen ("onClick = #tbnAddItem")
 	public void tbnAddItemOnClick(){
-		if(mrPatientSelected==null){
+		if(medicalTrnSelected==null){
 			Messagebox.show("Silahkan cari nomor registrasi", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 		
-		
-		
-	}
-	
-	
-	
-	
-	
-	@SuppressWarnings("unchecked")
-	@Listen ("onCreate = #winSearchPatient")
-	public void winSearchPatientOnCreate(){
-		/*List<MedicalRecords> mrList = (List<MedicalRecords>) winSearchPatient.getAttribute("resultSearcMr");
-		this.mrSearchList = mrList;
-		
-		lbxMedicalRecord.getItems().clear();
-		lbxMedicalRecord.setModel(new ListModelList<>(mrList));*/
-		/*ListitemRenderer<MedicalRecords> renderer = new ListitemRenderer<MedicalRecords>() {
-			@Override
-			public void render(Listitem li, MedicalRecords obj, int index) throws Exception {
-				li.appendChild(new Listcell(obj.getRegistrationNo()));
-				li.appendChild(new Listcell(obj.getPatient()!=null ? obj.getPatient().getName():""));
-				li.appendChild(new Listcell(obj.getPoly().getPolyclinicName()));
-				li.appendChild(new Listcell(obj.getDoctor().getFullName()));
-			}
-		};
-		lbxMedicalRecord.setItemRenderer(renderer);*/
+		Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/medicine/add_medicines.zul", null, null);
+		//windowAdd.setAttribute("resultSearcMt", medicalTrnList);
+		windowAdd.doModal();
 		
 	}
 	
-	@Listen ("onClick = #btnClose")
-	public void btnCloseOnClick(){
-		winSearchPatient.detach();
-	}
 	
-	@Listen ("onSelect = #lbxMedicalRecord")
-	public void lbxMedicalRecordOnSelect(){
-		/*if(mrSearchList!=null){
-			int index = lbxMedicalRecord.getSelectedIndex();
-			mrSearchSelected = mrSearchList.get(index);
-		}*/
-	}
-	
-	@Listen ("onClick = #btnSubmit")
-	public void btnSubmitOnClick(){
-		if(mrSearchSelected==null){
-			Messagebox.show("Silahkan pilih satu nomor registrasi yang tersedia", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
-			return;
-		}
-		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("medicalRecord", mrSearchSelected);
-		EventQueues.lookup("onSubmit", EventQueues.DESKTOP, true).publish(new Event("mrForMedicamentPatient", null, map));
-		
-	}
 	
 	
 	public void subscribeToEventQueues(final String eventQueueName){
@@ -141,16 +91,26 @@ public class MedicineTrnComposer extends BaseComposer {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if(eventQueueName.equals("onSubmit")){
-					if(event.getName().equals("mrForMedicamentPatient")){
+					if(event.getName().equals("medicalTrnByNoreg")){
 						Map<String, Object> map = (Map<String, Object>) event.getData();
-						//MedicalRecords mr = (MedicalRecords) map.get("medicalRecord");
-						//mrPatientSelected = mr;
+						MedicalTransaction mt = (MedicalTransaction) map.get("medicalTrn");
+						medicalTrnSelected = mt;
 						
-						//lblNoreg.setValue(mr.getRegistrationNo());
-						//lblNamaPasien.setValue(mr.getPatient().getName());
-						//tbxSearchNoreg.setText("");
-						//tbnAddItem.setDisabled(false);
-						//lbxItems.setDisabled(false);
+						lblNoreg.setValue(mt.getRegistrationNo());
+						lblNamaPasien.setValue(mt.getPatient().getName());
+						lblPoly.setValue(mt.getPoly().getPolyclinicName());
+						lblDokter.setValue(mt.getDoctor().getFullName());
+						tbxSearchNoreg.setText("");
+						tbnAddItem.setDisabled(false);
+						lbxItems.setDisabled(false);
+					}else if(event.getName().equals("medicalTrnAddItem")){
+						Map<String, Object> map = (Map<String, Object>) event.getData();
+						MedicineTrnItemBean itemBean = (MedicineTrnItemBean) map.get("itemBean");
+						System.out.println("Medicine: "+itemBean.getMedicine().getMedicineName());
+						System.out.println("Quantity: "+itemBean.getQuantity());
+						
+						//tambahkan_ke_listbox
+						
 					}
 				}
 			}
@@ -158,7 +118,7 @@ public class MedicineTrnComposer extends BaseComposer {
 	}
 	
 	
-	public void searchAdmisi(){
+	public void searchMedicalTrn(){
 		String key = tbxSearchNoreg.getText().trim();
 		
 		if(key.equalsIgnoreCase("")){
@@ -178,7 +138,7 @@ public class MedicineTrnComposer extends BaseComposer {
 			return;
 		}else{
 			Window windowAdd = (Window) Executions.createComponents("/WEB-INF/zul/medicine/noreg_result_list.zul", null, null);
-			windowAdd.setAttribute("resultSearcMr", medicalTrnList);
+			windowAdd.setAttribute("resultSearcMt", medicalTrnList);
 			windowAdd.doModal();
 		}
 		
