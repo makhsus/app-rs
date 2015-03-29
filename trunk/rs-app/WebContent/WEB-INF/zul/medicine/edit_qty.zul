@@ -1,0 +1,34 @@
+<window id="winEditQty" title="Edit Quantity" border="normal"
+	width="700px" apply="com.rs.composer.medicine.EditQuantityMedicineComposer"
+	position="center, top" closable="true" sizable="true" 
+	action="show: slideDown;hide: slideUp">
+	<vlayout>
+		<grid>
+			<auxhead>
+				<auxheader colspan="2" label="Item"/>
+			</auxhead>
+			<columns>
+				<column label="" hflex="1"/>
+				<column label="" hflex="2"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Nama Obat" hflex="1"/>
+					<label id="lblNameMedic" hflex="2"/>
+				</row>
+				<row>
+					<label value="Kode Obat" hflex="1"/>
+					<label id="lblCodeMedic" hflex="2"/>
+				</row>
+				<row>
+					<label value="Jumlah" hflex="1"/>
+					<intbox id="ibxQty"/>
+				</row>
+			</rows>
+		</grid>
+		<hlayout>
+			<button id="btnSubmit" label="Submit" />
+			<button id="btnClose" label="Close" onClick="winEditQty.detach()" />
+		</hlayout>
+	</vlayout>
+</window>

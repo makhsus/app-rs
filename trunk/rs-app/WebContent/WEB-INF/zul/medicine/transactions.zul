@@ -1,19 +1,18 @@
 
 <?page title="Obat Pasien" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<include src="../menu.zul" />
+	<!-- <include src="../menu.zul" /> -->
 	<window id="win" title="" border="normal" apply="com.rs.composer.medicine.MedicineTrnComposer">
-		<toolbar>
-			<toolbarbutton id="tbnList" label="List" />
-			<toolbarbutton label="|" disabled="true" />
-			<toolbarbutton id="tbnAdd" label="Add"  disabled="true"/>
+		<!-- <toolbar>
+			<toolbarbutton id="tbnList" label="Simpan Transaksi Obat" />
 			<toolbarbutton label="|" disabled="true" />
 			<toolbarbutton id="tbnClear" label="Clear" />
-		</toolbar>
+		</toolbar> -->
 		<grid>
 			<columns>
 				<column label="" width="20%"/>
 				<column label="" />
+				<column label="" hflex="min" />
 			</columns>
 			<rows>
 				<row >
@@ -22,10 +21,14 @@
 						<textbox id="tbxSearchNoreg"/>
 						<button id="btnSearchNoreg" label="Cari"/>
 					</hbox>
+					<label value=""/>
 				</row>
 				<row>
 					<label value="Nomor Registrasi" />
 					<label id="lblNoreg"/>
+					<cell rowspan="2" hflex="min">
+						<button id="btnSaveTrxMedicine" disabled="true" label="Simpan Trx Obat" width="120px" height="50px"/>
+					</cell>
 				</row>
 				<row>
 					<label value="Nama Pasien" />
@@ -34,6 +37,9 @@
 				<row>
 					<label value="Poli" />
 					<label id="lblPoly"/>
+					<cell rowspan="2"  hflex="1" align="center">
+						<button id="btnCancelTrxMedicine" label="Batal" width="120px" height="50px"/>
+					</cell>
 				</row>
 				<row>
 					<label value="Dokter" />
@@ -42,6 +48,7 @@
 				<row>
 					<label value="Total Harga" />
 					<label id="lblTotalPrice"/>
+					<label value="" />
 				</row>
 			</rows>
 		</grid>
@@ -57,7 +64,7 @@
 				<listheader label="Satuan"  width="90px" />
 				<listheader label="Qty" width="70px" />
 				<listheader label="Total" width="130px" align="right" />
-				<listheader label="" />
+				<listheader label="" align="center" />
 			</listhead>
 		</listbox>
 		
